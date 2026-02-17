@@ -1,0 +1,55 @@
+{
+  "version": "2025.0",
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "named",
+          "data": {
+            "name": "Start"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "StartToNeutralLeft"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "NeutralLeftPickup"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 10.0
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "StartFlywheels"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "NeutralLeftPickupEnd"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "BeginIndex"
+          }
+        }
+      ]
+    }
+  },
+  "resetOdom": true,
+  "folder": null,
+  "choreoAuto": false
+}
