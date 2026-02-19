@@ -91,21 +91,21 @@ public class RobotContainer {
   public final Drive drive;
   public final Vision vision;
 
-  public final Flywheel shooterFlywheels;
-  public final Pivot shooterHood;
-  public final Turret shooterTurret;
-  public final Intake intake;
-  public final Spindexer spindexer;
+  // public final Flywheel shooterFlywheels;
+  // public final Pivot shooterHood;
+  // public final Turret shooterTurret;
+  // public final Intake intake;
+  // public final Spindexer spindexer;
 
-  public final Index index;
-  public final Trigger flywheelsAtGoalTrigger;
+  // public final Index index;
+  // public final Trigger flywheelsAtGoalTrigger;
 
   // Controller
   private final CommandXboxController driverController = new CommandXboxController(0);
   private final CommandXboxController operatorController = new CommandXboxController(1);
 
   // Commands
-  public final TeleopStates teleopState;
+  // public final TeleopStates teleopState;
 
   // Dashboard inputs
   private final LoggedDashboardChooser<Command> autoChooser;
@@ -134,32 +134,32 @@ public class RobotContainer {
                 });
  
         // Shooter
-        shooterFlywheels =
-                new Flywheel(
-                  new FlywheelIOTalonFX(FlywheelConstants.kFlywheelHardware, FlywheelConstants.kMotorConfiguration, FlywheelConstants.kFlywheelGains), shooterMath
-                );
+        // shooterFlywheels =
+        //         new Flywheel(
+        //           new FlywheelIOTalonFX(FlywheelConstants.kFlywheelHardware, FlywheelConstants.kMotorConfiguration, FlywheelConstants.kFlywheelGains), shooterMath
+        //         );
 
-        shooterHood = 
-                new Pivot(
-                  new PivotIOTalonFX(PivotConstants.kPivotHardware, PivotConstants.kMotorConfiguration, PivotConstants.kPivotGains, PivotConstants.kMinRadians, PivotConstants.kMaxRadians), shooterMath);
+        // shooterHood = 
+        //         new Pivot(
+        //           new PivotIOTalonFX(PivotConstants.kPivotHardware, PivotConstants.kMotorConfiguration, PivotConstants.kPivotGains, PivotConstants.kMinRadians, PivotConstants.kMaxRadians), shooterMath);
 
-        shooterTurret =
-                new Turret(
-                  new TurretIOTalonFX(TurretConstants.kTurretHardware, TurretConstants.kMotorConfiguration, TurretConstants.kTurretGains, TurretConstants.kMinRadiansLimit, TurretConstants.kMaxRadiansLimit), drive, shooterMath);
+        // shooterTurret =
+        //         new Turret(
+        //           new TurretIOTalonFX(TurretConstants.kTurretHardware, TurretConstants.kMotorConfiguration, TurretConstants.kTurretGains, TurretConstants.kMinRadiansLimit, TurretConstants.kMaxRadiansLimit), drive, shooterMath);
 
-        intake =
-                new Intake(
-                  new IntakeIOTalonFX(IntakeConstants.kIntakeHardware, IntakeConstants.kMotorConfiguration, IntakeConstants.kIntakeGains),
-                  new IntakeFlywheelIOTalonFX(IntakeFlywheelConstants.kFlywheelHardware, IntakeFlywheelConstants.kMotorConfiguration, IntakeFlywheelConstants.kFlywheelGains));
+        // intake =
+        //         new Intake(
+        //           new IntakeIOTalonFX(IntakeConstants.kIntakeHardware, IntakeConstants.kMotorConfiguration, IntakeConstants.kIntakeGains),
+        //           new IntakeFlywheelIOTalonFX(IntakeFlywheelConstants.kFlywheelHardware, IntakeFlywheelConstants.kMotorConfiguration, IntakeFlywheelConstants.kFlywheelGains));
 
-        index = 
-                new Index(
-                  new IndexIOTalonFX(IndexConstants.kIndexHardware, IndexConstants.kMotorConfiguration, IndexConstants.kIndexGains), shooterMath
-                );
+        // index = 
+        //         new Index(
+        //           new IndexIOTalonFX(IndexConstants.kIndexHardware, IndexConstants.kMotorConfiguration, IndexConstants.kIndexGains), shooterMath
+        //         );
 
-        spindexer = new Spindexer(
-          new SpindexerIOTalonFX(SpindexerConstants.kIndexHardware, SpindexerConstants.kMotorConfiguration, SpindexerConstants.kSpindexIndexGains)
-        );
+        // spindexer = new Spindexer(
+        //   new SpindexerIOTalonFX(SpindexerConstants.kIndexHardware, SpindexerConstants.kMotorConfiguration, SpindexerConstants.kSpindexIndexGains)
+        // );
         
         break;
 
@@ -184,32 +184,32 @@ public class RobotContainer {
                 });
 
         // Shooter
-        shooterFlywheels =
-                new Flywheel(
-                  new FlywheelIOTalonFX(FlywheelConstants.kFlywheelHardware, FlywheelConstants.kMotorConfiguration, FlywheelConstants.kFlywheelGains), shooterMath
-                );
+        // shooterFlywheels =
+        //         new Flywheel(
+        //           new FlywheelIOTalonFX(FlywheelConstants.kFlywheelHardware, FlywheelConstants.kMotorConfiguration, FlywheelConstants.kFlywheelGains), shooterMath
+        //         );
 
-        shooterHood = 
-                new Pivot(
-                  new PivotIOTalonFX(PivotConstants.kPivotHardware, PivotConstants.kMotorConfiguration, PivotConstants.kPivotGains, PivotConstants.kMinRadians, PivotConstants.kMaxRadians), shooterMath);
+        // shooterHood = 
+        //         new Pivot(
+        //           new PivotIOTalonFX(PivotConstants.kPivotHardware, PivotConstants.kMotorConfiguration, PivotConstants.kPivotGains, PivotConstants.kMinRadians, PivotConstants.kMaxRadians), shooterMath);
 
-        shooterTurret =
-                new Turret(
-                  new TurretIOTalonFX(TurretConstants.kTurretHardware, TurretConstants.kMotorConfiguration, TurretConstants.kTurretGains, TurretConstants.kMinRadiansLimit, TurretConstants.kMaxRadiansLimit), drive, shooterMath);
+        // shooterTurret =
+        //         new Turret(
+        //           new TurretIOTalonFX(TurretConstants.kTurretHardware, TurretConstants.kMotorConfiguration, TurretConstants.kTurretGains, TurretConstants.kMinRadiansLimit, TurretConstants.kMaxRadiansLimit), drive, shooterMath);
 
-        intake =
-                new Intake(
-                  new IntakeIOTalonFX(IntakeConstants.kIntakeHardware, IntakeConstants.kMotorConfiguration, IntakeConstants.kIntakeGains),
-                  new IntakeFlywheelIOTalonFX(IntakeFlywheelConstants.kFlywheelHardware, IntakeFlywheelConstants.kMotorConfiguration, IntakeFlywheelConstants.kFlywheelGains));
+        // intake =
+        //         new Intake(
+        //           new IntakeIOTalonFX(IntakeConstants.kIntakeHardware, IntakeConstants.kMotorConfiguration, IntakeConstants.kIntakeGains),
+        //           new IntakeFlywheelIOTalonFX(IntakeFlywheelConstants.kFlywheelHardware, IntakeFlywheelConstants.kMotorConfiguration, IntakeFlywheelConstants.kFlywheelGains));
         
-        index = 
-                new Index(
-                  new IndexIOTalonFX(IndexConstants.kIndexHardware, IndexConstants.kMotorConfiguration, IndexConstants.kIndexGains), shooterMath
-                );
+        // index = 
+        //         new Index(
+        //           new IndexIOTalonFX(IndexConstants.kIndexHardware, IndexConstants.kMotorConfiguration, IndexConstants.kIndexGains), shooterMath
+        //         );
 
-        spindexer = new Spindexer(
-          new SpindexerIOTalonFX(SpindexerConstants.kIndexHardware, SpindexerConstants.kMotorConfiguration, SpindexerConstants.kSpindexIndexGains)
-        );
+        // spindexer = new Spindexer(
+        //   new SpindexerIOTalonFX(SpindexerConstants.kIndexHardware, SpindexerConstants.kMotorConfiguration, SpindexerConstants.kSpindexIndexGains)
+        // );
 
         break;
 
@@ -235,58 +235,58 @@ public class RobotContainer {
 
      
         // Shooter
-        shooterFlywheels =
-                new Flywheel(
-                  new FlywheelIOTalonFX(FlywheelConstants.kFlywheelHardware, FlywheelConstants.kMotorConfiguration, FlywheelConstants.kFlywheelGains), shooterMath
-                );
+        // shooterFlywheels =
+        //         new Flywheel(
+        //           new FlywheelIOTalonFX(FlywheelConstants.kFlywheelHardware, FlywheelConstants.kMotorConfiguration, FlywheelConstants.kFlywheelGains), shooterMath
+        //         );
 
-        shooterHood = 
-                new Pivot(
-                  new PivotIOTalonFX(PivotConstants.kPivotHardware, PivotConstants.kMotorConfiguration, PivotConstants.kPivotGains, PivotConstants.kMinRadians, PivotConstants.kMaxRadians), shooterMath);
+        // shooterHood = 
+        //         new Pivot(
+        //           new PivotIOTalonFX(PivotConstants.kPivotHardware, PivotConstants.kMotorConfiguration, PivotConstants.kPivotGains, PivotConstants.kMinRadians, PivotConstants.kMaxRadians), shooterMath);
 
-        shooterTurret =
-                new Turret(
-                  new TurretIOTalonFX(TurretConstants.kTurretHardware, TurretConstants.kMotorConfiguration, TurretConstants.kTurretGains, TurretConstants.kMinRadiansLimit, TurretConstants.kMaxRadiansLimit), drive, shooterMath);
+        // shooterTurret =
+        //         new Turret(
+        //           new TurretIOTalonFX(TurretConstants.kTurretHardware, TurretConstants.kMotorConfiguration, TurretConstants.kTurretGains, TurretConstants.kMinRadiansLimit, TurretConstants.kMaxRadiansLimit), drive, shooterMath);
 
-        intake =
-                new Intake(
-                  new IntakeIOTalonFX(IntakeConstants.kIntakeHardware, IntakeConstants.kMotorConfiguration, IntakeConstants.kIntakeGains),
-                  new IntakeFlywheelIOTalonFX(IntakeFlywheelConstants.kFlywheelHardware, IntakeFlywheelConstants.kMotorConfiguration, IntakeFlywheelConstants.kFlywheelGains));
+        // intake =
+        //         new Intake(
+        //           new IntakeIOTalonFX(IntakeConstants.kIntakeHardware, IntakeConstants.kMotorConfiguration, IntakeConstants.kIntakeGains),
+        //           new IntakeFlywheelIOTalonFX(IntakeFlywheelConstants.kFlywheelHardware, IntakeFlywheelConstants.kMotorConfiguration, IntakeFlywheelConstants.kFlywheelGains));
 
-        index = 
-                new Index(
-                  new IndexIOTalonFX(IndexConstants.kIndexHardware, IndexConstants.kMotorConfiguration, IndexConstants.kIndexGains), shooterMath
-                );
+        // index = 
+        //         new Index(
+        //           new IndexIOTalonFX(IndexConstants.kIndexHardware, IndexConstants.kMotorConfiguration, IndexConstants.kIndexGains), shooterMath
+        //         );
                 
-        spindexer = new Spindexer(
-          new SpindexerIOTalonFX(SpindexerConstants.kIndexHardware, SpindexerConstants.kMotorConfiguration, SpindexerConstants.kSpindexIndexGains)
-        );
+        // spindexer = new Spindexer(
+        //   new SpindexerIOTalonFX(SpindexerConstants.kIndexHardware, SpindexerConstants.kMotorConfiguration, SpindexerConstants.kSpindexIndexGains)
+        // );
 
         break;
     }
 
-    flywheelsAtGoalTrigger = new Trigger(() -> shooterFlywheels.atSpeed());
-    teleopState = new TeleopStates(drive, intake, shooterFlywheels, shooterHood, shooterTurret, spindexer, index);
+    // flywheelsAtGoalTrigger = new Trigger(() -> shooterFlywheels.atSpeed());
+    // teleopState = new TeleopStates(drive, intake, shooterFlywheels, shooterHood, shooterTurret, spindexer, index);
 
     // Create auto routines
     NamedCommands.registerCommands(new HashMap<String, Command>(){
       {
-        put("Start", Commands.runOnce(() -> {
-          System.out.println("start");
-          shooterFlywheels.setFlywheelState(FlywheelState.STOP);
-          shooterHood.setPivotState(PivotState.PROVIDED);
-          shooterHood.setGoal(PivotGoal.PROVIDED);
-          shooterTurret.setTurretState(TurretGoalState.PROVIDED);
-          index.setIndexState(IndexState.STOP);
-          spindexer.setIndexState(SpindexerState.STOP);
-        }, shooterFlywheels, shooterHood, shooterTurret, index, spindexer));
-        put("StartFlywheels", Commands.runOnce(() -> {
-          shooterFlywheels.setFlywheelState(FlywheelState.PROVIDED);
-        }, shooterFlywheels, shooterHood, shooterTurret, index, spindexer));
-        put("BeginIndex", Commands.runOnce(() -> {
-          index.setIndexState(IndexState.PROVIDED);
-          spindexer.setIndexState(SpindexerState.RUNNING);
-        }, index, spindexer));
+      //   put("Start", Commands.runOnce(() -> {
+      //     System.out.println("start");
+      //     shooterFlywheels.setFlywheelState(FlywheelState.STOP);
+      //     shooterHood.setPivotState(PivotState.PROVIDED);
+      //     shooterHood.setGoal(PivotGoal.PROVIDED);
+      //     shooterTurret.setTurretState(TurretGoalState.PROVIDED);
+      //     index.setIndexState(IndexState.STOP);
+      //     spindexer.setIndexState(SpindexerState.STOP);
+      //   }, shooterFlywheels, shooterHood, shooterTurret, index, spindexer));
+      //   put("StartFlywheels", Commands.runOnce(() -> {
+      //     shooterFlywheels.setFlywheelState(FlywheelState.PROVIDED);
+      //   }, shooterFlywheels, shooterHood, shooterTurret, index, spindexer));
+      //   put("BeginIndex", Commands.runOnce(() -> {
+      //     index.setIndexState(IndexState.PROVIDED);
+      //     spindexer.setIndexState(SpindexerState.RUNNING);
+      //   }, index, spindexer));
       }
     });
 
@@ -412,40 +412,40 @@ public class RobotContainer {
     //             }));
     
     // Reset everything to stowed position
-    driverController.a().onTrue(Commands.runOnce(() -> {
-      teleopState.homeMode();
-    }, intake));
+    // driverController.a().onTrue(Commands.runOnce(() -> {
+    //   teleopState.homeMode();
+    // }, intake));
 
-    // intake mode
-    driverController.leftBumper().onTrue(Commands.runOnce(() -> {
-      if (teleopState.currentTeleopMode == TeleopMode.INTAKE) {
-        teleopState.idleMode();
-      } else {
-        teleopState.intakeMode();
-      }
-    }, intake));
+    // // intake mode
+    // driverController.leftBumper().onTrue(Commands.runOnce(() -> {
+    //   if (teleopState.currentTeleopMode == TeleopMode.INTAKE) {
+    //     teleopState.idleMode();
+    //   } else {
+    //     teleopState.intakeMode();
+    //   }
+    // }, intake));
     
-    // Shooting Mode
-    driverController.rightBumper().onTrue(Commands.runOnce(() -> {
-      if (teleopState.currentTeleopMode == TeleopMode.SHOOT_ACTIVE || teleopState.currentTeleopMode == TeleopMode.SHOOT_ACTIVE) {
-        teleopState.idleMode();
-      } else {
-        teleopState.warmupShootMode();
-      }
-    }, intake));
+    // // Shooting Mode
+    // driverController.rightBumper().onTrue(Commands.runOnce(() -> {
+    //   if (teleopState.currentTeleopMode == TeleopMode.SHOOT_ACTIVE || teleopState.currentTeleopMode == TeleopMode.SHOOT_ACTIVE) {
+    //     teleopState.idleMode();
+    //   } else {
+    //     teleopState.warmupShootMode();
+    //   }
+    // }, intake));
 
-    // idle mode
-    driverController.x().onTrue(Commands.runOnce(() -> {
-      teleopState.idleMode();
-    }, intake));
+    // // idle mode
+    // driverController.x().onTrue(Commands.runOnce(() -> {
+    //   teleopState.idleMode();
+    // }, intake));
 
-    flywheelsAtGoalTrigger.onTrue(Commands.runOnce(() -> {
-      if (teleopState.currentTeleopMode == TeleopMode.SHOOT_WARMUP) {
-        index.setIndexState(IndexState.PROVIDED);
-        spindexer.setIndexState(SpindexerState.RUNNING);
-        teleopState.currentTeleopMode = TeleopMode.SHOOT_ACTIVE;
-      }
-    }));
+    // flywheelsAtGoalTrigger.onTrue(Commands.runOnce(() -> {
+    //   if (teleopState.currentTeleopMode == TeleopMode.SHOOT_WARMUP) {
+    //     index.setIndexState(IndexState.PROVIDED);
+    //     spindexer.setIndexState(SpindexerState.RUNNING);
+    //     teleopState.currentTeleopMode = TeleopMode.SHOOT_ACTIVE;
+    //   }
+    // }));
 
   }
 
