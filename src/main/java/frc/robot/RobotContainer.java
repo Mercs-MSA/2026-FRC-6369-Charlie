@@ -94,18 +94,19 @@ public class RobotContainer {
   // public final Flywheel shooterFlywheels;
   // public final Pivot shooterHood;
   // public final Turret shooterTurret;
-  // public final Intake intake;
+  public final Intake intake;
   // public final Spindexer spindexer;
 
   // public final Index index;
   // public final Trigger flywheelsAtGoalTrigger;
+  public final Trigger intakeTrigger;
 
   // Controller
   private final CommandXboxController driverController = new CommandXboxController(0);
   private final CommandXboxController operatorController = new CommandXboxController(1);
 
   // Commands
-  // public final TeleopStates teleopState;
+  public final TeleopStates teleopState;
 
   // Dashboard inputs
   private final LoggedDashboardChooser<Command> autoChooser;
@@ -147,10 +148,10 @@ public class RobotContainer {
         //         new Turret(
         //           new TurretIOTalonFX(TurretConstants.kTurretHardware, TurretConstants.kMotorConfiguration, TurretConstants.kTurretGains, TurretConstants.kMinRadiansLimit, TurretConstants.kMaxRadiansLimit), drive, shooterMath);
 
-        // intake =
-        //         new Intake(
-        //           new IntakeIOTalonFX(IntakeConstants.kIntakeHardware, IntakeConstants.kMotorConfiguration, IntakeConstants.kIntakeGains),
-        //           new IntakeFlywheelIOTalonFX(IntakeFlywheelConstants.kFlywheelHardware, IntakeFlywheelConstants.kMotorConfiguration, IntakeFlywheelConstants.kFlywheelGains));
+        intake =
+                new Intake(
+                  new IntakeIOTalonFX(IntakeConstants.kIntakeHardware, IntakeConstants.kMotorConfiguration, IntakeConstants.kIntakeGains),
+                  new IntakeFlywheelIOTalonFX(IntakeFlywheelConstants.kFlywheelHardware, IntakeFlywheelConstants.kMotorConfiguration, IntakeFlywheelConstants.kFlywheelGains));
 
         // index = 
         //         new Index(
@@ -197,10 +198,10 @@ public class RobotContainer {
         //         new Turret(
         //           new TurretIOTalonFX(TurretConstants.kTurretHardware, TurretConstants.kMotorConfiguration, TurretConstants.kTurretGains, TurretConstants.kMinRadiansLimit, TurretConstants.kMaxRadiansLimit), drive, shooterMath);
 
-        // intake =
-        //         new Intake(
-        //           new IntakeIOTalonFX(IntakeConstants.kIntakeHardware, IntakeConstants.kMotorConfiguration, IntakeConstants.kIntakeGains),
-        //           new IntakeFlywheelIOTalonFX(IntakeFlywheelConstants.kFlywheelHardware, IntakeFlywheelConstants.kMotorConfiguration, IntakeFlywheelConstants.kFlywheelGains));
+        intake =
+                new Intake(
+                  new IntakeIOTalonFX(IntakeConstants.kIntakeHardware, IntakeConstants.kMotorConfiguration, IntakeConstants.kIntakeGains),
+                  new IntakeFlywheelIOTalonFX(IntakeFlywheelConstants.kFlywheelHardware, IntakeFlywheelConstants.kMotorConfiguration, IntakeFlywheelConstants.kFlywheelGains));
         
         // index = 
         //         new Index(
@@ -248,10 +249,10 @@ public class RobotContainer {
         //         new Turret(
         //           new TurretIOTalonFX(TurretConstants.kTurretHardware, TurretConstants.kMotorConfiguration, TurretConstants.kTurretGains, TurretConstants.kMinRadiansLimit, TurretConstants.kMaxRadiansLimit), drive, shooterMath);
 
-        // intake =
-        //         new Intake(
-        //           new IntakeIOTalonFX(IntakeConstants.kIntakeHardware, IntakeConstants.kMotorConfiguration, IntakeConstants.kIntakeGains),
-        //           new IntakeFlywheelIOTalonFX(IntakeFlywheelConstants.kFlywheelHardware, IntakeFlywheelConstants.kMotorConfiguration, IntakeFlywheelConstants.kFlywheelGains));
+        intake =
+                new Intake(
+                  new IntakeIOTalonFX(IntakeConstants.kIntakeHardware, IntakeConstants.kMotorConfiguration, IntakeConstants.kIntakeGains),
+                  new IntakeFlywheelIOTalonFX(IntakeFlywheelConstants.kFlywheelHardware, IntakeFlywheelConstants.kMotorConfiguration, IntakeFlywheelConstants.kFlywheelGains));
 
         // index = 
         //         new Index(
@@ -266,7 +267,8 @@ public class RobotContainer {
     }
 
     // flywheelsAtGoalTrigger = new Trigger(() -> shooterFlywheels.atSpeed());
-    // teleopState = new TeleopStates(drive, intake, shooterFlywheels, shooterHood, shooterTurret, spindexer, index);
+    intakeTrigger=new Trigger(() -> intake.positionAtGoal());
+    teleopState = new TeleopStates(drive, intake, null, null, null, null, null);
 
     // Create auto routines
     NamedCommands.registerCommands(new HashMap<String, Command>(){
@@ -412,34 +414,45 @@ public class RobotContainer {
     //             }));
     
     // Reset everything to stowed position
-    // driverController.a().onTrue(Commands.runOnce(() -> {
-    //   teleopState.homeMode();
-    // }, intake));
+    driverController.a().onTrue(Commands.runOnce(() -> {
+      teleopState.homeMode();
+    }, intake));
 
-    // // intake mode
-    // driverController.leftBumper().onTrue(Commands.runOnce(() -> {
-    //   if (teleopState.currentTeleopMode == TeleopMode.INTAKE) {
-    //     teleopState.idleMode();
-    //   } else {
-    //     teleopState.intakeMode();
-    //   }
-    // }, intake));
+    // intake mode
+    driverController.leftBumper().onTrue(Commands.runOnce(() -> {
+      if (teleopState.currentTeleopMode == TeleopMode.INTAKE_WARMUP || teleopState.currentTeleopMode == TeleopMode.INTAKE_ACTIVE
+      ) {
+        teleopState.idleMode();
+      } else {
+        teleopState.warmupIntakeMode();
+      }
+    }, intake));
     
-    // // Shooting Mode
-    // driverController.rightBumper().onTrue(Commands.runOnce(() -> {
-    //   if (teleopState.currentTeleopMode == TeleopMode.SHOOT_ACTIVE || teleopState.currentTeleopMode == TeleopMode.SHOOT_ACTIVE) {
-    //     teleopState.idleMode();
-    //   } else {
-    //     teleopState.warmupShootMode();
-    //   }
-    // }, intake));
+    // driverController.y().onTrue(Commands.runOnce(()-> {
+    //   teleopState.currentTeleopMode=TeleopMode.
+    // }
+    
+    // Shooting Mode
+    driverController.rightBumper().onTrue(Commands.runOnce(() -> {
+      if (teleopState.currentTeleopMode == TeleopMode.SHOOT_ACTIVE || teleopState.currentTeleopMode == TeleopMode.SHOOT_ACTIVE) {
+        teleopState.idleMode();
+      } else {
+        teleopState.warmupShootMode();
+      }
+    }, intake));
 
-    // // idle mode
-    // driverController.x().onTrue(Commands.runOnce(() -> {
-    //   teleopState.idleMode();
-    // }, intake));
-
-    // flywheelsAtGoalTrigger.onTrue(Commands.runOnce(() -> {
+    // idle mode
+    driverController.x().onTrue(Commands.runOnce(() -> {
+      teleopState.idleMode();
+    }, intake));
+      intakeTrigger.onTrue(Commands.runOnce(()->
+      {
+        if(teleopState.currentTeleopMode == TeleopMode.INTAKE_WARMUP)
+        {
+          teleopState.intakeActive();
+        }
+      }));
+            // flywheelsAtGoalTrigger.onTrue(Commands.runOnce(() -> {
     //   if (teleopState.currentTeleopMode == TeleopMode.SHOOT_WARMUP) {
     //     index.setIndexState(IndexState.PROVIDED);
     //     spindexer.setIndexState(SpindexerState.RUNNING);

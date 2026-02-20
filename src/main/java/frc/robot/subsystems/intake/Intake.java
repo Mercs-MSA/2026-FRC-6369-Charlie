@@ -4,6 +4,7 @@
 
 package frc.robot.subsystems.intake;
 
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import java.util.function.DoubleSupplier;
 import org.littletonrobotics.junction.AutoLogOutput;
@@ -12,8 +13,8 @@ import org.littletonrobotics.junction.Logger;
 public class Intake extends SubsystemBase {
   /** List of position setpoints for the Intake in meters */
   public enum IntakeGoal {
-    kOut(() -> -1.68),
-    kStow(() -> 0.0);
+    kOut(() -> 2.43),
+    kStow(() -> 0.005);
     /** Custom setpoint that can be modified over network tables; Usefu for debugging */
     private DoubleSupplier goal;
 
@@ -119,7 +120,7 @@ public class Intake extends SubsystemBase {
    */
   @AutoLogOutput(key = "Intake/Feedback/PositionError")
   public double getPositionError() {
-    return currentIntakeGoal.getGoalRadians() - getPosition();
+    return currentIntakeGoal.getGoalRadians() - Units.rotationsToRadians(getPosition());
   }
 
   /**
@@ -137,7 +138,7 @@ public class Intake extends SubsystemBase {
    */
   @AutoLogOutput(key = "Intake/Feedback/PositionAtGoal")
   public boolean positionAtGoal() {
-    return Math.abs(getPositionError()) < IntakeConstants.kPositionToleranceMeters;
+    return Math.abs(getPositionError()) < IntakeConstants.kPositionToleranceRadians;
   }
 
   /**

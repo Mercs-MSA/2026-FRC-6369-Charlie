@@ -24,7 +24,8 @@ public class TeleopStates {
       IDLE,
       SHOOT_WARMUP,
       SHOOT_ACTIVE,
-      INTAKE,
+      INTAKE_WARMUP,
+      INTAKE_ACTIVE,
       HOME
     }
 
@@ -53,47 +54,56 @@ public class TeleopStates {
     public void warmupShootMode() {
       intake.setIntakeGoal(IntakeGoal.kOut);
       intake.setFlywheelGoal(IntakeFlywheelGoal.kStop);
-      shooterFlywheels.setFlywheelState(FlywheelState.PROVIDED);
-      shooterTurret.setTurretState(TurretGoalState.PROVIDED);
-      shooterHood.setGoal(PivotGoal.PROVIDED);
-      shooterHood.setPivotState(PivotState.PROVIDED);
+      // shooterFlywheels.setFlywheelState(FlywheelState.PROVIDED);
+      // shooterTurret.setTurretState(TurretGoalState.PROVIDED);
+      // shooterHood.setGoal(PivotGoal.PROVIDED);
+      // shooterHood.setPivotState(PivotState.PROVIDED);
       this.currentTeleopMode = TeleopMode.SHOOT_WARMUP;
     }
 
-    public void intakeMode() {
+    public void warmupIntakeMode() {
+      intake.setIntakeGoal(IntakeGoal.kOut);
+      // shooterFlywheels.setFlywheelState(FlywheelState.STOP);
+      // index.setIndexState(IndexState.STOP);
+      // spindexer.setIndexState(SpindexerState.STOP);
+      // shooterTurret.setTurretState(TurretGoalState.PROVIDED);
+      // shooterHood.setGoal(PivotGoal.PROVIDED);
+      // shooterHood.setPivotState(PivotState.PROVIDED);
+      this.currentTeleopMode = TeleopMode.INTAKE_WARMUP;
+
+      if (intake.positionAtGoal()) {
+        intakeActive();
+      }
+      
+    }
+    public void intakeActive()
+    {
       intake.setIntakeGoal(IntakeGoal.kOut);
       intake.setFlywheelGoal(IntakeFlywheelGoal.kRunning);
-      shooterFlywheels.setFlywheelState(FlywheelState.STOP);
-      index.setIndexState(IndexState.STOP);
-      spindexer.setIndexState(SpindexerState.STOP);
-      shooterTurret.setTurretState(TurretGoalState.PROVIDED);
-      shooterHood.setGoal(PivotGoal.PROVIDED);
-      shooterHood.setPivotState(PivotState.PROVIDED);
-      this.currentTeleopMode = TeleopMode.INTAKE;
-      
+      this.currentTeleopMode=TeleopMode.INTAKE_ACTIVE;
     }
     
     public void idleMode() {
       intake.setIntakeGoal(IntakeGoal.kOut);
       intake.setFlywheelGoal(IntakeFlywheelGoal.kStop);
-      shooterFlywheels.setFlywheelState(FlywheelState.STOP);
-      shooterTurret.setTurretState(TurretGoalState.PROVIDED);
-      shooterHood.setGoal(PivotGoal.PROVIDED);
-      shooterHood.setPivotState(PivotState.PROVIDED);
-      index.setIndexState(IndexState.STOP);
-      spindexer.setIndexState(SpindexerState.STOP);
+      // shooterFlywheels.setFlywheelState(FlywheelState.STOP);
+      // shooterTurret.setTurretState(TurretGoalState.PROVIDED);
+      // shooterHood.setGoal(PivotGoal.PROVIDED);
+      // shooterHood.setPivotState(PivotState.PROVIDED);
+      // index.setIndexState(IndexState.STOP);
+      // spindexer.setIndexState(SpindexerState.STOP);
       this.currentTeleopMode = TeleopMode.IDLE;
     }
 
     public void homeMode() {
       intake.setIntakeGoal(IntakeGoal.kStow);
       intake.setFlywheelGoal(IntakeFlywheelGoal.kStop);
-      shooterFlywheels.setFlywheelState(FlywheelState.STOP);
-      shooterTurret.setTurretState(TurretGoalState.HOME);
-      index.setIndexState(IndexState.STOP);
-      spindexer.setIndexState(SpindexerState.STOP);
-      shooterHood.setGoal(PivotGoal.STOW);
-      shooterHood.setPivotState(PivotState.STOW);
+      // shooterFlywheels.setFlywheelState(FlywheelState.STOP);
+      // shooterTurret.setTurretState(TurretGoalState.HOME);
+      // index.setIndexState(IndexState.STOP);
+      // spindexer.setIndexState(SpindexerState.STOP);
+      // shooterHood.setGoal(PivotGoal.STOW);
+      // shooterHood.setPivotState(PivotState.STOW);
       this.currentTeleopMode = TeleopMode.IDLE;
     }
 }

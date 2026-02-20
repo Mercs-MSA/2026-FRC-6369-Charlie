@@ -9,8 +9,8 @@ public class IntakeConstants {
   public static final double kRotorRotationsToMeters = 5;
   public static final double kMaxPositionMeters = Units.inchesToMeters(62.0);
   public static final double kMinPositionMeters = Units.inchesToMeters(-0.1);
-  public static final double kPositionToleranceMeters = 0.03;
-  public static final double kGearingRatioSensorToMechanism = 22;
+  public static final double kPositionToleranceRadians = 0.08;
+  public static final double kGearingRatioSensorToMechanism = 36;
 
   public static final double kFlywheelSpeedToleranceRps = 2.0;
 
@@ -26,7 +26,7 @@ public class IntakeConstants {
   public static final double kSimGearing = 9.0 / 1.0; // gearing used in simulator ONLY
 
   public record IntakeHardware(
-      int motorIdPivot, int motorIdDrive, int canCoderId, double rotorRotationsToMeters) {}
+      int motorIdPivot, int motorIdDrive, double rotorRotationsToMeters) {}
 
   public record IntakeGains(
       double p,
@@ -62,16 +62,15 @@ public class IntakeConstants {
 
   public static final IntakeHardware kIntakeHardware =
       new IntakeHardware(
-          9,
-          22,
-          63, // Motor CAN ID // TODO: charlie
+          34,
+          42,
           kRotorRotationsToMeters); // Drum (sprocket) circumference
 
   public static final IntakeGains kIntakeGains =
       new IntakeGains(
-          22, 0.0, 0.0002, 0, // 2.947
+          55, 0.0, 0, 0, // 2.947
           0, // 22
-          0.1, 0, 0, 0, 0); // 0.11
+          0.4, 0, 3.7, 1.2, 0); // 0.11
 
   public static final IntakeMotorConfiguration kMotorConfiguration =
       new IntakeMotorConfiguration(

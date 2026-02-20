@@ -4,8 +4,8 @@ import com.ctre.phoenix6.BaseStatusSignal;
 import com.ctre.phoenix6.StatusSignal;
 import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
+import com.ctre.phoenix6.controls.MotionMagicExpoVoltage;
 import com.ctre.phoenix6.controls.PositionVoltage;
-import com.ctre.phoenix6.hardware.CANcoder;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.FeedbackSensorSourceValue;
 import com.ctre.phoenix6.signals.InvertedValue;
@@ -35,7 +35,7 @@ public class IntakeIOTalonFX implements IntakeIO {
   private StatusSignal<Current> statorCurrentAmps;
   private StatusSignal<Temperature> temperatureCelsius;
 
-  private final PositionVoltage positionControl = new PositionVoltage(0.0);
+  private final MotionMagicExpoVoltage positionControl = new MotionMagicExpoVoltage(0.0);
 
   public IntakeIOTalonFX(
       IntakeHardware hardware, IntakeMotorConfiguration configuration, IntakeGains gains) {
