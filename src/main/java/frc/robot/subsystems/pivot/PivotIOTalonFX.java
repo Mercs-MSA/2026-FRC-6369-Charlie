@@ -10,9 +10,11 @@ import com.ctre.phoenix6.controls.PositionVoltage;
 import com.ctre.phoenix6.controls.VoltageOut;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.FeedbackSensorSourceValue;
+import com.ctre.phoenix6.signals.GravityTypeValue;
 import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.MotorAlignmentValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
+import com.ctre.phoenix6.signals.StaticFeedforwardSignValue;
 
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.units.measure.Angle;
@@ -52,10 +54,11 @@ public class PivotIOTalonFX implements PivotIO {
     motorConfiguration.Slot0.kV = gains.v();
     motorConfiguration.Slot0.kA = gains.a();
     motorConfiguration.Slot0.kG = gains.g();
-
+    motorConfiguration.Slot0.StaticFeedforwardSign = StaticFeedforwardSignValue.UseClosedLoopSign;
+    motorConfiguration.Slot0.GravityType= GravityTypeValue.Arm_Cosine;
     motorConfiguration.SoftwareLimitSwitch.ForwardSoftLimitEnable = true;
     motorConfiguration.SoftwareLimitSwitch.ForwardSoftLimitThreshold = maxRotation;
-
+    motorConfiguration.ClosedLoopRamps.VoltageClosedLoopRampPeriod= 0.01;
     motorConfiguration.SoftwareLimitSwitch.ReverseSoftLimitEnable = true;
     motorConfiguration.SoftwareLimitSwitch.ReverseSoftLimitThreshold = minRotation;
 
@@ -86,6 +89,7 @@ public class PivotIOTalonFX implements PivotIO {
     motor.setPosition(0.0);
 
     motor.getConfigurator().apply(motorConfiguration, 1.0);
+    
 
     positionDegreesLeft = motor.getPosition();
     velocityDegreesPerSecLeft = motor.getVelocity();
