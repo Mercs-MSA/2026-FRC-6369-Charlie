@@ -1,4 +1,4 @@
-package frc.robot.subsystems.pivot;
+package frc.robot.subsystems.shooterhood;
 
 import com.ctre.phoenix6.BaseStatusSignal;
 import com.ctre.phoenix6.StatusSignal;
@@ -22,11 +22,11 @@ import edu.wpi.first.units.measure.AngularVelocity;
 import edu.wpi.first.units.measure.Current;
 import edu.wpi.first.units.measure.Temperature;
 import edu.wpi.first.units.measure.Voltage;
-import frc.robot.subsystems.pivot.PivotConstants.PivotGains;
-import frc.robot.subsystems.pivot.PivotConstants.PivotHardware;
-import frc.robot.subsystems.pivot.PivotConstants.PivotMotorConfiguration;
+import frc.robot.subsystems.shooterhood.HoodConstants.HoodGains;
+import frc.robot.subsystems.shooterhood.HoodConstants.HoodHardware;
+import frc.robot.subsystems.shooterhood.HoodConstants.HoodMotorConfiguration;
 
-public class PivotIOTalonFX implements PivotIO {
+public class HoodIOTalonFX implements HoodIO {
 
   private final TalonFX motor;
 
@@ -42,8 +42,8 @@ public class PivotIOTalonFX implements PivotIO {
   private final PositionVoltage positionControl = new PositionVoltage(0.0);
   private final MotionMagicVoltage positionControlMM = new MotionMagicVoltage(0);
 
-  public PivotIOTalonFX(
-      PivotHardware hardware, PivotMotorConfiguration configuration, PivotGains gains, double minRotation, double maxRotation) {
+  public HoodIOTalonFX(
+      HoodHardware hardware, HoodMotorConfiguration configuration, HoodGains gains, double minRotation, double maxRotation) {
 
     motor = new TalonFX(hardware.motorID());
 
@@ -105,7 +105,7 @@ public class PivotIOTalonFX implements PivotIO {
     temperatureCelsiusLeft = motor.getDeviceTemp();
 
     BaseStatusSignal.setUpdateFrequencyForAll(
-        PivotConstants.kStatusSignalUpdateFrequencyHz,
+        HoodConstants.kStatusSignalUpdateFrequencyHz,
         positionDegreesLeft,
         velocityDegreesPerSecLeft,
         appliedVoltsLeft,
@@ -117,7 +117,7 @@ public class PivotIOTalonFX implements PivotIO {
   }
 
   @Override
-  public void updateInputs(PivotIOInputs inputs) {
+  public void updateInputs(HoodIOInputs inputs) {
     inputs.isMotorConnected =
         BaseStatusSignal.refreshAll(
                 positionDegreesLeft,

@@ -1,9 +1,9 @@
-package frc.robot.subsystems.pivot;
+package frc.robot.subsystems.shooterhood;
 
 import org.littletonrobotics.junction.LogTable;
 import org.littletonrobotics.junction.inputs.LoggableInputs;
 
-public class PivotIOInputsAutoLogged extends PivotIO.PivotIOInputs
+public class HoodIOInputsAutoLogged extends HoodIO.HoodIOInputs
     implements LoggableInputs, Cloneable {
   @Override
   public void toLog(LogTable table) {
@@ -27,8 +27,8 @@ public class PivotIOInputsAutoLogged extends PivotIO.PivotIOInputs
     temperatureCelsius = table.get("TemperatureCelsius", temperatureCelsius);
   }
 
-  public PivotIOInputsAutoLogged clone() {
-    PivotIOInputsAutoLogged copy = new PivotIOInputsAutoLogged();
+  public HoodIOInputsAutoLogged clone() {
+    HoodIOInputsAutoLogged copy = new HoodIOInputsAutoLogged();
     copy.isMotorConnected = this.isMotorConnected;
     copy.positionDegrees = this.positionDegrees;
     copy.velocityDegreesPerSec = this.velocityDegreesPerSec;
