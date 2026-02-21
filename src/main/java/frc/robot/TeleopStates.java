@@ -55,7 +55,7 @@ public class TeleopStates {
       intake.setIntakeGoal(IntakeGoal.kOut);
       intake.setFlywheelGoal(IntakeFlywheelGoal.kStop);
       // shooterFlywheels.setFlywheelState(FlywheelState.PROVIDED);
-      // shooterTurret.setTurretState(TurretGoalState.PROVIDED);
+      shooterTurret.setTurretState(TurretGoalState.PROVIDED);
       // shooterHood.setGoal(PivotGoal.PROVIDED);
       // shooterHood.setPivotState(PivotState.PROVIDED);
       this.currentTeleopMode = TeleopMode.SHOOT_WARMUP;
@@ -66,7 +66,7 @@ public class TeleopStates {
       // shooterFlywheels.setFlywheelState(FlywheelState.STOP);
       // index.setIndexState(IndexState.STOP);
       // spindexer.setIndexState(SpindexerState.STOP);
-      // shooterTurret.setTurretState(TurretGoalState.PROVIDED);
+      shooterTurret.setTurretState(TurretGoalState.PROVIDED);
       // shooterHood.setGoal(PivotGoal.PROVIDED);
       // shooterHood.setPivotState(PivotState.PROVIDED);
       this.currentTeleopMode = TeleopMode.INTAKE_WARMUP;
@@ -87,7 +87,7 @@ public class TeleopStates {
       intake.setIntakeGoal(IntakeGoal.kOut);
       intake.setFlywheelGoal(IntakeFlywheelGoal.kStop);
       // shooterFlywheels.setFlywheelState(FlywheelState.STOP);
-      // shooterTurret.setTurretState(TurretGoalState.PROVIDED);
+      shooterTurret.setTurretState(TurretGoalState.PROVIDED);
       // shooterHood.setGoal(PivotGoal.PROVIDED);
       // shooterHood.setPivotState(PivotState.PROVIDED);
       // index.setIndexState(IndexState.STOP);
@@ -99,7 +99,7 @@ public class TeleopStates {
       intake.setIntakeGoal(IntakeGoal.kStow);
       intake.setFlywheelGoal(IntakeFlywheelGoal.kStop);
       // shooterFlywheels.setFlywheelState(FlywheelState.STOP);
-      // shooterTurret.setTurretState(TurretGoalState.HOME);
+      shooterTurret.setTurretState(TurretGoalState.HOME);
       // index.setIndexState(IndexState.STOP);
       // spindexer.setIndexState(SpindexerState.STOP);
       // shooterHood.setGoal(PivotGoal.STOW);

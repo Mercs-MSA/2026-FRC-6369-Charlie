@@ -15,6 +15,7 @@ import com.ctre.phoenix6.signals.FeedbackSensorSourceValue;
 import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.MotorAlignmentValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
+import com.ctre.phoenix6.signals.SensorDirectionValue;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.util.Units;
@@ -86,13 +87,16 @@ public class TurretIOTalonFX implements TurretIO {
             ? InvertedValue.CounterClockwise_Positive
             : InvertedValue.Clockwise_Positive;
 
-    // TODO: update for fused cancoder
-    motorConfiguration.Feedback.FeedbackSensorSource = FeedbackSensorSourceValue.RotorSensor;
-    // motorConfiguration.Feedback.FeedbackRemoteSensorID = hardware.cancoderID();
+    cancoderConfiguration.MagnetSensor.SensorDirection =
+        configuration.invertFeedback() ? SensorDirectionValue.Clockwise_Positive : SensorDirectionValue.CounterClockwise_Positive;
+
+    motorConfiguration.Feedback.FeedbackSensorSource = FeedbackSensorSourceValue.FusedCANcoder;
+    motorConfiguration.Feedback.FeedbackRemoteSensorID = hardware.cancoderID();
     motorConfiguration.Feedback.SensorToMechanismRatio = hardware.sensorMechanismGearRatio();
     motorConfiguration.Feedback.RotorToSensorRatio = hardware.rotorSensorGearRatio();
 
     motor.getConfigurator().apply(motorConfiguration, 1.0);
+    cancoder.getConfigurator().apply(cancoderConfiguration, 1.0);
 
     positionRotations = motor.getPosition();
     velocityDegreesPerSec = motor.getVelocity();
