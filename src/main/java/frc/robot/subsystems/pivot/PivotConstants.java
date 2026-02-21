@@ -6,10 +6,10 @@ import frc.robot.Constants;
 public class PivotConstants {
 
   public static final double kGearRatio = 31.6; // rotations motor per rotations pivot
-  public static final double kRotorOffset = -0.001953; // rotations, find in TunerX
+  public static final double kRotorOffset = -0.23388671875; // rotations, find in TunerX
 
   public static final double kMinRadians = 0.00;
-  public static final double kMaxRadians = 2.0;
+  public static final double kMaxRadians = 1.0;
 
   public static final double kPositionToleranceRad = 0.005;
 
@@ -43,7 +43,7 @@ public class PivotConstants {
 
   public static final PivotHardware kPivotHardware =
       new PivotHardware(
-          7, // left motor CAN ID
+          52, // left motor CAN ID
           kGearRatio,
           kRotorOffset
           );
@@ -59,5 +59,5 @@ public class PivotConstants {
 
   public static final PivotMotorConfiguration kMotorConfiguration =
       new PivotMotorConfiguration(
-          true, true, true, 80.0, 50.0, 1.3, -1.5, NeutralModeValue.Brake);
+          true, true, true, 80.0, 50.0, 1.5, -1.5, NeutralModeValue.Brake);
 }

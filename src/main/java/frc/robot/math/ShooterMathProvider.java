@@ -53,9 +53,9 @@ public class ShooterMathProvider {
 
     public ShooterMathProvider() {
         shotMapRPS.put(1.83, new Double[]{50.0, 0.00});
-        shotMapRPS.put(3.09, new Double[]{50.0, 0.95});
-        shotMapRPS.put(3.64, new Double[]{50.0, 1.45});
-        shotMapRPS.put(5.32, new Double[]{59.0, 1.65});
+        shotMapRPS.put(3.09, new Double[]{50.0, 0.02});
+        shotMapRPS.put(3.64, new Double[]{50.0, 0.03});
+        shotMapRPS.put(5.32, new Double[]{59.0, 0.05});
     }
 
     /**

@@ -92,7 +92,7 @@ public class RobotContainer {
   public final Vision vision;
 
   // public final Flywheel shooterFlywheels;
-  // public final Pivot shooterHood;
+  public final Pivot shooterHood;
   public final Turret shooterTurret;
   public final Intake intake;
   // public final Spindexer spindexer;
@@ -140,9 +140,9 @@ public class RobotContainer {
         //           new FlywheelIOTalonFX(FlywheelConstants.kFlywheelHardware, FlywheelConstants.kMotorConfiguration, FlywheelConstants.kFlywheelGains), shooterMath
         //         );
 
-        // shooterHood = 
-        //         new Pivot(
-        //           new PivotIOTalonFX(PivotConstants.kPivotHardware, PivotConstants.kMotorConfiguration, PivotConstants.kPivotGains, PivotConstants.kMinRadians, PivotConstants.kMaxRadians), shooterMath);
+        shooterHood = 
+                new Pivot(
+                  new PivotIOTalonFX(PivotConstants.kPivotHardware, PivotConstants.kMotorConfiguration, PivotConstants.kPivotGains, PivotConstants.kMinRadians, PivotConstants.kMaxRadians), shooterMath);
 
         shooterTurret =
                 new Turret(
@@ -190,9 +190,9 @@ public class RobotContainer {
         //           new FlywheelIOTalonFX(FlywheelConstants.kFlywheelHardware, FlywheelConstants.kMotorConfiguration, FlywheelConstants.kFlywheelGains), shooterMath
         //         );
 
-        // shooterHood = 
-        //         new Pivot(
-        //           new PivotIOTalonFX(PivotConstants.kPivotHardware, PivotConstants.kMotorConfiguration, PivotConstants.kPivotGains, PivotConstants.kMinRadians, PivotConstants.kMaxRadians), shooterMath);
+        shooterHood = 
+                new Pivot(
+                  new PivotIOTalonFX(PivotConstants.kPivotHardware, PivotConstants.kMotorConfiguration, PivotConstants.kPivotGains, PivotConstants.kMinRadians, PivotConstants.kMaxRadians), shooterMath);
 
         shooterTurret =
                 new Turret(
@@ -241,9 +241,9 @@ public class RobotContainer {
         //           new FlywheelIOTalonFX(FlywheelConstants.kFlywheelHardware, FlywheelConstants.kMotorConfiguration, FlywheelConstants.kFlywheelGains), shooterMath
         //         );
 
-        // shooterHood = 
-        //         new Pivot(
-        //           new PivotIOTalonFX(PivotConstants.kPivotHardware, PivotConstants.kMotorConfiguration, PivotConstants.kPivotGains, PivotConstants.kMinRadians, PivotConstants.kMaxRadians), shooterMath);
+        shooterHood = 
+                new Pivot(
+                  new PivotIOTalonFX(PivotConstants.kPivotHardware, PivotConstants.kMotorConfiguration, PivotConstants.kPivotGains, PivotConstants.kMinRadians, PivotConstants.kMaxRadians), shooterMath);
 
         shooterTurret =
                 new Turret(
@@ -268,7 +268,7 @@ public class RobotContainer {
 
     // flywheelsAtGoalTrigger = new Trigger(() -> shooterFlywheels.atSpeed());
     intakeTrigger = new Trigger(() -> intake.positionAtGoal());
-    teleopState = new TeleopStates(drive, intake, null, null, shooterTurret, null, null);
+    teleopState = new TeleopStates(drive, intake, null, shooterHood, shooterTurret, null, null);
 
     // Create auto routines
     NamedCommands.registerCommands(new HashMap<String, Command>(){

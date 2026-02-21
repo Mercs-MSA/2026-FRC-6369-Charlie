@@ -54,13 +54,19 @@ public class PivotIOTalonFX implements PivotIO {
     motorConfiguration.Slot0.kV = gains.v();
     motorConfiguration.Slot0.kA = gains.a();
     motorConfiguration.Slot0.kG = gains.g();
+
     motorConfiguration.Slot0.StaticFeedforwardSign = StaticFeedforwardSignValue.UseClosedLoopSign;
     motorConfiguration.Slot0.GravityType= GravityTypeValue.Arm_Cosine;
+    
     motorConfiguration.SoftwareLimitSwitch.ForwardSoftLimitEnable = true;
     motorConfiguration.SoftwareLimitSwitch.ForwardSoftLimitThreshold = maxRotation;
-    motorConfiguration.ClosedLoopRamps.VoltageClosedLoopRampPeriod= 0.01;
     motorConfiguration.SoftwareLimitSwitch.ReverseSoftLimitEnable = true;
     motorConfiguration.SoftwareLimitSwitch.ReverseSoftLimitThreshold = minRotation;
+    
+    motorConfiguration.ClosedLoopRamps.VoltageClosedLoopRampPeriod = 0.01;
+
+    motorConfiguration.Voltage.PeakForwardVoltage = configuration.peakForwardVoltage();
+    motorConfiguration.Voltage.PeakReverseVoltage = configuration.peakReverseVoltage();
 
     // Motion Magic values converted to rotations
     // motorConfiguration.MotionMagic.MotionMagicCruiseVelocity =
