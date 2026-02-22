@@ -8,7 +8,8 @@ import frc.robot.Constants;
 public class TurretConstants {
 
   public static final double kSensorMechanismRatio = 3.4; // sensor to mechanism
-    public static final double kRotorSensorGearRatio = 15; // rotor to sensor
+  public static final double kRotorSensorGearRatio = 15; // rotor to sensor
+  public static final double kCancoderOffset = -0.4721679687;
 
   public static final double kRotorRotationsToDegrees = 360.0 / kSensorMechanismRatio;
 
@@ -24,7 +25,7 @@ public class TurretConstants {
   public static final double kStatusSignalUpdateFrequencyHz = 100.0;
 
   public record TurretHardware(
-      int motorIDLeft, int cancoderID, double sensorMechanismGearRatio, double rotorSensorGearRatio, double rotorRotationsToDegrees) {}
+      int motorIDLeft, int cancoderID, double sensorMechanismGearRatio, double rotorSensorGearRatio, double rotorRotationsToDegrees, double cancoderOffset) {}
 
   public record TurretGains(
       double p,
@@ -55,7 +56,8 @@ public class TurretConstants {
           17, // cancoder CAN ID
           kSensorMechanismRatio,
           kRotorSensorGearRatio,
-          kRotorRotationsToDegrees);
+          kRotorRotationsToDegrees,
+          kCancoderOffset);
 
   public static final TurretGains kTurretGains =
       switch (Constants.currentMode) {

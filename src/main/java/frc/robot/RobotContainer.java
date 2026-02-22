@@ -91,14 +91,14 @@ public class RobotContainer {
   public final Drive drive;
   public final Vision vision;
 
-  // public final Flywheel shooterFlywheels;
+  public final Flywheel shooterFlywheels;
   public final Pivot shooterHood;
   public final Turret shooterTurret;
   public final Intake intake;
-  // public final Spindexer spindexer;
+  public final Spindexer spindexer;
 
-  // public final Index index;
-  // public final Trigger flywheelsAtGoalTrigger;
+  public final Index index;
+  public final Trigger flywheelsAtGoalTrigger;
   public final Trigger intakeTrigger;
 
   // Controller
@@ -135,10 +135,10 @@ public class RobotContainer {
                 });
  
         // Shooter
-        // shooterFlywheels =
-        //         new Flywheel(
-        //           new FlywheelIOTalonFX(FlywheelConstants.kFlywheelHardware, FlywheelConstants.kMotorConfiguration, FlywheelConstants.kFlywheelGains), shooterMath
-        //         );
+        shooterFlywheels =
+                new Flywheel(
+                  new FlywheelIOTalonFX(FlywheelConstants.kFlywheelHardware, FlywheelConstants.kMotorConfiguration, FlywheelConstants.kFlywheelGains), shooterMath
+                );
 
         shooterHood = 
                 new Pivot(
@@ -153,14 +153,14 @@ public class RobotContainer {
                   new IntakeIOTalonFX(IntakeConstants.kIntakeHardware, IntakeConstants.kMotorConfiguration, IntakeConstants.kIntakeGains),
                   new IntakeFlywheelIOTalonFX(IntakeFlywheelConstants.kFlywheelHardware, IntakeFlywheelConstants.kMotorConfiguration, IntakeFlywheelConstants.kFlywheelGains));
 
-        // index = 
-        //         new Index(
-        //           new IndexIOTalonFX(IndexConstants.kIndexHardware, IndexConstants.kMotorConfiguration, IndexConstants.kIndexGains), shooterMath
-        //         );
+        index = 
+                new Index(
+                  new IndexIOTalonFX(IndexConstants.kIndexHardware, IndexConstants.kMotorConfiguration, IndexConstants.kIndexGains), shooterMath
+                );
 
-        // spindexer = new Spindexer(
-        //   new SpindexerIOTalonFX(SpindexerConstants.kIndexHardware, SpindexerConstants.kMotorConfiguration, SpindexerConstants.kSpindexIndexGains)
-        // );
+        spindexer = new Spindexer(
+          new SpindexerIOTalonFX(SpindexerConstants.kIndexHardware, SpindexerConstants.kMotorConfiguration, SpindexerConstants.kSpindexIndexGains)
+        );
         
         break;
 
@@ -185,10 +185,10 @@ public class RobotContainer {
                 });
 
         // Shooter
-        // shooterFlywheels =
-        //         new Flywheel(
-        //           new FlywheelIOTalonFX(FlywheelConstants.kFlywheelHardware, FlywheelConstants.kMotorConfiguration, FlywheelConstants.kFlywheelGains), shooterMath
-        //         );
+        shooterFlywheels =
+                new Flywheel(
+                  new FlywheelIOTalonFX(FlywheelConstants.kFlywheelHardware, FlywheelConstants.kMotorConfiguration, FlywheelConstants.kFlywheelGains), shooterMath
+                );
 
         shooterHood = 
                 new Pivot(
@@ -203,14 +203,14 @@ public class RobotContainer {
                   new IntakeIOTalonFX(IntakeConstants.kIntakeHardware, IntakeConstants.kMotorConfiguration, IntakeConstants.kIntakeGains),
                   new IntakeFlywheelIOTalonFX(IntakeFlywheelConstants.kFlywheelHardware, IntakeFlywheelConstants.kMotorConfiguration, IntakeFlywheelConstants.kFlywheelGains));
         
-        // index = 
-        //         new Index(
-        //           new IndexIOTalonFX(IndexConstants.kIndexHardware, IndexConstants.kMotorConfiguration, IndexConstants.kIndexGains), shooterMath
-        //         );
+        index = 
+                new Index(
+                  new IndexIOTalonFX(IndexConstants.kIndexHardware, IndexConstants.kMotorConfiguration, IndexConstants.kIndexGains), shooterMath
+                );
 
-        // spindexer = new Spindexer(
-        //   new SpindexerIOTalonFX(SpindexerConstants.kIndexHardware, SpindexerConstants.kMotorConfiguration, SpindexerConstants.kSpindexIndexGains)
-        // );
+        spindexer = new Spindexer(
+          new SpindexerIOTalonFX(SpindexerConstants.kIndexHardware, SpindexerConstants.kMotorConfiguration, SpindexerConstants.kSpindexIndexGains)
+        );
 
         break;
 
@@ -236,10 +236,10 @@ public class RobotContainer {
 
      
         // Shooter
-        // shooterFlywheels =
-        //         new Flywheel(
-        //           new FlywheelIOTalonFX(FlywheelConstants.kFlywheelHardware, FlywheelConstants.kMotorConfiguration, FlywheelConstants.kFlywheelGains), shooterMath
-        //         );
+        shooterFlywheels =
+                new Flywheel(
+                  new FlywheelIOTalonFX(FlywheelConstants.kFlywheelHardware, FlywheelConstants.kMotorConfiguration, FlywheelConstants.kFlywheelGains), shooterMath
+                );
 
         shooterHood = 
                 new Pivot(
@@ -254,41 +254,55 @@ public class RobotContainer {
                   new IntakeIOTalonFX(IntakeConstants.kIntakeHardware, IntakeConstants.kMotorConfiguration, IntakeConstants.kIntakeGains),
                   new IntakeFlywheelIOTalonFX(IntakeFlywheelConstants.kFlywheelHardware, IntakeFlywheelConstants.kMotorConfiguration, IntakeFlywheelConstants.kFlywheelGains));
 
-        // index = 
-        //         new Index(
-        //           new IndexIOTalonFX(IndexConstants.kIndexHardware, IndexConstants.kMotorConfiguration, IndexConstants.kIndexGains), shooterMath
-        //         );
+        index = 
+                new Index(
+                  new IndexIOTalonFX(IndexConstants.kIndexHardware, IndexConstants.kMotorConfiguration, IndexConstants.kIndexGains), shooterMath
+                );
                 
-        // spindexer = new Spindexer(
-        //   new SpindexerIOTalonFX(SpindexerConstants.kIndexHardware, SpindexerConstants.kMotorConfiguration, SpindexerConstants.kSpindexIndexGains)
-        // );
+        spindexer = new Spindexer(
+          new SpindexerIOTalonFX(SpindexerConstants.kIndexHardware, SpindexerConstants.kMotorConfiguration, SpindexerConstants.kSpindexIndexGains)
+        );
 
         break;
     }
 
-    // flywheelsAtGoalTrigger = new Trigger(() -> shooterFlywheels.atSpeed());
+    flywheelsAtGoalTrigger = new Trigger(() -> shooterFlywheels.atSpeed());
     intakeTrigger = new Trigger(() -> intake.positionAtGoal());
-    teleopState = new TeleopStates(drive, intake, null, shooterHood, shooterTurret, null, null);
+    teleopState = new TeleopStates(drive, intake, shooterFlywheels, shooterHood, shooterTurret, spindexer, index);
 
     // Create auto routines
     NamedCommands.registerCommands(new HashMap<String, Command>(){
       {
-      //   put("Start", Commands.runOnce(() -> {
-      //     System.out.println("start");
-      //     shooterFlywheels.setFlywheelState(FlywheelState.STOP);
-      //     shooterHood.setPivotState(PivotState.PROVIDED);
-      //     shooterHood.setGoal(PivotGoal.PROVIDED);
-      //     shooterTurret.setTurretState(TurretGoalState.PROVIDED);
-      //     index.setIndexState(IndexState.STOP);
-      //     spindexer.setIndexState(SpindexerState.STOP);
-      //   }, shooterFlywheels, shooterHood, shooterTurret, index, spindexer));
-      //   put("StartFlywheels", Commands.runOnce(() -> {
-      //     shooterFlywheels.setFlywheelState(FlywheelState.PROVIDED);
-      //   }, shooterFlywheels, shooterHood, shooterTurret, index, spindexer));
-      //   put("BeginIndex", Commands.runOnce(() -> {
-      //     index.setIndexState(IndexState.PROVIDED);
-      //     spindexer.setIndexState(SpindexerState.RUNNING);
-      //   }, index, spindexer));
+        put("Start", Commands.runOnce(() -> {
+          System.out.println("start");
+          shooterFlywheels.setFlywheelState(FlywheelState.STOP);
+          shooterHood.setPivotState(PivotState.PROVIDED);
+          shooterHood.setGoal(PivotGoal.PROVIDED);
+          shooterTurret.setTurretState(TurretGoalState.PROVIDED);
+          index.setIndexState(IndexState.STOP);
+          spindexer.setIndexState(SpindexerState.STOP);
+          intake.setIntakeGoal(IntakeGoal.kStow);
+          intake.setFlywheelGoal(IntakeFlywheelGoal.kStop);
+        }, shooterFlywheels, shooterHood, shooterTurret, index, spindexer, intake));
+        put("StartFlywheels", Commands.runOnce(() -> {
+          shooterFlywheels.setFlywheelState(FlywheelState.PROVIDED);
+        }, shooterFlywheels, shooterHood, shooterTurret, index, spindexer));
+        put("BeginIndex", Commands.runOnce(() -> {
+          index.setIndexState(IndexState.PROVIDED);
+          spindexer.setIndexState(SpindexerState.RUNNING);
+        }, index, spindexer));
+        put("IntakeOut", Commands.runOnce(() -> {
+          intake.setIntakeGoal(IntakeGoal.kOut);
+        }, intake));
+        put("IntakeHalf", Commands.runOnce(() -> {
+          intake.setIntakeGoal(IntakeGoal.kAutoTravel);
+        }, intake));
+        put("IntakeRun", Commands.runOnce(() -> {
+          intake.setFlywheelGoal(IntakeFlywheelGoal.kRunning);
+        }, intake));
+        put("IntakeStop", Commands.runOnce(() -> {
+          intake.setFlywheelGoal(IntakeFlywheelGoal.kStop);
+        }, intake));
       }
     });
 
@@ -445,20 +459,29 @@ public class RobotContainer {
     driverController.x().onTrue(Commands.runOnce(() -> {
       teleopState.idleMode();
     }, intake));
-      intakeTrigger.onTrue(Commands.runOnce(()->
+
+    // half mode
+    driverController.y().onTrue(Commands.runOnce(() -> {
+      if (teleopState.currentTeleopMode == TeleopMode.HALF) {
+        teleopState.idleMode();
+      } else { 
+      teleopState.halfMode();
+      }
+    }, intake));
+
+    intakeTrigger.onTrue(Commands.runOnce(()->
       {
         if(teleopState.currentTeleopMode == TeleopMode.INTAKE_WARMUP)
         {
           teleopState.intakeActive();
         }
       }));
-            // flywheelsAtGoalTrigger.onTrue(Commands.runOnce(() -> {
-    //   if (teleopState.currentTeleopMode == TeleopMode.SHOOT_WARMUP) {
-    //     index.setIndexState(IndexState.PROVIDED);
-    //     spindexer.setIndexState(SpindexerState.RUNNING);
-    //     teleopState.currentTeleopMode = TeleopMode.SHOOT_ACTIVE;
-    //   }
-    // }));
+
+    flywheelsAtGoalTrigger.onTrue(Commands.runOnce(() -> {
+    if (teleopState.currentTeleopMode == TeleopMode.SHOOT_WARMUP) {
+      teleopState.shootActive();
+    }
+  }));
 
   }
 

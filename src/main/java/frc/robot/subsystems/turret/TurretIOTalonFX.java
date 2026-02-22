@@ -89,6 +89,7 @@ public class TurretIOTalonFX implements TurretIO {
 
     cancoderConfiguration.MagnetSensor.SensorDirection =
         configuration.invertFeedback() ? SensorDirectionValue.Clockwise_Positive : SensorDirectionValue.CounterClockwise_Positive;
+    cancoderConfiguration.MagnetSensor.MagnetOffset = hardware.cancoderOffset();
 
     motorConfiguration.Feedback.FeedbackSensorSource = FeedbackSensorSourceValue.FusedCANcoder;
     motorConfiguration.Feedback.FeedbackRemoteSensorID = hardware.cancoderID();

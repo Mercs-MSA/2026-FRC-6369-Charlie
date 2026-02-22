@@ -50,7 +50,7 @@ public class PivotConstants {
 
   public static final PivotGains kPivotGains =
       switch (Constants.currentMode) {
-        case REAL -> new PivotGains(300, 0.0, 0.0, 0.15, 0.0, 0.0, 0.05, 120.0, 240.0, 0);
+        case REAL -> new PivotGains(1100, 0.0, 0.0, 0.15, 0.0, 0.0, 0.05, 120.0, 240.0, 0);
 
         case SIM -> new PivotGains(8.0, 0.0, 0.2, 0.1, 0.3, 1.0, 0.03, 180.0, 360.0, 0);
 

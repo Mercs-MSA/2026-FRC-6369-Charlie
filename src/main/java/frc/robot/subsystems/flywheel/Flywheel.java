@@ -64,6 +64,9 @@ public class Flywheel extends SubsystemBase {
 
   public void setFlywheelState(FlywheelState state) {
     this.currentState = state;
+    if (this.currentState == FlywheelState.PROVIDED) {
+      this.goalSpeedRPS = math.shooterVelocityTarget;
+    }
   }
 
   public void setCustomSpeedRPS(double speedRPS) {

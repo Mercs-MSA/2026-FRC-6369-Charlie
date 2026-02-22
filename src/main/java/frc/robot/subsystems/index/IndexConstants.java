@@ -5,12 +5,12 @@ import frc.robot.Constants;
 
 public class IndexConstants {
 
-  public static final double kSensorToMechanismGearing = 2.0;
+  public static final double kSensorToMechanismGearing = 1.0;
 
   public static final double kStatusSignalUpdateFrequencyHz = 100.0;
   public static final int kLinearFilterSampleCount = 5;
 
-  public static final double kSpeed = 35; // TODO: tune
+  public static final double kSpeed = 60; // TODO: tune
   public static final double kIndexVelocityLimitRPS = 50.0; // TODO: tune
 
   public record IndexHardware(
@@ -40,12 +40,12 @@ public class IndexConstants {
 
   public static final IndexHardware kIndexHardware =
       new IndexHardware(
-          8, // TODO: replace with correct id
+          24, // TODO: replace with correct id
           kSensorToMechanismGearing);
 
   public static final IndexGains kIndexGains =
       switch (Constants.currentMode) {
-        case REAL -> new IndexGains(0.4, 0.0, 0.0, 0.0, 0.0, 0.265, 0.0, 120.0, 240.0, 0);
+        case REAL -> new IndexGains(0.2, 0.0, 0.0, 0.0, 0.0, 0.15, 0.0, 120.0, 240.0, 0);
 
         case SIM -> new IndexGains(8.0, 0.0, 0.2, 0.1, 0.3, 1.0, 0.03, 180.0, 360.0, 0);
 

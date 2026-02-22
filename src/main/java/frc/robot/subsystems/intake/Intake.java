@@ -14,6 +14,8 @@ public class Intake extends SubsystemBase {
   /** List of position setpoints for the Intake in meters */
   public enum IntakeGoal {
     kOut(() -> 2.43),
+    kHalf(() -> 1.5),
+    kAutoTravel(() -> 1.8),
     kStow(() -> 0.005);
     /** Custom setpoint that can be modified over network tables; Usefu for debugging */
     private DoubleSupplier goal;
@@ -29,6 +31,7 @@ public class Intake extends SubsystemBase {
 
   public enum IntakeFlywheelGoal {
     kStop(() -> 0),
+    kSlow(() -> 2.5),
     kRunning(() -> 8);
 
     private DoubleSupplier goalRps;
