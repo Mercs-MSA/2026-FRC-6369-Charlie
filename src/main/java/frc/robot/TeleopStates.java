@@ -10,9 +10,9 @@ import frc.robot.subsystems.index.Index;
 import frc.robot.subsystems.index.Index.IndexState;
 import frc.robot.subsystems.intake.Intake.IntakeFlywheelGoal;
 import frc.robot.subsystems.intake.Intake.IntakeGoal;
-import frc.robot.subsystems.pivot.Pivot;
-import frc.robot.subsystems.pivot.Pivot.PivotGoal;
-import frc.robot.subsystems.pivot.Pivot.PivotState;
+import frc.robot.subsystems.shooterhood.Hood;
+import frc.robot.subsystems.shooterhood.Hood.HoodGoal;
+import frc.robot.subsystems.shooterhood.Hood.HoodState;
 import frc.robot.subsystems.spindexer.Spindexer;
 import frc.robot.subsystems.spindexer.Spindexer.SpindexerState;
 import frc.robot.subsystems.turret.Turret;
@@ -36,12 +36,12 @@ public class TeleopStates {
     public final Drive drive;
     public final Intake intake;
     public final Flywheel shooterFlywheels;
-    public final Pivot shooterHood;
+    public final Hood shooterHood;
     public final Turret shooterTurret;
     public final Spindexer spindexer;
     public final Index index;
 
-    public TeleopStates(Drive drive, Intake intake, Flywheel shooterFlywheels, Pivot shooterHood, Turret shooterTurret, Spindexer spindexer, Index index) {
+    public TeleopStates(Drive drive, Intake intake, Flywheel shooterFlywheels, Hood shooterHood, Turret shooterTurret, Spindexer spindexer, Index index) {
         this.drive = drive;
         this.intake = intake;
         this.shooterFlywheels = shooterFlywheels;
@@ -61,8 +61,8 @@ public class TeleopStates {
       intake.setFlywheelGoal(IntakeFlywheelGoal.kSlow);
       shooterFlywheels.setFlywheelState(FlywheelState.PROVIDED);
       shooterTurret.setTurretState(TurretGoalState.PROVIDED);
-      shooterHood.setGoal(PivotGoal.PROVIDED);
-      shooterHood.setPivotState(PivotState.PROVIDED);
+      shooterHood.setGoal(HoodGoal.PROVIDED);
+      shooterHood.setHoodState(HoodState.PROVIDED);
       this.currentTeleopMode = TeleopMode.SHOOT_WARMUP;
 
       if (shooterFlywheels.atSpeed()) {
@@ -77,8 +77,8 @@ public class TeleopStates {
       index.setIndexState(IndexState.STOP);
       spindexer.setIndexState(SpindexerState.STOP);
       shooterTurret.setTurretState(TurretGoalState.PROVIDED);
-      shooterHood.setGoal(PivotGoal.PROVIDED);
-      shooterHood.setPivotState(PivotState.PROVIDED);
+      shooterHood.setGoal(HoodGoal.PROVIDED);
+      shooterHood.setHoodState(HoodState.PROVIDED);
       this.currentTeleopMode = TeleopMode.INTAKE_WARMUP;
 
       if (intake.positionAtGoal()) {
@@ -104,8 +104,8 @@ public class TeleopStates {
       intake.setFlywheelGoal(IntakeFlywheelGoal.kStop);
       shooterFlywheels.setFlywheelState(FlywheelState.STOP);
       shooterTurret.setTurretState(TurretGoalState.PROVIDED);
-      shooterHood.setGoal(PivotGoal.PROVIDED);
-      shooterHood.setPivotState(PivotState.PROVIDED);
+      shooterHood.setGoal(HoodGoal.PROVIDED);
+      shooterHood.setHoodState(HoodState.PROVIDED);
       index.setIndexState(IndexState.STOP);
       spindexer.setIndexState(SpindexerState.STOP);
       this.currentTeleopMode = TeleopMode.IDLE;
@@ -116,8 +116,8 @@ public class TeleopStates {
       intake.setFlywheelGoal(IntakeFlywheelGoal.kStop);
       // shooterFlywheels.setFlywheelState(FlywheelState.STOP);
       shooterTurret.setTurretState(TurretGoalState.PROVIDED);
-      shooterHood.setGoal(PivotGoal.PROVIDED);
-      shooterHood.setPivotState(PivotState.PROVIDED);
+      shooterHood.setGoal(HoodGoal.PROVIDED);
+      shooterHood.setHoodState(HoodState.PROVIDED);
       index.setIndexState(IndexState.STOP);
       spindexer.setIndexState(SpindexerState.STOP);
       this.currentTeleopMode = TeleopMode.HALF;
@@ -130,8 +130,8 @@ public class TeleopStates {
       shooterTurret.setTurretState(TurretGoalState.HOME);
       index.setIndexState(IndexState.STOP);
       spindexer.setIndexState(SpindexerState.STOP);
-      shooterHood.setGoal(PivotGoal.STOW);
-      shooterHood.setPivotState(PivotState.STOW);
+      shooterHood.setGoal(HoodGoal.STOW);
+      shooterHood.setHoodState(HoodState.STOW);
       this.currentTeleopMode = TeleopMode.IDLE;
     }
 }

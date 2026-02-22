@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import org.littletonrobotics.junction.AutoLogOutput;
 import org.littletonrobotics.junction.Logger;
 import frc.robot.math.ShooterMathProvider;
-import frc.robot.subsystems.pivot.Pivot.PivotGoal;
+import frc.robot.subsystems.shooterhood.Hood.HoodGoal;
 
 public class Flywheel extends SubsystemBase {
   public enum FlywheelState {

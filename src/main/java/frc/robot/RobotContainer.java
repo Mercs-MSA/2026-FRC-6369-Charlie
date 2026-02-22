@@ -39,11 +39,6 @@ import frc.robot.subsystems.index.Index;
 import frc.robot.subsystems.index.IndexConstants;
 import frc.robot.subsystems.index.IndexIOTalonFX;
 import frc.robot.subsystems.index.Index.IndexState;
-import frc.robot.subsystems.pivot.Pivot;
-import frc.robot.subsystems.pivot.PivotConstants;
-import frc.robot.subsystems.pivot.PivotIOTalonFX;
-import frc.robot.subsystems.pivot.Pivot.PivotGoal;
-import frc.robot.subsystems.pivot.Pivot.PivotState;
 import frc.robot.subsystems.turret.Turret;
 import frc.robot.subsystems.turret.TurretConstants;
 import frc.robot.subsystems.turret.TurretIOTalonFX;
@@ -61,6 +56,11 @@ import frc.robot.subsystems.intake.Intake;
 import frc.robot.subsystems.intake.IntakeIOTalonFX;
 import frc.robot.subsystems.intake.Intake.IntakeFlywheelGoal;
 import frc.robot.subsystems.intake.Intake.IntakeGoal;
+import frc.robot.subsystems.shooterhood.Hood;
+import frc.robot.subsystems.shooterhood.HoodConstants;
+import frc.robot.subsystems.shooterhood.HoodIOTalonFX;
+import frc.robot.subsystems.shooterhood.Hood.HoodGoal;
+import frc.robot.subsystems.shooterhood.Hood.HoodState;
 import frc.robot.subsystems.intake.IntakeConstants;
 import frc.robot.subsystems.intake.IntakeFlywheelIOTalonFX;
 import frc.robot.subsystems.intake.IntakeFlywheelConstants;
@@ -92,7 +92,7 @@ public class RobotContainer {
   public final Vision vision;
 
   public final Flywheel shooterFlywheels;
-  public final Pivot shooterHood;
+  public final Hood shooterHood;
   public final Turret shooterTurret;
   public final Intake intake;
   public final Spindexer spindexer;
@@ -141,8 +141,8 @@ public class RobotContainer {
                 );
 
         shooterHood = 
-                new Pivot(
-                  new PivotIOTalonFX(PivotConstants.kPivotHardware, PivotConstants.kMotorConfiguration, PivotConstants.kPivotGains, PivotConstants.kMinRadians, PivotConstants.kMaxRadians), shooterMath);
+                new Hood(
+                  new HoodIOTalonFX(HoodConstants.kHoodHardware, HoodConstants.kMotorConfiguration, HoodConstants.kHoodGains, HoodConstants.kMinRadians, HoodConstants.kMaxRadians), shooterMath);
 
         shooterTurret =
                 new Turret(
@@ -191,8 +191,8 @@ public class RobotContainer {
                 );
 
         shooterHood = 
-                new Pivot(
-                  new PivotIOTalonFX(PivotConstants.kPivotHardware, PivotConstants.kMotorConfiguration, PivotConstants.kPivotGains, PivotConstants.kMinRadians, PivotConstants.kMaxRadians), shooterMath);
+                new Hood(
+                  new HoodIOTalonFX(HoodConstants.kHoodHardware, HoodConstants.kMotorConfiguration, HoodConstants.kHoodGains, HoodConstants.kMinRadians, HoodConstants.kMaxRadians), shooterMath);
 
         shooterTurret =
                 new Turret(
@@ -242,8 +242,8 @@ public class RobotContainer {
                 );
 
         shooterHood = 
-                new Pivot(
-                  new PivotIOTalonFX(PivotConstants.kPivotHardware, PivotConstants.kMotorConfiguration, PivotConstants.kPivotGains, PivotConstants.kMinRadians, PivotConstants.kMaxRadians), shooterMath);
+                new Hood(
+                  new HoodIOTalonFX(HoodConstants.kHoodHardware, HoodConstants.kMotorConfiguration, HoodConstants.kHoodGains, HoodConstants.kMinRadians, HoodConstants.kMaxRadians), shooterMath);
 
         shooterTurret =
                 new Turret(
@@ -276,8 +276,8 @@ public class RobotContainer {
         put("Start", Commands.runOnce(() -> {
           System.out.println("start");
           shooterFlywheels.setFlywheelState(FlywheelState.STOP);
-          shooterHood.setPivotState(PivotState.PROVIDED);
-          shooterHood.setGoal(PivotGoal.PROVIDED);
+          shooterHood.setHoodState(HoodState.PROVIDED);
+          shooterHood.setGoal(HoodGoal.PROVIDED);
           shooterTurret.setTurretState(TurretGoalState.PROVIDED);
           index.setIndexState(IndexState.STOP);
           spindexer.setIndexState(SpindexerState.STOP);

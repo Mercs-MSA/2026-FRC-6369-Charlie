@@ -1,8 +1,8 @@
-package frc.robot.subsystems.pivot;
+package frc.robot.subsystems.shooterhood;
 
-public interface PivotIO {
+public interface HoodIO {
 
-  public class PivotIOInputs {
+  public class HoodIOInputs {
     public boolean isMotorConnected = false;
 
     public double positionDegrees = 0.0;
@@ -13,7 +13,7 @@ public interface PivotIO {
     public double temperatureCelsius = 0.0;
   }
 
-  public void updateInputs(PivotIOInputs inputs);
+  public void updateInputs(HoodIOInputs inputs);
 
   public void setPosition(double rotations);
 

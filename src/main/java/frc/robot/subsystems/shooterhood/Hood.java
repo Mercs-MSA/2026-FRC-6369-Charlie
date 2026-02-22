@@ -1,4 +1,4 @@
-package frc.robot.subsystems.pivot;
+package frc.robot.subsystems.shooterhood;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -10,15 +10,15 @@ import java.util.function.DoubleSupplier;
 import org.littletonrobotics.junction.AutoLogOutput;
 import org.littletonrobotics.junction.Logger;
 
-public class Pivot extends SubsystemBase {
+public class Hood extends SubsystemBase {
 
-  public enum PivotGoal {
+  public enum HoodGoal {
     STOW(() -> 0.00),
     PROVIDED(() -> 0.0);
 
     private final DoubleSupplier goalDegrees;
 
-    PivotGoal(DoubleSupplier goalDegrees) {
+    HoodGoal(DoubleSupplier goalDegrees) {
       this.goalDegrees = goalDegrees;
     }
 
@@ -27,47 +27,47 @@ public class Pivot extends SubsystemBase {
     }
   }
 
-  public enum PivotState {
+  public enum HoodState {
     STOW,
     PROVIDED
   }
 
-  public PivotState currentState = PivotState.STOW;
+  public HoodState currentState = HoodState.STOW;
 
-  private final PivotIO io;
-  private final PivotIOInputsAutoLogged inputs = new PivotIOInputsAutoLogged();
+  private final HoodIO io;
+  private final HoodIOInputsAutoLogged inputs = new HoodIOInputsAutoLogged();
 
-  private PivotGoal currentGoal = null;
+  private HoodGoal currentGoal = null;
   private double goalRotations = 0.0;
 
   private Translation2d targetPoint = new Translation2d();
 
   private final ShooterMathProvider math;
 
-  public Pivot(PivotIO io, ShooterMathProvider math) {
+  public Hood(HoodIO io, ShooterMathProvider math) {
     this.io = io;
     this.math = math;
 
     //Take  in math, assume the values in there are updated
 
     io.setGains(
-        PivotConstants.kPivotGains.p(),
-        PivotConstants.kPivotGains.i(),
-        PivotConstants.kPivotGains.d(),
-        PivotConstants.kPivotGains.s(),
-        PivotConstants.kPivotGains.g(),
-        PivotConstants.kPivotGains.v(),
-        PivotConstants.kPivotGains.a());
+        HoodConstants.kHoodGains.p(),
+        HoodConstants.kHoodGains.i(),
+        HoodConstants.kHoodGains.d(),
+        HoodConstants.kHoodGains.s(),
+        HoodConstants.kHoodGains.g(),
+        HoodConstants.kHoodGains.v(),
+        HoodConstants.kHoodGains.a());
 
     io.setMotionMagicConstraints(
-        PivotConstants.kPivotGains.maxVelocityDegPerSec(),
-        PivotConstants.kPivotGains.maxAccelerationDegPerSec2());
+        HoodConstants.kHoodGains.maxVelocityDegPerSec(),
+        HoodConstants.kHoodGains.maxAccelerationDegPerSec2());
   }
 
   @Override
   public void periodic() {
     io.updateInputs(inputs);
-    Logger.processInputs("Pivot/Inputs", inputs);
+    Logger.processInputs("Hood/Inputs", inputs);
 
     if (DriverStation.isDisabled()) {
       stop();
@@ -75,27 +75,27 @@ public class Pivot extends SubsystemBase {
     }
 
     if (currentGoal != null) {
-      if (currentState != PivotState.PROVIDED) {
+      if (currentState != HoodState.PROVIDED) {
         goalRotations = currentGoal.getGoalRadians();
       } else {
         goalRotations = math.shooterHoodAngle;
       }
     }
-    io.setPosition(math.hoodStow ? PivotGoal.STOW.getGoalRadians() : goalRotations);
+    io.setPosition(math.hoodStow ? HoodGoal.STOW.getGoalRadians() : goalRotations);
 }
 
-  public void setGoal(PivotGoal goal) {
+  public void setGoal(HoodGoal goal) {
     this.currentGoal = goal;
   }
 
-  @AutoLogOutput(key = "Pivot/targetPoint")
+  @AutoLogOutput(key = "Hood/targetPoint")
   public Translation2d getTargetPoint() {
     return targetPoint;
   }
 
   public void setAngle(double angleDeg) {
     goalRotations = angleDeg;
-    currentState = PivotState.PROVIDED;
+    currentState = HoodState.PROVIDED;
     setPositionRad(angleDeg);
   }
 
@@ -108,24 +108,24 @@ public class Pivot extends SubsystemBase {
     io.setPosition(angle);
   }
 
-  public void setPivotGoalWithState() {
+  public void setHoodGoalWithState() {
     switch (currentState) {
-      case STOW -> setGoal(PivotGoal.STOW);
-      case PROVIDED -> setGoal(PivotGoal.PROVIDED);
+      case STOW -> setGoal(HoodGoal.STOW);
+      case PROVIDED -> setGoal(HoodGoal.PROVIDED);
     }
   }
 
-  @AutoLogOutput(key = "Pivot/State")
-  public PivotState getPivotState() {
+  @AutoLogOutput(key = "Hood/State")
+  public HoodState getHoodState() {
     return currentState;
   }
 
-  @AutoLogOutput(key = "Pivot/GoalDegrees")
+  @AutoLogOutput(key = "Hood/GoalDegrees")
   public double getSimGoalDeg() {
     return goalRotations;
   }
 
-  public void setPivotState(PivotState state) {
+  public void setHoodState(HoodState state) {
     this.currentState = state;
   }
 
@@ -134,12 +134,12 @@ public class Pivot extends SubsystemBase {
   //   return Math.abs(goalAngleRad - getAngleDeg()) < PivotConstants.kPositionToleranceRad;
   // }
 
-  @AutoLogOutput(key = "Pivot/AngleDeg")
+  @AutoLogOutput(key = "Hood/AngleDeg")
   public double getAngleDeg() {
     return inputs.positionDegrees;
   }
 
-  @AutoLogOutput(key = "Pivot/GoalDeg")
+  @AutoLogOutput(key = "Hood/GoalDeg")
   public double getGoalDeg() {
     return goalRotations;
   }
