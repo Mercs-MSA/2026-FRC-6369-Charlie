@@ -428,12 +428,12 @@ public class RobotContainer {
     //             }));
     
     // Reset everything to stowed position
-    driverController.a().onTrue(Commands.runOnce(() -> {
+    operatorController.a().onTrue(Commands.runOnce(() -> {
       teleopState.homeMode();
     }, intake));
 
     // intake mode
-    driverController.leftBumper().onTrue(Commands.runOnce(() -> {
+    operatorController.leftBumper().onTrue(Commands.runOnce(() -> {
       if (teleopState.currentTeleopMode == TeleopMode.INTAKE_WARMUP || teleopState.currentTeleopMode == TeleopMode.INTAKE_ACTIVE
       ) {
         teleopState.idleMode();
@@ -456,12 +456,12 @@ public class RobotContainer {
     }, intake));
 
     // idle mode
-    driverController.x().onTrue(Commands.runOnce(() -> {
+    operatorController.x().onTrue(Commands.runOnce(() -> {
       teleopState.idleMode();
     }, intake));
 
     // half mode
-    driverController.y().onTrue(Commands.runOnce(() -> {
+    operatorController.y().onTrue(Commands.runOnce(() -> {
       if (teleopState.currentTeleopMode == TeleopMode.HALF) {
         teleopState.idleMode();
       } else { 
