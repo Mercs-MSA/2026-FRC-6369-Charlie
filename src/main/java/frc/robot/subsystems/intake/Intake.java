@@ -13,19 +13,31 @@ import org.littletonrobotics.junction.Logger;
 public class Intake extends SubsystemBase {
   /** List of position setpoints for the Intake in meters */
   public enum IntakeGoal {
-    kOut(() -> 2.43),
-    kHalf(() -> 1.5),
-    kAutoTravel(() -> 1.8),
-    kStow(() -> 0.005);
+    kOut(() -> 2.43, 2.3, 2.43),
+    kHalf(() -> 1.5, 1.2, 1.8),
+    kAutoTravel(() -> 1.8, 1.8, 1.8),
+    kStow(() -> 0.005, 0.005, 0.005);
     /** Custom setpoint that can be modified over network tables; Usefu for debugging */
     private DoubleSupplier goal;
+    private double goalAgitateMax;
+    private double goalAgitateMin;
 
-    IntakeGoal(DoubleSupplier goalMeters) {
+    IntakeGoal(DoubleSupplier goalMeters, double goalAgitateMax, double goalAgitateMin) {
       this.goal = goalMeters;
+      this.goalAgitateMax = goalAgitateMax;
+      this.goalAgitateMin = goalAgitateMin;
     }
 
     public double getGoalRadians() {
       return this.goal.getAsDouble();
+    }
+
+    public double getGoalAgitateMax() {
+      return this.goalAgitateMax;
+    }
+
+    public double getGoalAgitateMin() {
+      return this.goalAgitateMin;
     }
   }
 
@@ -54,6 +66,8 @@ public class Intake extends SubsystemBase {
   private IntakeGoal currentIntakeGoal = IntakeGoal.kStow;
   private IntakeFlywheelGoal currentFlywheelGoal = IntakeFlywheelGoal.kStop;
 
+  private boolean isAgitating = false;
+
   public Intake(IntakeIO io, IntakeFlywheelIO flywheelIO) {
     kIntake = io;
     kIntakeFlywheel = flywheelIO;
@@ -71,7 +85,13 @@ public class Intake extends SubsystemBase {
 
 
     if (currentIntakeGoal != null) {
-      kIntake.setPosition(currentIntakeGoal.getGoalRadians());
+      if (isAgitating) {
+        double agitateRange = currentIntakeGoal.getGoalAgitateMax() - currentIntakeGoal.getGoalAgitateMin();
+        double agitateOffset = agitateRange / 2 * Math.sin(2 * Math.PI * 4 * System.currentTimeMillis() / 1000);
+        kIntake.setPosition(currentIntakeGoal.getGoalRadians() + agitateOffset);
+      } else {
+        kIntake.setPosition(currentIntakeGoal.getGoalRadians());
+      }
 
       Logger.processInputs("Intake/Inputs", kInputsIntake);
     } else {
@@ -104,6 +124,10 @@ public class Intake extends SubsystemBase {
   public void stop() {
     currentIntakeGoal = null;
     kIntake.stop();
+  }
+
+  public void setAgitating(boolean isAgitating) {
+    this.isAgitating = isAgitating;
   }
 
   /** Reset the mechanism's encoder to 0 */

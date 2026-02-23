@@ -469,6 +469,12 @@ public class RobotContainer {
       }
     }, intake));
 
+    operatorController.b().onTrue(Commands.runOnce(() -> {
+      intake.setAgitating(true);
+    })).onFalse(Commands.runOnce(() -> {
+      intake.setAgitating(false);
+    }));
+
     intakeTrigger.onTrue(Commands.runOnce(()->
       {
         if(teleopState.currentTeleopMode == TeleopMode.INTAKE_WARMUP)
