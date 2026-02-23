@@ -9,7 +9,7 @@ public class SpindexerConstants {
   public static final double kStatusSignalUpdateFrequencyHz = 100.0;
   public static final int kLinearFilterSampleCount = 5;
 
-  public static final double kDefaultSpeedRPS = 30.0; // TODO: tune
+  public static final double kDefaultSpeedRPS = 30.0;
 
 
   public record SpindexerHardware(
@@ -39,7 +39,7 @@ public class SpindexerConstants {
 
   public static final SpindexerHardware kIndexHardware =
       new SpindexerHardware(
-          25, // TODO: replace with correct id
+          25,
           kSensorToMechanismGearing);
 
   public static final SpindexerGains kSpindexIndexGains =
