@@ -131,27 +131,27 @@ public class ShooterMathProvider {
         shooterVelocityTarget = lerp(dist, lowerKey, upperKey, lowerVal[0], upperVal[0]);
         shooterHoodAngle = lerp(dist, lowerKey, upperKey, lowerVal[1], upperVal[1]);
 
-        boolean stowEnable = false;
-        for (Rectangle2d rect : stowEnablePositions) {
-            if (rect.contains(turretPose.getTranslation())) {
-                stowEnable = true;
-                break;
-            }
-        }
-        if (hoodStow && !stowEnable) {
-            for (Rectangle2d rect : stowDisablePositions) {
-                if (rect.contains(turretPose.getTranslation())) {
-                    stowEnable = false;
-                    break;
-                }
-            }
-        }
+        // boolean stowEnable = false;
+        // for (Rectangle2d rect : stowEnablePositions) {
+        //     if (rect.contains(turretPose.getTranslation())) {
+        //         stowEnable = true;
+        //         break;
+        //     }
+        // }
+        // if (hoodStow && !stowEnable) {
+        //     for (Rectangle2d rect : stowDisablePositions) {
+        //         if (rect.contains(turretPose.getTranslation())) {
+        //             stowEnable = false;
+        //             break;
+        //         }
+        //     }
+        // }
 
-        if (stowEnable && !hoodStow) {
-            hoodStow = true;
-        } else if (!stowEnable && hoodStow) {
-            hoodStow = false;
-        }
+        // if (stowEnable && !hoodStow) {
+        //     hoodStow = true;
+        // } else if (!stowEnable && hoodStow) {
+        //     hoodStow = false;
+        // }
 
         // update runtime stat
         var tb = Utils.getCurrentTimeSeconds();

@@ -297,11 +297,20 @@ public class RobotContainer {
         put("IntakeHalf", Commands.runOnce(() -> {
           intake.setIntakeGoal(IntakeGoal.kAutoTravel);
         }, intake));
+        put("IntakeUp", Commands.runOnce(() -> {
+          intake.setIntakeGoal(IntakeGoal.kStow);
+        }, intake));
         put("IntakeRun", Commands.runOnce(() -> {
           intake.setFlywheelGoal(IntakeFlywheelGoal.kRunning);
         }, intake));
+        put("IntakeSlow", Commands.runOnce(() -> {
+          intake.setFlywheelGoal(IntakeFlywheelGoal.kSlow);
+        }, intake));
         put("IntakeStop", Commands.runOnce(() -> {
           intake.setFlywheelGoal(IntakeFlywheelGoal.kStop);
+        }, intake));
+        put("StartAgitate", Commands.runOnce(() -> {
+          intake.setAgitating(true);
         }, intake));
       }
     });
