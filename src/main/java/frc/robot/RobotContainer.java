@@ -452,6 +452,10 @@ public class RobotContainer {
           teleopState.intakeActive();
         }
       }));
+      //speed reduction mode 
+      // operatorController.a().onTrue(Commands.runOnce(()-> {
+      //   if()
+      // }
             // flywheelsAtGoalTrigger.onTrue(Commands.runOnce(() -> {
     //   if (teleopState.currentTeleopMode == TeleopMode.SHOOT_WARMUP) {
     //     index.setIndexState(IndexState.PROVIDED);
