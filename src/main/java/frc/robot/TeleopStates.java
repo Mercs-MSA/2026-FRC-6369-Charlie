@@ -114,7 +114,7 @@ public class TeleopStates {
     public void halfMode() {
       intake.setIntakeGoal(IntakeGoal.kHalf);
       intake.setFlywheelGoal(IntakeFlywheelGoal.kStop);
-      // shooterFlywheels.setFlywheelState(FlywheelState.STOP);
+      shooterFlywheels.setFlywheelState(FlywheelState.PROVIDED);
       shooterTurret.setTurretState(TurretGoalState.PROVIDED);
       shooterHood.setGoal(HoodGoal.PROVIDED);
       shooterHood.setHoodState(HoodState.PROVIDED);
