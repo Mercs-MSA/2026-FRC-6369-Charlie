@@ -15,7 +15,7 @@ public interface IntakeIO {
 
   public void updateInputs(IntakeIOInputs inputs);
 
-  public void setPosition(double positionRadians);
+  public void setPosition(double positionRadians, boolean pushback);
 
   public void resetPosition();
 

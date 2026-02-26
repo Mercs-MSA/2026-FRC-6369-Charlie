@@ -52,6 +52,15 @@ public class IntakeIOTalonFX implements IntakeIO {
     motorConfiguration.Slot0.kG = gains.g();
     motorConfiguration.Slot0.GravityType = IntakeConstants.gravityType;
     
+    motorConfiguration.Slot1.kP = IntakeConstants.kIntakePushbackKp;
+    motorConfiguration.Slot1.kI = gains.i();
+    motorConfiguration.Slot1.kD = gains.d();
+    motorConfiguration.Slot1.kS = gains.s();
+    motorConfiguration.Slot1.kV = gains.v();
+    motorConfiguration.Slot1.kA = gains.a();
+    motorConfiguration.Slot1.kG = gains.g();
+    motorConfiguration.Slot1.GravityType = IntakeConstants.gravityType;
+    
     // motorConfiguration.Feedback.FeedbackRemoteSensorID = canCoder.getDeviceID();
     motorConfiguration.Feedback.FeedbackSensorSource = FeedbackSensorSourceValue.RotorSensor;
     motorConfiguration.Feedback.SensorToMechanismRatio = IntakeConstants.kGearingRatioSensorToMechanism;
@@ -123,9 +132,9 @@ public class IntakeIOTalonFX implements IntakeIO {
   }
 
   @Override
-  public void setPosition(double positionRadians) {
+  public void setPosition(double positionRadians, boolean pushback) {
     motorIntakePivot.setControl(
-        positionControl.withPosition(Units.radiansToRotations(positionRadians)).withSlot(0));
+        positionControl.withPosition(Units.radiansToRotations(positionRadians)).withSlot(pushback ? 1 : 0));
   }
 
   @Override

@@ -76,6 +76,8 @@ public class IntakeConstants {
       new IntakeMotorConfiguration(
           false, true, true, 80.0, 50.0, 12.0, -12.0, NeutralModeValue.Brake);
 
+    public static final double kIntakePushbackKp = 10.0;
+
   public static final SimulationConfiguration kSimulationConfiguration =
       new SimulationConfiguration(
           DCMotor.getKrakenX60(1),
