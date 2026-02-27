@@ -16,8 +16,8 @@ public class TurretConstants {
   public static final double kHomeRadians = 0;
   public static final double kToleranceRotations = 0.5;
 
-  public static final double kMinRadiansLimit = -1.1;
-  public static final double kMaxRadiansLimit = 1.3;
+  public static final double kMinRadiansLimit = -2.37;
+  public static final double kMaxRadiansLimit = 2.32;
 
   public static final double kTurretOffsetX = -0.132;
   public static final double kTurretOffsetY = 0.158;

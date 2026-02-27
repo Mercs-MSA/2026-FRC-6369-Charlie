@@ -377,19 +377,19 @@ public class RobotContainer {
             drive));
 
     driverController.pov(0).whileTrue(
-      Commands.runEnd(() -> {drive.acceptJoystickInputs(()->0.4, ()->0.0, ()->0.0);}, () -> {drive.acceptJoystickInputs(()->0.0, ()->0.0, ()->0.0);})
+      Commands.runEnd(() -> {drive.acceptJoystickInputs(()->0.5, ()->0.0, ()->0.0);}, () -> {drive.acceptJoystickInputs(()->0.0, ()->0.0, ()->0.0);})
     );
 
     driverController.pov(90).whileTrue(
-      Commands.runEnd(() -> {drive.acceptJoystickInputs(()->0.0, ()->-0.4, ()->0.0);}, () -> {drive.acceptJoystickInputs(()->0.0, ()->0.0, ()->0.0);})
+      Commands.runEnd(() -> {drive.acceptJoystickInputs(()->0.0, ()->-0.5, ()->0.0);}, () -> {drive.acceptJoystickInputs(()->0.0, ()->0.0, ()->0.0);})
     );
 
     driverController.pov(270).whileTrue(
-      Commands.runEnd(() -> {drive.acceptJoystickInputs(()->0.0, ()->0.4, ()->0.0);}, () -> {drive.acceptJoystickInputs(()->0.0, ()->0.0, ()->0.0);})
+      Commands.runEnd(() -> {drive.acceptJoystickInputs(()->0.0, ()->0.5, ()->0.0);}, () -> {drive.acceptJoystickInputs(()->0.0, ()->0.0, ()->0.0);})
     );
     
     driverController.pov(180).whileTrue(
-      Commands.runEnd(() -> {drive.acceptJoystickInputs(()->-0.4, ()->0.0, ()->0.0);}, () -> {drive.acceptJoystickInputs(()->0.0, ()->0.0, ()->0.0);})
+      Commands.runEnd(() -> {drive.acceptJoystickInputs(()->-0.5, ()->0.5, ()->0.0);}, () -> {drive.acceptJoystickInputs(()->0.0, ()->0.0, ()->0.0);})
     );
 
     // prepare for climb
