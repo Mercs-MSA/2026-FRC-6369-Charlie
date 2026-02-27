@@ -130,7 +130,7 @@ public class Robot extends LoggedRobot {
     
     // Run shooter calculations
     try {
-      robotContainer.shooterMath.update(robotContainer.drive.getChassisSpeeds(), TurretOffset.calculateTurretOffset(robotContainer.drive.getPose()));
+      robotContainer.shooterMath.update(robotContainer.drive.getPose(), robotContainer.drive.getChassisSpeeds(), TurretOffset.calculateTurretOffset(robotContainer.drive.getPose()));
     } catch (IOException e) {
       e.printStackTrace();
     }

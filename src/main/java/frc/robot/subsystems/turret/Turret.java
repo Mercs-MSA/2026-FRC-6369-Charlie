@@ -91,8 +91,8 @@ public class Turret extends SubsystemBase {
     if (currentState == TurretGoalState.PROVIDED) {
       goalPose = new Pose2d(
         DriverStation.getAlliance().orElse(Alliance.Blue) == Alliance.Red ? 
-        FlippingUtil.flipFieldPose(new Pose2d(ShooterMathProvider.targetPositionBlueSide, new Rotation2d())).getTranslation() : 
-        ShooterMathProvider.targetPositionBlueSide, new Rotation2d()
+        FlippingUtil.flipFieldPose(new Pose2d(shooterMathProvider.targetPositionBlueSide, new Rotation2d())).getTranslation() : 
+        shooterMathProvider.targetPositionBlueSide, new Rotation2d()
       );
       goalRotationOffsetRadians = shooterMathProvider.shooterTurretDelta;
     } else {

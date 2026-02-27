@@ -17,6 +17,7 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
+import frc.robot.subsystems.turret.TurretConstants;
 
 public class ShooterMathProvider {
     @AutoLogOutput
@@ -33,8 +34,8 @@ public class ShooterMathProvider {
     public double runTime;
     
     // position of hub opening on blue side
-    public static final Translation2d targetPositionBlueSide = new Translation2d(4.625, 4.034);   // TODO: verify accuracy of position
-
+    public Translation2d targetPositionBlueSide = new Translation2d(4.625, 4.034);   // TODO: verify accuracy of position
+    public Translation2d hubPositionBlueSide = new Translation2d(4.625, 4.034);   // TODO: verify accuracy of position
     // stow
     public static final Rectangle2d[] stowEnablePositions = new Rectangle2d[]{
         new Rectangle2d(new Translation2d(3.986, 8.147), new Translation2d(5.5, 6.849)), 
@@ -50,12 +51,18 @@ public class ShooterMathProvider {
     };
 
     private final NavigableMap<Double, Double[]> shotMapRPS = new TreeMap<>();
+    private final NavigableMap<Double, Double> TOFMap = new TreeMap<>();
+    
+
 
     public ShooterMathProvider() {
         shotMapRPS.put(1.83, new Double[]{45.0, 0.00});
         shotMapRPS.put(3.09, new Double[]{50.0, 0.018});
         shotMapRPS.put(3.64, new Double[]{51.0, 0.028});
         shotMapRPS.put(5.32, new Double[]{59.0, 0.048});
+        TOFMap.put(0.0, 0.0);
+        TOFMap.put(5.0, 0.1);
+        
     }
 
     /**
@@ -101,7 +108,7 @@ public class ShooterMathProvider {
         return ((x2 - x) / (x2 - x1)) * q00 + ((x - x1) / (x2 - x1)) * q01;
     }
 
-    public void update(ChassisSpeeds velocities, Pose2d turretPose) throws IOException {
+    public void update(Pose2d robotPose, ChassisSpeeds velocities, Pose2d turretPose) throws IOException {
         // start runtime stat
         var ta = Utils.getCurrentTimeSeconds();
 
@@ -114,47 +121,56 @@ public class ShooterMathProvider {
 
         shooterTurretDelta = 0.0;
         // Safely get lower/upper map entries with fallbacks to first/last entries when out-of-range
-        var lowerEntry = shotMapRPS.floorEntry(dist);
-        if (lowerEntry == null) {
-            lowerEntry = shotMapRPS.firstEntry();
+        var lowerEntryShotmap = shotMapRPS.floorEntry(dist);
+        if (lowerEntryShotmap == null) {
+            lowerEntryShotmap = shotMapRPS.firstEntry();
         }
-        var upperEntry = shotMapRPS.ceilingEntry(dist);
-        if (upperEntry == null) {
-            upperEntry = shotMapRPS.lastEntry();
+        var upperEntryShotmap = shotMapRPS.ceilingEntry(dist);
+        if (upperEntryShotmap == null) {
+            upperEntryShotmap = shotMapRPS.lastEntry();
         }
 
-        double lowerKey = lowerEntry.getKey();
-        double upperKey = upperEntry.getKey();
-        Double[] lowerVal = lowerEntry.getValue();
-        Double[] upperVal = upperEntry.getValue();
+        double lowerKeyShotmap = lowerEntryShotmap.getKey();
+        double upperKeyShotmap = upperEntryShotmap.getKey();
+        Double[] lowerValShotmap = lowerEntryShotmap.getValue();
+        Double[] upperValShotmap = upperEntryShotmap.getValue();
 
-        shooterVelocityTarget = lerp(dist, lowerKey, upperKey, lowerVal[0], upperVal[0]);
-        shooterHoodAngle = lerp(dist, lowerKey, upperKey, lowerVal[1], upperVal[1]);
+        shooterVelocityTarget = lerp(dist, lowerKeyShotmap, upperKeyShotmap, lowerValShotmap[0], upperValShotmap[0]);
+        shooterHoodAngle = lerp(dist, lowerKeyShotmap, upperKeyShotmap, lowerValShotmap[1], upperValShotmap[1]);
 
-        // boolean stowEnable = false;
-        // for (Rectangle2d rect : stowEnablePositions) {
-        //     if (rect.contains(turretPose.getTranslation())) {
-        //         stowEnable = true;
-        //         break;
-        //     }
-        // }
-        // if (hoodStow && !stowEnable) {
-        //     for (Rectangle2d rect : stowDisablePositions) {
-        //         if (rect.contains(turretPose.getTranslation())) {
-        //             stowEnable = false;
-        //             break;
-        //         }
-        //     }
-        // }
+    ChassisSpeeds fieldVel = ChassisSpeeds.fromRobotRelativeSpeeds(velocities, robotPose.getRotation());
 
-        // if (stowEnable && !hoodStow) {
-        //     hoodStow = true;
-        // } else if (!stowEnable && hoodStow) {
-        //     hoodStow = false;
-        // }
+    double turretVelocityX =
+        fieldVel.vxMetersPerSecond
+            + fieldVel.omegaRadiansPerSecond
+                * (TurretConstants.kTurretOffsetY * Math.cos(robotPose.getRotation().getRadians())
+                    - TurretConstants.kTurretOffsetX * Math.sin(robotPose.getRotation().getRadians()));
+    double turretVelocityY =
+        fieldVel.vyMetersPerSecond
+            + fieldVel.omegaRadiansPerSecond
+                * (TurretConstants.kTurretOffsetX * Math.cos(robotPose.getRotation().getRadians())
+                    - TurretConstants.kTurretOffsetY * Math.sin(robotPose.getRotation().getRadians()));
 
-        // update runtime stat
-        var tb = Utils.getCurrentTimeSeconds();
-        runTime = tb-ta;
+        var lowerEntryTof = TOFMap.floorEntry(dist);
+        if (lowerEntryTof == null) {
+            lowerEntryTof = TOFMap.firstEntry();
+        }
+        var upperEntryTof = TOFMap.ceilingEntry(dist);
+        if (upperEntryTof == null) {
+            upperEntryTof = TOFMap.lastEntry();
+        }
+
+        double lowerKeyTof = lowerEntryTof.getKey();
+        double upperKeyTof = upperEntryTof.getKey();
+        double lowerValTof = lowerEntryTof.getValue();
+        double upperValTof = upperEntryTof.getValue();
+
+        var timeOfFlight = lerp(dist, lowerKeyTof, upperKeyTof, lowerValTof, upperValTof);
+
+      double offsetX = turretVelocityX * timeOfFlight;
+      double offsetY = turretVelocityY * timeOfFlight;
+      System.out.println(offsetY);
+      targetPositionBlueSide =
+          hubPositionBlueSide.plus(new Translation2d(offsetX, offsetY));
     }
 }
