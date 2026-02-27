@@ -19,6 +19,7 @@ import com.pathplanner.lib.auto.NamedCommands;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.GenericHID;
+import edu.wpi.first.wpilibj.RobotState;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
@@ -68,7 +69,7 @@ import frc.robot.subsystems.spindexer.Spindexer;
 import frc.robot.subsystems.spindexer.SpindexerConstants;
 import frc.robot.subsystems.spindexer.SpindexerIOTalonFX;
 import frc.robot.subsystems.spindexer.Spindexer.SpindexerState;
-
+import frc.robot.Constants.driveMode;
 import java.util.HashMap;
 
 import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
@@ -104,17 +105,20 @@ public class RobotContainer {
   // Controller
   private final CommandXboxController driverController = new CommandXboxController(0);
   private final CommandXboxController operatorController = new CommandXboxController(1);
-
+private driveMode currentDriveMode = driveMode.NORMAL;
   // Commands
   public final TeleopStates teleopState;
-
   // Dashboard inputs
   private final LoggedDashboardChooser<Command> autoChooser;
+      private final LoggedDashboardChooser<Constants.driveMode> driveModeChooser =
+        new LoggedDashboardChooser<>("Drive Mode");
+  // private final LoggedDashboardChooser<HashMap<String, Command>> driveModeChooser;
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     switch (Constants.currentMode) {
       case REAL:
+
         // Real robot, instantiate hardware IO implementations
         drive =
             new Drive(
@@ -163,7 +167,7 @@ public class RobotContainer {
         );
         
         break;
-
+        
       case SIM:
         // Sim robot, instantiate physics sim IO implementations
         drive =
@@ -270,7 +274,15 @@ public class RobotContainer {
     intakeTrigger = new Trigger(() -> intake.positionAtGoal());
     teleopState = new TeleopStates(drive, intake, shooterFlywheels, shooterHood, shooterTurret, spindexer, index);
 
+        driveModeChooser.addDefaultOption("Normal", currentDriveMode=Constants.driveMode.NORMAL);
+        driveModeChooser.addOption("Slow", currentDriveMode=Constants.driveMode.SLOW);
+
+    // public Constants.driveMode getSelectedMode() 
+    // {
+    //     return driveModeChooser.get();
+    // }
     // Create auto routines
+
     NamedCommands.registerCommands(new HashMap<String, Command>(){
       {
         put("Start", Commands.runOnce(() -> {
@@ -314,8 +326,8 @@ public class RobotContainer {
         }, intake));
       }
     });
-
     autoChooser = new LoggedDashboardChooser<>("Auto Chooser", AutoBuilder.buildAutoChooser());
+
 
     // // Set up SysId routines
     // pathplannerAutoChooser.addOption(
@@ -361,21 +373,22 @@ public class RobotContainer {
   private void configureButtonBindings() {
 
 
-    drive.setDefaultCommand(
+    if(currentDriveMode == Constants.driveMode.SLOW)
+    {
+      drive.setDefaultCommand(
         Commands.run(
             () ->
                 drive.acceptJoystickInputs(
                     () ->
                         -Math.copySign(
-                            driverController.getLeftY() * driverController.getLeftY(),
+                            driverController.getLeftY() * driverController.getLeftY() * 0.5,
                             driverController.getLeftY()),
                     () ->
                         -Math.copySign(
-                            driverController.getLeftX() * driverController.getLeftX(),
+                            driverController.getLeftX() * driverController.getLeftX() * 0.5,
                             driverController.getLeftX()),
-                    () -> -driverController.getRightX()),
+                    () -> -driverController.getRightX() * 0.5),
             drive));
-
     driverController.pov(0).whileTrue(
       Commands.runEnd(() -> {drive.acceptJoystickInputs(()->0.4, ()->0.0, ()->0.0);}, () -> {drive.acceptJoystickInputs(()->0.0, ()->0.0, ()->0.0);})
     );
@@ -391,7 +404,40 @@ public class RobotContainer {
     driverController.pov(180).whileTrue(
       Commands.runEnd(() -> {drive.acceptJoystickInputs(()->-0.4, ()->0.0, ()->0.0);}, () -> {drive.acceptJoystickInputs(()->0.0, ()->0.0, ()->0.0);})
     );
+    
+    }
+    else
+    {
+    drive.setDefaultCommand(
+        Commands.run(
+            () ->
+                drive.acceptJoystickInputs(
+                    () ->
+                        -Math.copySign(
+                            driverController.getLeftY() * driverController.getLeftY(),
+                            driverController.getLeftY()),
+                    () ->
+                        -Math.copySign(
+                            driverController.getLeftX() * driverController.getLeftX(),
+                            driverController.getLeftX()),
+                    () -> -driverController.getRightX()),
+            drive));
+    driverController.pov(0).whileTrue(
+      Commands.runEnd(() -> {drive.acceptJoystickInputs(()->0.4, ()->0.0, ()->0.0);}, () -> {drive.acceptJoystickInputs(()->0.0, ()->0.0, ()->0.0);})
+    );
 
+    driverController.pov(90).whileTrue(
+      Commands.runEnd(() -> {drive.acceptJoystickInputs(()->0.0, ()->-0.4, ()->0.0);}, () -> {drive.acceptJoystickInputs(()->0.0, ()->0.0, ()->0.0);})
+    );
+
+    driverController.pov(270).whileTrue(
+      Commands.runEnd(() -> {drive.acceptJoystickInputs(()->0.0, ()->0.4, ()->0.0);}, () -> {drive.acceptJoystickInputs(()->0.0, ()->0.0, ()->0.0);})
+    );
+    
+    driverController.pov(180).whileTrue(
+      Commands.runEnd(() -> {drive.acceptJoystickInputs(()->-0.4, ()->0.0, ()->0.0);}, () -> {drive.acceptJoystickInputs(()->0.0, ()->0.0, ()->0.0);})
+    );
+    }
     // prepare for climb
     driverController
         .back()
