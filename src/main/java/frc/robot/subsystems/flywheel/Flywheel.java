@@ -52,14 +52,13 @@ public class Flywheel extends SubsystemBase {
 
     if (currentState == FlywheelState.PROVIDED) {
       goalSpeedRPS = math.shooterVelocityTarget;
+      io.setVelocity(goalSpeedRPS);
     }
-
 
     if (currentState == FlywheelState.STOP) {
       goalSpeedRPS = 0.0;
+      io.stop();
     }
-
-    io.setVelocity(goalSpeedRPS);
   }
 
   public void setFlywheelState(FlywheelState state) {

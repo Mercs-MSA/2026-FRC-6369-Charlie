@@ -57,5 +57,5 @@ public class HoodConstants {
 
   public static final HoodMotorConfiguration kMotorConfiguration =
       new HoodMotorConfiguration(
-          true, true, true, 80.0, 50.0, 1.5, -1.5, NeutralModeValue.Brake);
+          true, true, true, 80.0, 8.0, 1.5, -1.5, NeutralModeValue.Brake);
 }

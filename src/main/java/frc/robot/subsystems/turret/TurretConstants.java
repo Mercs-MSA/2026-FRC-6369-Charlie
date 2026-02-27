@@ -70,5 +70,5 @@ public class TurretConstants {
 
   public static final TurretMotorConfiguration kMotorConfiguration =
       new TurretMotorConfiguration(
-          false, false, true, true, 80.0, 50.0, 12.0, -12.0, NeutralModeValue.Brake);
+          false, false, true, true, 80.0, 10.0, 12.0, -12.0, NeutralModeValue.Brake);
 }

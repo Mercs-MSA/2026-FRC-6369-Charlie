@@ -45,13 +45,14 @@ public class Spindexer extends SubsystemBase {
 
     if (currentState == SpindexerState.RUNNING) {
       goalSpeedRPS = SpindexerConstants.kDefaultSpeedRPS;
+      io.setVelocity(goalSpeedRPS);
     }
 
     if (currentState == SpindexerState.STOP) {
       goalSpeedRPS = 0.0;
+      io.stop();
     }
 
-    io.setVelocity(goalSpeedRPS);
   }
 
   public void setIndexState(SpindexerState state) {

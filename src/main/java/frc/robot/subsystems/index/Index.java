@@ -49,13 +49,13 @@ public class Index extends SubsystemBase {
 
     if (currentState == IndexState.PROVIDED) {
       goalSpeedRPS = IndexConstants.kSpeed;
+      io.setVelocity(Math.min(goalSpeedRPS, IndexConstants.kIndexVelocityLimitRPS));
     }
 
     if (currentState == IndexState.STOP) {
       goalSpeedRPS = 0.0;
+      io.stop();
     }
-
-    io.setVelocity(Math.min(goalSpeedRPS, IndexConstants.kIndexVelocityLimitRPS));
   }
 
   public void setIndexState(IndexState state) {

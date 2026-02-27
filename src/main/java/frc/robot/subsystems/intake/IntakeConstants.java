@@ -74,7 +74,7 @@ public class IntakeConstants {
 
   public static final IntakeMotorConfiguration kMotorConfiguration =
       new IntakeMotorConfiguration(
-          false, true, true, 80.0, 50.0, 12.0, -12.0, NeutralModeValue.Brake);
+          false, true, true, 80.0, 20.0, 12.0, -12.0, NeutralModeValue.Brake);
 
     public static final double kIntakePushbackKp = 10.0;
 

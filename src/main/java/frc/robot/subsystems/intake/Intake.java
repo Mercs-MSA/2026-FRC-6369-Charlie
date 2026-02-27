@@ -6,6 +6,8 @@ package frc.robot.subsystems.intake;
 
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.subsystems.flywheel.Flywheel.FlywheelState;
+
 import java.util.function.DoubleSupplier;
 import org.littletonrobotics.junction.AutoLogOutput;
 import org.littletonrobotics.junction.Logger;
@@ -103,7 +105,11 @@ public class Intake extends SubsystemBase {
     }
 
     if (currentFlywheelGoal != null) {
-      kIntakeFlywheel.setVelocity(currentFlywheelGoal.getGoalRps());
+      if (currentFlywheelGoal == IntakeFlywheelGoal.kStop) {
+        kIntakeFlywheel.stop();
+      } else {
+        kIntakeFlywheel.setVelocity(currentFlywheelGoal.getGoalRps());
+      }
 
       Logger.processInputs("Intake/FlywheelInputs", kInputsIntake);
     } else {
