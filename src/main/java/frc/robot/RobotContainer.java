@@ -359,11 +359,11 @@ drive.setDefaultCommand(
             Constants.driveMode selectedMode = driveModeChooser.get();
 
             if (selectedMode == null) {
-                selectedMode = Constants.driveMode.NORMAL;
+                selectedMode = Constants.driveMode.SLOW;
             }
 
             double scale = (selectedMode == Constants.driveMode.SLOW) ? 0.5 : 1.0;
-
+            System.out.println("Selected Drive Mode: " + selectedMode+" with scale: " + scale);
             drive.acceptJoystickInputs(
                 () -> -Math.copySign(
                         driverController.getLeftY() * driverController.getLeftY() * scale,
