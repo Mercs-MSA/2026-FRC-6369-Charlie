@@ -30,6 +30,7 @@ import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
 import frc.robot.TeleopStates.TeleopMode;
 import frc.robot.generated.TunerConstants;
 import frc.robot.math.ShooterMathProvider;
+import frc.robot.math.ShooterMathProvider.CalculationState;
 import frc.robot.subsystems.drive.Drive.Controllers.HolonomicController;
 import frc.robot.subsystems.drive.Drive.Drive;
 import frc.robot.subsystems.drive.Drive.Drive.DriveState;
@@ -461,6 +462,15 @@ public class RobotContainer {
     
     // Shooting Mode
     driverController.rightBumper().onTrue(Commands.runOnce(() -> {
+      shooterMath.setState(CalculationState.HUB);
+      if (teleopState.currentTeleopMode == TeleopMode.SHOOT_ACTIVE || teleopState.currentTeleopMode == TeleopMode.SHOOT_ACTIVE) {
+        teleopState.idleMode();
+      } else {
+        teleopState.warmupShootMode();
+      }
+    }, intake));
+    driverController.leftBumper().onTrue(Commands.runOnce(() -> {
+      shooterMath.setState(CalculationState.SHUNT);
       if (teleopState.currentTeleopMode == TeleopMode.SHOOT_ACTIVE || teleopState.currentTeleopMode == TeleopMode.SHOOT_ACTIVE) {
         teleopState.idleMode();
       } else {

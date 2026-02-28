@@ -81,7 +81,8 @@ public class Hood extends SubsystemBase {
         goalRotations = math.shooterHoodAngle;
       }
     }
-    io.setPosition(math.hoodStow ? HoodGoal.STOW.getGoalRadians() : goalRotations);
+    // io.setPosition(math.hoodStow ? HoodGoal.STOW.getGoalRadians() : goalRotations);
+    io.setPosition(goalRotations);
 }
 
   public void setGoal(HoodGoal goal) {

@@ -7,11 +7,9 @@ import java.util.TreeMap;
 
 import org.littletonrobotics.junction.AutoLogOutput;
 
-import com.ctre.phoenix6.Utils;
 import com.pathplanner.lib.util.FlippingUtil;
 
 import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rectangle2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
@@ -20,6 +18,14 @@ import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import frc.robot.subsystems.turret.TurretConstants;
 
 public class ShooterMathProvider {
+    public enum CalculationState {
+        HUB,
+        SHUNT,
+    }
+
+    @AutoLogOutput
+    public CalculationState calculationState = CalculationState.HUB;
+
     @AutoLogOutput
     public double shooterVelocityTarget;
     @AutoLogOutput
@@ -27,33 +33,16 @@ public class ShooterMathProvider {
     @AutoLogOutput
     public double shooterTurretDelta;
     @AutoLogOutput
-    public boolean hoodStow;
-    @AutoLogOutput
     public double dist;
-    @AutoLogOutput
-    public double runTime;
     
     // position of hub opening on blue side
-    public Translation2d targetPositionBlueSide = new Translation2d(4.625, 4.034);   // TODO: verify accuracy of position
-    public Translation2d hubPositionBlueSide = new Translation2d(4.625, 4.034);   // TODO: verify accuracy of position
-    // stow
-    public static final Rectangle2d[] stowEnablePositions = new Rectangle2d[]{
-        new Rectangle2d(new Translation2d(3.986, 8.147), new Translation2d(5.5, 6.849)), 
-        new Rectangle2d(new Translation2d(3.986, 1.282), new Translation2d(5.5, 0)),
-        new Rectangle2d(new Translation2d(16.54-3.986, 8.147), new Translation2d(16.54-5.5, 6.849)), 
-        new Rectangle2d(new Translation2d(16.54-3.986, 1.282), new Translation2d(16.54-5.5, 0))
-    };
-    public static final Rectangle2d[] stowDisablePositions = new Rectangle2d[]{
-        new Rectangle2d(new Translation2d(3.886, 8.147), new Translation2d(5.7, 6.849)), 
-        new Rectangle2d(new Translation2d(3.886, 1.282), new Translation2d(5.7, 0)),
-        new Rectangle2d(new Translation2d(16.54-3.886, 8.147), new Translation2d(16.54-5.7, 6.849)), 
-        new Rectangle2d(new Translation2d(16.54-3.886, 1.282), new Translation2d(16.54-5.7, 0))
-    };
+    public Translation2d targetPositionBlueSide = new Translation2d(4.625, 4.034);
+    public static final Translation2d hubPositionBlueSide = new Translation2d(4.625, 4.034);
+
+    public static final double shuntingXBlueSide = 2.5;
 
     private final NavigableMap<Double, Double[]> shotMapRPS = new TreeMap<>();
     private final NavigableMap<Double, Double> TOFMap = new TreeMap<>();
-    
-
 
     public ShooterMathProvider() {
         shotMapRPS.put(1.83, new Double[]{45.0, 0.00});
@@ -64,6 +53,10 @@ public class ShooterMathProvider {
         TOFMap.put(3.3, -1.2);
         TOFMap.put(5.0, -1.4);
         
+    }
+
+    public void setState(CalculationState newState) {
+        calculationState = newState;
     }
 
     /**
@@ -110,11 +103,17 @@ public class ShooterMathProvider {
     }
 
     public void update(Pose2d robotPose, ChassisSpeeds velocities, Pose2d turretPose) throws IOException {
-        // start runtime stat
-        var ta = Utils.getCurrentTimeSeconds();
-
-        // Distance to target
-        Translation2d target = DriverStation.getAlliance().orElse(Alliance.Blue) == Alliance.Red ? FlippingUtil.flipFieldPose(new Pose2d(hubPositionBlueSide, new Rotation2d())).getTranslation() : targetPositionBlueSide;
+        // Distance to target        
+        Translation2d target;
+        switch (calculationState) {
+            case SHUNT:
+                target = DriverStation.getAlliance().orElse(Alliance.Blue) == Alliance.Red ? FlippingUtil.flipFieldPose(new Pose2d(new Translation2d(shuntingXBlueSide, robotPose.getY()), new Rotation2d())).getTranslation() : new Translation2d(shuntingXBlueSide, robotPose.getY());
+                break;
+            default:
+                target = DriverStation.getAlliance().orElse(Alliance.Blue) == Alliance.Red ? FlippingUtil.flipFieldPose(new Pose2d(hubPositionBlueSide, new Rotation2d())).getTranslation() : targetPositionBlueSide;
+                break;
+        }
+        
         dist = Math.sqrt(Math.pow(turretPose.getX() - target.getX(), 2) + Math.pow(turretPose.getY() - target.getY(), 2));
 
         // Search for upper/lower bound indices
@@ -170,8 +169,16 @@ public class ShooterMathProvider {
 
       double offsetX = turretVelocityX * timeOfFlight;
       double offsetY = turretVelocityY * timeOfFlight;
-      targetPositionBlueSide =
-          hubPositionBlueSide.plus(new Translation2d(offsetX, offsetY));
+
+      switch (calculationState) {
+        case SHUNT:
+            targetPositionBlueSide = new Translation2d(shuntingXBlueSide, target.getY()).plus(new Translation2d(offsetX, offsetY));
+            break;
+        default:      
+            targetPositionBlueSide =
+                hubPositionBlueSide.plus(new Translation2d(offsetX, offsetY));
+            break;
+      }
 
     // double phi = Math.asin(-velocities.vyMetersPerSecond / (shooterVelocityTarget * 0.3192 * Math.cos((shooterHoodAngle + 0.39) * 2 * Math.PI)));
     // double y_correction_distance = 5.0 * -Math.tan(phi) * dist;
