@@ -20,19 +20,6 @@ import frc.robot.subsystems.turret.Turret.TurretGoalState;
 import frc.robot.subsystems.intake.Intake;
 
 public class TeleopStates {
-    public enum TeleopMode {
-      IDLE,
-      HALF,
-      SHOOT_WARMUP,
-      SHOOT_ACTIVE,
-      INTAKE_WARMUP,
-      INTAKE_ACTIVE,
-      HOME
-    }
-
-    @AutoLogOutput(key = "State/TeleopState")
-    public TeleopMode currentTeleopMode;
-
     public final Drive drive;
     public final Intake intake;
     public final Flywheel shooterFlywheels;
@@ -49,78 +36,53 @@ public class TeleopStates {
         this.shooterTurret = shooterTurret;
         this.spindexer = spindexer;
         this.index = index;
-        this.currentTeleopMode = TeleopMode.IDLE;
     }
 
     public void warmupShootMode() {
-      if (currentTeleopMode == TeleopMode.HALF) {
-        intake.setIntakeGoal(IntakeGoal.kHalf);
-      } else {
+      if (intake.currentIntakeGoal != IntakeGoal.kHalf && intake.currentIntakeGoal != IntakeGoal.kOut) {
         intake.setIntakeGoal(IntakeGoal.kOut);
       }
-      intake.setFlywheelGoal(IntakeFlywheelGoal.kSlow);
       shooterFlywheels.setFlywheelState(FlywheelState.PROVIDED);
       shooterTurret.setTurretState(TurretGoalState.PROVIDED);
       shooterHood.setGoal(HoodGoal.PROVIDED);
       shooterHood.setHoodState(HoodState.PROVIDED);
-      this.currentTeleopMode = TeleopMode.SHOOT_WARMUP;
 
       if (shooterFlywheels.atSpeed()) {
         shootActive();
       }
     }
 
-    public void warmupIntakeMode() {
-      intake.setIntakeGoal(IntakeGoal.kOut);
-      intake.setFlywheelGoal(IntakeFlywheelGoal.kSlow);
-      shooterFlywheels.setFlywheelState(FlywheelState.STOP);
-      index.setIndexState(IndexState.STOP);
-      spindexer.setIndexState(SpindexerState.STOP);
-      shooterTurret.setTurretState(TurretGoalState.PROVIDED);
-      shooterHood.setGoal(HoodGoal.PROVIDED);
-      shooterHood.setHoodState(HoodState.PROVIDED);
-      this.currentTeleopMode = TeleopMode.INTAKE_WARMUP;
-
-      if (intake.positionAtGoal()) {
-        intakeActive();
-      }
-      
+    public void intakeHalfMode() {
+      intake.setIntakeGoal(IntakeGoal.kHalf);
+      intake.setFlywheelGoal(IntakeFlywheelGoal.kSlow);      
     }
-    public void intakeActive()
-    {
+
+    public void intakeMode() {
       intake.setIntakeGoal(IntakeGoal.kOut);
-      intake.setFlywheelGoal(IntakeFlywheelGoal.kRunning);
-      this.currentTeleopMode=TeleopMode.INTAKE_ACTIVE;
+      intake.setFlywheelGoal(IntakeFlywheelGoal.kRunning);      
     }
 
     public void shootActive() {
       index.setIndexState(IndexState.PROVIDED);
       spindexer.setIndexState(SpindexerState.RUNNING);
-      currentTeleopMode = TeleopMode.SHOOT_ACTIVE;
     }
     
-    public void idleMode() {
-      intake.setIntakeGoal(IntakeGoal.kOut);
+    public void intakeStop() {
       intake.setFlywheelGoal(IntakeFlywheelGoal.kStop);
+    }
+
+    public void shootStop() {
       shooterFlywheels.setFlywheelState(FlywheelState.STOP);
       shooterTurret.setTurretState(TurretGoalState.PROVIDED);
       shooterHood.setGoal(HoodGoal.PROVIDED);
       shooterHood.setHoodState(HoodState.PROVIDED);
       index.setIndexState(IndexState.STOP);
       spindexer.setIndexState(SpindexerState.STOP);
-      this.currentTeleopMode = TeleopMode.IDLE;
     }
 
     public void halfMode() {
       intake.setIntakeGoal(IntakeGoal.kHalf);
-      intake.setFlywheelGoal(IntakeFlywheelGoal.kStop);
-      shooterFlywheels.setFlywheelState(FlywheelState.PROVIDED);
-      shooterTurret.setTurretState(TurretGoalState.PROVIDED);
-      shooterHood.setGoal(HoodGoal.PROVIDED);
-      shooterHood.setHoodState(HoodState.PROVIDED);
-      index.setIndexState(IndexState.STOP);
-      spindexer.setIndexState(SpindexerState.STOP);
-      this.currentTeleopMode = TeleopMode.HALF;
+      intake.setFlywheelGoal(IntakeFlywheelGoal.kSlow);
     }
 
     public void homeMode() {
@@ -132,6 +94,5 @@ public class TeleopStates {
       spindexer.setIndexState(SpindexerState.STOP);
       shooterHood.setGoal(HoodGoal.STOW);
       shooterHood.setHoodState(HoodState.STOW);
-      this.currentTeleopMode = TeleopMode.IDLE;
     }
 }

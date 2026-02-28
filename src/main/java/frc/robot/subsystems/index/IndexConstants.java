@@ -54,5 +54,5 @@ public class IndexConstants {
 
   public static final IndexMotorConfiguration kMotorConfiguration =
       new IndexMotorConfiguration(
-          true, true, true, 80.0, 40.0, 12.0, -12.0, NeutralModeValue.Coast);
+          true, true, true, 80.0, 40.0, 12.0, -12.0, NeutralModeValue.Brake);
 }

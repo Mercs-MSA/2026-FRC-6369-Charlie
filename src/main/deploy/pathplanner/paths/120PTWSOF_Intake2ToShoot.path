@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 7.911,
-        "y": 4.639
+        "x": 8.3,
+        "y": 4.6
       },
       "prevControl": null,
       "nextControl": {
-        "x": 7.364260525936194,
-        "y": 7.722715707661949
+        "x": 7.753260525936195,
+        "y": 7.683715707661948
       },
       "isLocked": false,
       "linkedName": null
@@ -51,6 +51,17 @@
         "type": "named",
         "data": {
           "name": "StartAgitate"
+        }
+      }
+    },
+    {
+      "name": "StartFlywheels",
+      "waypointRelativePos": 0.2483552631578945,
+      "endWaypointRelativePos": null,
+      "command": {
+        "type": "named",
+        "data": {
+          "name": "StartFlywheels"
         }
       }
     },

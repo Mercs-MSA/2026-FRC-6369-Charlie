@@ -66,8 +66,8 @@ public class Intake extends SubsystemBase {
   private final IntakeFlywheelIO kIntakeFlywheel;
   private final IntakeFlywheelIOInputsAutoLogged kInputsIntakeFlywheel = new IntakeFlywheelIOInputsAutoLogged();
 
-  private IntakeGoal currentIntakeGoal = IntakeGoal.kStow;
-  private IntakeFlywheelGoal currentFlywheelGoal = IntakeFlywheelGoal.kStop;
+  public IntakeGoal currentIntakeGoal = IntakeGoal.kStow;
+  public IntakeFlywheelGoal currentFlywheelGoal = IntakeFlywheelGoal.kStop;
 
   private boolean isAgitating = false;
   private boolean isPushback = false;
@@ -105,7 +105,7 @@ public class Intake extends SubsystemBase {
     }
 
     if (currentFlywheelGoal != null) {
-      if (currentFlywheelGoal == IntakeFlywheelGoal.kStop) {
+      if (currentFlywheelGoal == IntakeFlywheelGoal.kStop || !positionAtGoal()) {
         kIntakeFlywheel.stop();
       } else {
         kIntakeFlywheel.setVelocity(currentFlywheelGoal.getGoalRps());

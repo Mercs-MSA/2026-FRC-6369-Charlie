@@ -182,7 +182,7 @@ public class ShooterMathProvider {
 
     // double phi = Math.asin(-velocities.vyMetersPerSecond / (shooterVelocityTarget * 0.3192 * Math.cos((shooterHoodAngle + 0.39) * 2 * Math.PI)));
     // double y_correction_distance = 5.0 * -Math.tan(phi) * dist;
-    System.out.println("Current: " + offsetY);// + " New: " + y_correction_distance);
+    // System.out.println("Current: " + offsetY);// + " New: " + y_correction_distance);
     //   targetPositionBlueSide =
     //       hubPositionBlueSide.plus(new Translation2d(0, y_correction_distance));
 

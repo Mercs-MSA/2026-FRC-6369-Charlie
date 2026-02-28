@@ -33,6 +33,66 @@
           "data": {
             "name": "BeginIndex"
           }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 4.0
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "StopIndex"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "IntakeOut"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "StopAgitate"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "120PWSOF_Shoot1ToIntake"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "IntakeSlow"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "120PTWSOF_Intake2ToShoot"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "StartAgitate"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "IntakeHalf"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "BeginIndex"
+          }
         }
       ]
     }

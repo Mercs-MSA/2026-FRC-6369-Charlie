@@ -27,7 +27,6 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
-import frc.robot.TeleopStates.TeleopMode;
 import frc.robot.generated.TunerConstants;
 import frc.robot.math.ShooterMathProvider;
 import frc.robot.math.ShooterMathProvider.CalculationState;
@@ -295,6 +294,10 @@ public class RobotContainer {
           index.setIndexState(IndexState.PROVIDED);
           spindexer.setIndexState(SpindexerState.RUNNING);
         }, index, spindexer));
+        put("StopIndex", Commands.runOnce(() -> {
+          index.setIndexState(IndexState.STOP);
+          spindexer.setIndexState(SpindexerState.STOP);
+        }, index, spindexer));
         put("IntakeOut", Commands.runOnce(() -> {
           intake.setIntakeGoal(IntakeGoal.kOut);
         }, intake));
@@ -315,6 +318,9 @@ public class RobotContainer {
         }, intake));
         put("StartAgitate", Commands.runOnce(() -> {
           intake.setAgitating(true);
+        }, intake));
+        put("StopAgitate", Commands.runOnce(() -> {
+          intake.setAgitating(false);
         }, intake));
       }
     });
@@ -448,11 +454,17 @@ public class RobotContainer {
 
     // intake mode
     operatorController.leftBumper().onTrue(Commands.runOnce(() -> {
-      if (teleopState.currentTeleopMode == TeleopMode.INTAKE_WARMUP || teleopState.currentTeleopMode == TeleopMode.INTAKE_ACTIVE
-      ) {
-        teleopState.idleMode();
+      if ((intake.currentFlywheelGoal == IntakeFlywheelGoal.kRunning || intake.currentFlywheelGoal == IntakeFlywheelGoal.kSlow) && intake.currentIntakeGoal == IntakeGoal.kOut) {
+        teleopState.intakeStop();
       } else {
-        teleopState.warmupIntakeMode();
+        teleopState.intakeMode();
+      }
+    }, intake));
+    operatorController.rightBumper().onTrue(Commands.runOnce(() -> {
+      if ((intake.currentFlywheelGoal == IntakeFlywheelGoal.kRunning || intake.currentFlywheelGoal == IntakeFlywheelGoal.kSlow) && intake.currentIntakeGoal == IntakeGoal.kHalf) {
+        teleopState.intakeStop();
+      } else {
+        teleopState.halfMode();
       }
     }, intake));
     
@@ -461,35 +473,38 @@ public class RobotContainer {
     // }
     
     // Shooting Mode
+    // driverController.rightBumper().onTrue(Commands.runOnce(() -> {
+    //   shooterMath.setState(CalculationState.HUB);
+    //   if (shooterFlywheels.currentState == FlywheelState.PROVIDED) {
+    //     teleopState.shootStop();
+    //   } else {
+    //     teleopState.warmupShootMode();
+    //   }
+    // }, intake));
+    // driverController.leftBumper().onTrue(Commands.runOnce(() -> {
+    //   shooterMath.setState(CalculationState.SHUNT);
+    //   if (shooterFlywheels.currentState == FlywheelState.PROVIDED) {
+    //     teleopState.shootStop();
+    //   } else {
+    //     teleopState.warmupShootMode();
+    //   }
+    // }, intake));
     driverController.rightBumper().onTrue(Commands.runOnce(() -> {
       shooterMath.setState(CalculationState.HUB);
-      if (teleopState.currentTeleopMode == TeleopMode.SHOOT_ACTIVE || teleopState.currentTeleopMode == TeleopMode.SHOOT_ACTIVE) {
-        teleopState.idleMode();
-      } else {
-        teleopState.warmupShootMode();
-      }
-    }, intake));
+      teleopState.warmupShootMode();
+    }, shooterFlywheels)).onFalse(Commands.runOnce(() -> {
+      teleopState.shootStop();
+    }, shooterFlywheels));
     driverController.leftBumper().onTrue(Commands.runOnce(() -> {
       shooterMath.setState(CalculationState.SHUNT);
-      if (teleopState.currentTeleopMode == TeleopMode.SHOOT_ACTIVE || teleopState.currentTeleopMode == TeleopMode.SHOOT_ACTIVE) {
-        teleopState.idleMode();
-      } else {
-        teleopState.warmupShootMode();
-      }
-    }, intake));
+      teleopState.warmupShootMode();
+    }, shooterFlywheels)).onFalse(Commands.runOnce(() -> {
+      teleopState.shootStop();
+    }, shooterFlywheels));
 
     // idle mode
     operatorController.x().onTrue(Commands.runOnce(() -> {
-      teleopState.idleMode();
-    }, intake));
-
-    // half mode
-    operatorController.y().onTrue(Commands.runOnce(() -> {
-      if (teleopState.currentTeleopMode == TeleopMode.HALF) {
-        teleopState.idleMode();
-      } else { 
-      teleopState.halfMode();
-      }
+      teleopState.shootStop();
     }, intake));
 
     operatorController.b().onTrue(Commands.runOnce(() -> {
@@ -504,17 +519,8 @@ public class RobotContainer {
       intake.setPushback(false);
     }));
 
-
-    intakeTrigger.onTrue(Commands.runOnce(()->
-      {
-        if(teleopState.currentTeleopMode == TeleopMode.INTAKE_WARMUP)
-        {
-          teleopState.intakeActive();
-        }
-      }));
-
     flywheelsAtGoalTrigger.onTrue(Commands.runOnce(() -> {
-    if (teleopState.currentTeleopMode == TeleopMode.SHOOT_WARMUP) {
+    if (shooterFlywheels.currentState == FlywheelState.PROVIDED) {
       teleopState.shootActive();
     }
   }));
