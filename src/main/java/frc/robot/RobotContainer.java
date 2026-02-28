@@ -21,6 +21,7 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.RobotState;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
@@ -71,7 +72,8 @@ import frc.robot.subsystems.spindexer.SpindexerIOTalonFX;
 import frc.robot.subsystems.spindexer.Spindexer.SpindexerState;
 import frc.robot.Constants.driveMode;
 import java.util.HashMap;
-
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 
 /**
@@ -268,15 +270,21 @@ private driveMode currentDriveMode = driveMode.NORMAL;
         );
 
         break;
+
     }
 
     flywheelsAtGoalTrigger = new Trigger(() -> shooterFlywheels.atSpeed());
     intakeTrigger = new Trigger(() -> intake.positionAtGoal());
     teleopState = new TeleopStates(drive, intake, shooterFlywheels, shooterHood, shooterTurret, spindexer, index);
 
-        driveModeChooser.addDefaultOption("Normal", currentDriveMode=Constants.driveMode.NORMAL);
-        driveModeChooser.addOption("Slow", currentDriveMode=Constants.driveMode.SLOW);
+    driveModeChooser.addDefaultOption("Fast Mode", driveMode.NORMAL);
+    driveModeChooser.addOption("Slow Mode", driveMode.SLOW);
 
+    SmartDashboard.putData("Speed Mode", driveModeChooser.getSendableChooser());
+
+        // driveModeChooser.addDefaultOption("Normal", currentDriveMode=Constants.driveMode.NORMAL);
+        // driveModeChooser.addOption("Slow", currentDriveMode=Constants.driveMode.SLOW);
+        // SmartDashboard.putData("DriveMode", driveModeChooser);
     // public Constants.driveMode getSelectedMode() 
     // {
     //     return driveModeChooser.get();
@@ -344,18 +352,29 @@ private driveMode currentDriveMode = driveMode.NORMAL;
     //     "Drive SysId (Dynamic Forward)", drive.sysIdDynamic(SysIdRoutine.Direction.kForward));
     // pathplannerAutoChooser.addOption(
     //     "Drive SysId (Dynamic Reverse)", drive.sysIdDynamic(SysIdRoutine.Direction.kReverse));
+    drive.acceptJoystickInputs(() -> 0.0, () -> 0.0, () -> 0.0);
+drive.setDefaultCommand(
+    Commands.run(
+        () -> {
+            Constants.driveMode selectedMode = driveModeChooser.get();
 
-    drive.acceptJoystickInputs(
-        () ->
-            -Math.copySign(
-                driverController.getLeftY() * driverController.getLeftY(),
-                driverController.getLeftY()),
-        () ->
-            -Math.copySign(
-                driverController.getLeftX() * driverController.getLeftX(),
-                driverController.getLeftX()),
-        () -> -driverController.getRightX());
+            if (selectedMode == null) {
+                selectedMode = Constants.driveMode.NORMAL;
+            }
 
+            double scale = (selectedMode == Constants.driveMode.SLOW) ? 0.5 : 1.0;
+
+            drive.acceptJoystickInputs(
+                () -> -Math.copySign(
+                        driverController.getLeftY() * driverController.getLeftY() * scale,
+                        driverController.getLeftY()),
+                () -> -Math.copySign(
+                        driverController.getLeftX() * driverController.getLeftX() * scale,
+                        driverController.getLeftX()),
+                () -> -driverController.getRightX() * scale
+            );
+        },
+        drive));
     // Configure the button bindings
     configureButtonBindings();
   }
@@ -373,71 +392,6 @@ private driveMode currentDriveMode = driveMode.NORMAL;
   private void configureButtonBindings() {
 
 
-    if(currentDriveMode == Constants.driveMode.SLOW)
-    {
-      drive.setDefaultCommand(
-        Commands.run(
-            () ->
-                drive.acceptJoystickInputs(
-                    () ->
-                        -Math.copySign(
-                            driverController.getLeftY() * driverController.getLeftY() * 0.5,
-                            driverController.getLeftY()),
-                    () ->
-                        -Math.copySign(
-                            driverController.getLeftX() * driverController.getLeftX() * 0.5,
-                            driverController.getLeftX()),
-                    () -> -driverController.getRightX() * 0.5),
-            drive));
-    driverController.pov(0).whileTrue(
-      Commands.runEnd(() -> {drive.acceptJoystickInputs(()->0.4, ()->0.0, ()->0.0);}, () -> {drive.acceptJoystickInputs(()->0.0, ()->0.0, ()->0.0);})
-    );
-
-    driverController.pov(90).whileTrue(
-      Commands.runEnd(() -> {drive.acceptJoystickInputs(()->0.0, ()->-0.4, ()->0.0);}, () -> {drive.acceptJoystickInputs(()->0.0, ()->0.0, ()->0.0);})
-    );
-
-    driverController.pov(270).whileTrue(
-      Commands.runEnd(() -> {drive.acceptJoystickInputs(()->0.0, ()->0.4, ()->0.0);}, () -> {drive.acceptJoystickInputs(()->0.0, ()->0.0, ()->0.0);})
-    );
-    
-    driverController.pov(180).whileTrue(
-      Commands.runEnd(() -> {drive.acceptJoystickInputs(()->-0.4, ()->0.0, ()->0.0);}, () -> {drive.acceptJoystickInputs(()->0.0, ()->0.0, ()->0.0);})
-    );
-    
-    }
-    else
-    {
-    drive.setDefaultCommand(
-        Commands.run(
-            () ->
-                drive.acceptJoystickInputs(
-                    () ->
-                        -Math.copySign(
-                            driverController.getLeftY() * driverController.getLeftY(),
-                            driverController.getLeftY()),
-                    () ->
-                        -Math.copySign(
-                            driverController.getLeftX() * driverController.getLeftX(),
-                            driverController.getLeftX()),
-                    () -> -driverController.getRightX()),
-            drive));
-    driverController.pov(0).whileTrue(
-      Commands.runEnd(() -> {drive.acceptJoystickInputs(()->0.4, ()->0.0, ()->0.0);}, () -> {drive.acceptJoystickInputs(()->0.0, ()->0.0, ()->0.0);})
-    );
-
-    driverController.pov(90).whileTrue(
-      Commands.runEnd(() -> {drive.acceptJoystickInputs(()->0.0, ()->-0.4, ()->0.0);}, () -> {drive.acceptJoystickInputs(()->0.0, ()->0.0, ()->0.0);})
-    );
-
-    driverController.pov(270).whileTrue(
-      Commands.runEnd(() -> {drive.acceptJoystickInputs(()->0.0, ()->0.4, ()->0.0);}, () -> {drive.acceptJoystickInputs(()->0.0, ()->0.0, ()->0.0);})
-    );
-    
-    driverController.pov(180).whileTrue(
-      Commands.runEnd(() -> {drive.acceptJoystickInputs(()->-0.4, ()->0.0, ()->0.0);}, () -> {drive.acceptJoystickInputs(()->0.0, ()->0.0, ()->0.0);})
-    );
-    }
     // prepare for climb
     driverController
         .back()
