@@ -13,6 +13,7 @@
 
 package frc.robot;
 
+import com.ctre.phoenix6.SignalLogger;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 
@@ -25,6 +26,7 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
 import frc.robot.TeleopStates.TeleopMode;
 import frc.robot.generated.TunerConstants;
 import frc.robot.math.ShooterMathProvider;
@@ -104,7 +106,8 @@ public class RobotContainer {
   // Controller
   private final CommandXboxController driverController = new CommandXboxController(0);
   private final CommandXboxController operatorController = new CommandXboxController(1);
-
+  private final CommandXboxController testController = new CommandXboxController(2);
+  
   // Commands
   public final TeleopStates teleopState;
 
@@ -403,15 +406,16 @@ public class RobotContainer {
     //     .onTrue(drive.setDriveStateCommandContinued(DriveState.DRIVETOPOSEPROFILED))
     //     .onFalse(drive.setDriveStateCommandContinued(DriveState.TELEOP));
 
-    // SignalLogger.start(); // sysid
-    // operatorController.a().whileTrue(
-    //     drive.sysIdQuasistatic(Direction.kForward));
-    // operatorController.b().whileTrue(
-    //     drive.sysIdQuasistatic(Direction.kReverse));
-    // operatorController.x().whileTrue(
-    //   drive.sysIdDynamic(Direction.kForward));
-    // operatorController.y().whileTrue(
-    //   drive.sysIdDynamic(Direction.kReverse));
+    testController.leftBumper().onTrue(Commands.runOnce(() -> {SignalLogger.start();}));
+    testController.rightBumper().onTrue(Commands.runOnce(() -> {SignalLogger.stop();}));
+    testController.a().onTrue(Commands.runOnce(() -> {drive.setDriveState(DriveState.AUTO);})).whileTrue(
+        drive.sysIdQuasistatic(Direction.kForward)).onFalse(Commands.runOnce(() -> {drive.setDriveState(DriveState.TELEOP);}));
+    testController.b().onTrue(Commands.runOnce(() -> {drive.setDriveState(DriveState.AUTO);})).whileTrue(
+        drive.sysIdQuasistatic(Direction.kReverse)).onFalse(Commands.runOnce(() -> {drive.setDriveState(DriveState.TELEOP);}));
+    testController.x().onTrue(Commands.runOnce(() -> {drive.setDriveState(DriveState.AUTO);})).whileTrue(
+      drive.sysIdDynamic(Direction.kForward)).onFalse(Commands.runOnce(() -> {drive.setDriveState(DriveState.TELEOP);}));
+    testController.y().onTrue(Commands.runOnce(() -> {drive.setDriveState(DriveState.AUTO);})).whileTrue(
+      drive.sysIdDynamic(Direction.kReverse)).onFalse(Commands.runOnce(() -> {drive.setDriveState(DriveState.TELEOP);}));
 
     // Reset gyro to 0° when B button is pressed
     driverController
