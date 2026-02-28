@@ -16,7 +16,8 @@ public class Intake extends SubsystemBase {
     kOut(() -> 2.43, 2.3, 2.43),
     kHalf(() -> 1.5, 1.2, 1.8),
     kAutoTravel(() -> 1.8, 1.8, 1.8),
-    kStow(() -> 0.005, 0.005, 0.005);
+    kStow(() -> 0.005, 0.005, 0.005),
+    kPushback(() -> 0.5, 0.5, 0.5);
     /** Custom setpoint that can be modified over network tables; Usefu for debugging */
     private DoubleSupplier goal;
     private double goalAgitateMax;
@@ -67,6 +68,7 @@ public class Intake extends SubsystemBase {
   private IntakeFlywheelGoal currentFlywheelGoal = IntakeFlywheelGoal.kStop;
 
   private boolean isAgitating = false;
+  private boolean isPushback = false;
 
   public Intake(IntakeIO io, IntakeFlywheelIO flywheelIO) {
     kIntake = io;
@@ -85,12 +87,14 @@ public class Intake extends SubsystemBase {
 
 
     if (currentIntakeGoal != null) {
-      if (isAgitating) {
+      if (isPushback) {
+        kIntake.setPosition(IntakeGoal.kPushback.goal.getAsDouble(), true);
+      } else if (isAgitating) {
         double agitateRange = currentIntakeGoal.getGoalAgitateMax() - currentIntakeGoal.getGoalAgitateMin();
         double agitateOffset = agitateRange / 2 * Math.sin(2 * Math.PI * 4 * System.currentTimeMillis() / 1000);
-        kIntake.setPosition(currentIntakeGoal.getGoalRadians() + agitateOffset);
+        kIntake.setPosition(currentIntakeGoal.getGoalRadians() + agitateOffset, false);
       } else {
-        kIntake.setPosition(currentIntakeGoal.getGoalRadians());
+        kIntake.setPosition(currentIntakeGoal.getGoalRadians(), false);
       }
 
       Logger.processInputs("Intake/Inputs", kInputsIntake);
@@ -128,6 +132,10 @@ public class Intake extends SubsystemBase {
 
   public void setAgitating(boolean isAgitating) {
     this.isAgitating = isAgitating;
+  }
+
+  public void setPushback(boolean isPushback) {
+    this.isPushback = isPushback;
   }
 
   /** Reset the mechanism's encoder to 0 */

@@ -4,6 +4,7 @@ import com.ctre.phoenix6.BaseStatusSignal;
 import com.ctre.phoenix6.StatusSignal;
 import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
+import com.ctre.phoenix6.controls.CoastOut;
 import com.ctre.phoenix6.controls.Follower;
 import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
@@ -87,7 +88,8 @@ public class FlywheelIOTalonFX implements FlywheelIO {
     motorLeft.optimizeBusUtilization(0.0, 1.0);
     motorRight.optimizeBusUtilization(0.0, 1.0);
 
-    motorRight.setControl(new Follower(hardware.motorIDLeft(), MotorAlignmentValue.Opposed));
+    // motorRight.setControl(new Follower(hardware.motorIDLeft(), MotorAlignmentValue.Opposed));
+    motorRight.setControl(new CoastOut());
   }
 
   @Override
