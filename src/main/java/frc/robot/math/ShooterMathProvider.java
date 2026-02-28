@@ -61,8 +61,8 @@ public class ShooterMathProvider {
         shotMapRPS.put(3.64, new Double[]{51.0, 0.028});
         shotMapRPS.put(5.32, new Double[]{59.0, 0.048});
         TOFMap.put(0.0, 0.0);
-        TOFMap.put(3.3, -1.0);
-        TOFMap.put(5.0, -1.2);
+        TOFMap.put(3.3, -1.2);
+        TOFMap.put(5.0, -1.4);
         
     }
 
@@ -114,7 +114,7 @@ public class ShooterMathProvider {
         var ta = Utils.getCurrentTimeSeconds();
 
         // Distance to target
-        Translation2d target = DriverStation.getAlliance().orElse(Alliance.Blue) == Alliance.Red ? FlippingUtil.flipFieldPose(new Pose2d(targetPositionBlueSide, new Rotation2d())).getTranslation() : targetPositionBlueSide;
+        Translation2d target = DriverStation.getAlliance().orElse(Alliance.Blue) == Alliance.Red ? FlippingUtil.flipFieldPose(new Pose2d(hubPositionBlueSide, new Rotation2d())).getTranslation() : targetPositionBlueSide;
         dist = Math.sqrt(Math.pow(turretPose.getX() - target.getX(), 2) + Math.pow(turretPose.getY() - target.getY(), 2));
 
         // Search for upper/lower bound indices
@@ -170,8 +170,14 @@ public class ShooterMathProvider {
 
       double offsetX = turretVelocityX * timeOfFlight;
       double offsetY = turretVelocityY * timeOfFlight;
-      System.out.println(offsetY);
       targetPositionBlueSide =
           hubPositionBlueSide.plus(new Translation2d(offsetX, offsetY));
+
+    // double phi = Math.asin(-velocities.vyMetersPerSecond / (shooterVelocityTarget * 0.3192 * Math.cos((shooterHoodAngle + 0.39) * 2 * Math.PI)));
+    // double y_correction_distance = 5.0 * -Math.tan(phi) * dist;
+    System.out.println("Current: " + offsetY);// + " New: " + y_correction_distance);
+    //   targetPositionBlueSide =
+    //       hubPositionBlueSide.plus(new Translation2d(0, y_correction_distance));
+
     }
 }
