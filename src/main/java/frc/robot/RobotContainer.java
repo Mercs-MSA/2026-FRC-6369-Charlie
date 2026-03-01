@@ -31,6 +31,10 @@ import frc.robot.generated.TunerConstants;
 import frc.robot.math.ShooterMathProvider;
 import frc.robot.math.ShooterMathProvider.CalculationState;
 import frc.robot.subsystems.drive.Drive.Controllers.HolonomicController;
+import frc.robot.subsystems.climber.Climber;
+import frc.robot.subsystems.climber.ClimberConstants;
+import frc.robot.subsystems.climber.ClimberIOTalonFX;
+import frc.robot.subsystems.climber.Climber.ClimberGoal;
 import frc.robot.subsystems.drive.Drive.Drive;
 import frc.robot.subsystems.drive.Drive.Drive.DriveState;
 import frc.robot.subsystems.flywheel.Flywheel;
@@ -99,6 +103,8 @@ public class RobotContainer {
   public final Intake intake;
   public final Spindexer spindexer;
 
+  public final Climber climber;
+
   public final Index index;
   public final Trigger flywheelsAtGoalTrigger;
   public final Trigger intakeTrigger;
@@ -165,6 +171,8 @@ public class RobotContainer {
           new SpindexerIOTalonFX(SpindexerConstants.kIndexHardware, SpindexerConstants.kMotorConfiguration, SpindexerConstants.kSpindexIndexGains)
         );
         
+        climber = new Climber(new ClimberIOTalonFX(ClimberConstants.kClimberHardware, ClimberConstants.kMotorConfiguration, ClimberConstants.kClimberGains));
+        
         break;
 
       case SIM:
@@ -214,6 +222,8 @@ public class RobotContainer {
         spindexer = new Spindexer(
           new SpindexerIOTalonFX(SpindexerConstants.kIndexHardware, SpindexerConstants.kMotorConfiguration, SpindexerConstants.kSpindexIndexGains)
         );
+
+        climber = new Climber(new ClimberIOTalonFX(ClimberConstants.kClimberHardware, ClimberConstants.kMotorConfiguration, ClimberConstants.kClimberGains));
 
         break;
 
@@ -265,6 +275,8 @@ public class RobotContainer {
         spindexer = new Spindexer(
           new SpindexerIOTalonFX(SpindexerConstants.kIndexHardware, SpindexerConstants.kMotorConfiguration, SpindexerConstants.kSpindexIndexGains)
         );
+
+        climber = new Climber(new ClimberIOTalonFX(ClimberConstants.kClimberHardware, ClimberConstants.kMotorConfiguration, ClimberConstants.kClimberGains));
 
         break;
     }
@@ -467,6 +479,14 @@ public class RobotContainer {
         teleopState.halfMode();
       }
     }, intake));
+
+    operatorController.start().whileTrue(Commands.startEnd(() -> {
+      climber.setClimberGoal(ClimberGoal.kClimbed);
+    }, () -> {climber.cancel();}, climber));
+    
+    operatorController.back().whileTrue(Commands.startEnd(() -> {
+      climber.setClimberGoal(ClimberGoal.kDown);
+    }, () -> {climber.cancel();}, climber));
     
     // driverController.y().onTrue(Commands.runOnce(()-> {
     //   teleopState.currentTeleopMode=TeleopMode.
