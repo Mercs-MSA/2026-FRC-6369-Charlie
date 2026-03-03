@@ -522,6 +522,20 @@ public class RobotContainer {
       teleopState.shootStop();
     }, shooterFlywheels));
 
+    
+    operatorController.rightTrigger().onTrue(Commands.runOnce(() -> {
+      shooterMath.setState(CalculationState.HUB);
+      teleopState.warmupShootMode();
+    }, shooterFlywheels)).onFalse(Commands.runOnce(() -> {
+      teleopState.shootStop();
+    }, shooterFlywheels));
+    operatorController.y().onTrue(Commands.runOnce(() -> {
+      shooterMath.setState(CalculationState.SHUNT);
+      teleopState.warmupShootMode();
+    }, shooterFlywheels)).onFalse(Commands.runOnce(() -> {
+      teleopState.shootStop();
+    }, shooterFlywheels));
+
     // idle mode
     operatorController.x().onTrue(Commands.runOnce(() -> {
       teleopState.shootStop();
@@ -533,14 +547,14 @@ public class RobotContainer {
       intake.setAgitating(false);
     }));
 
-    operatorController.rightTrigger().onTrue(Commands.runOnce(() -> {
-      intake.setPushback(true);
-    })).onFalse(Commands.runOnce(() -> {
-      intake.setPushback(false);
-    }));
+    // operatorController.rightTrigger().onTrue(Commands.runOnce(() -> {
+    //   intake.setPushback(true);
+    // })).onFalse(Commands.runOnce(() -> {
+    //   intake.setPushback(false);
+    // }));
 
     flywheelsAtGoalTrigger.onTrue(Commands.runOnce(() -> {
-    if (shooterFlywheels.currentState == FlywheelState.PROVIDED) {
+    if (shooterFlywheels.currentState == FlywheelState.PROVIDED && drive.driveState != DriveState.AUTO) {
       teleopState.shootActive();
     }
   }));

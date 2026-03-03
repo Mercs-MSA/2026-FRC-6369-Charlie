@@ -14,7 +14,7 @@ public class Climber extends SubsystemBase {
   /** List of position setpoints for the Climber in meters */
   public enum ClimberGoal {
   kDown(() -> 0.0),
-  kClimbed(() -> 20);
+  kClimbed(() -> 220);
     /** Custom setpoint that can be modified over network tables; Usefu for debugging */
     private DoubleSupplier goal;
 

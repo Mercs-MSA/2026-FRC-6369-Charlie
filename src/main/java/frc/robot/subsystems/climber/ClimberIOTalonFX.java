@@ -5,6 +5,7 @@ import com.ctre.phoenix6.StatusSignal;
 import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.Follower;
+import com.ctre.phoenix6.controls.PositionVoltage;
 import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.FeedbackSensorSourceValue;
@@ -28,7 +29,7 @@ public class ClimberIOTalonFX implements ClimberIO {
   private StatusSignal<Current> statorCurrentAmpsLeft;
   private StatusSignal<Temperature> temperatureCelsiusLeft;
 
-  private final VelocityVoltage velocityControl = new VelocityVoltage(0);
+  private final PositionVoltage positionControl = new PositionVoltage(0);
 
   public ClimberIOTalonFX(
       ClimberConstants.ClimberHardware hardware,
@@ -62,8 +63,10 @@ public class ClimberIOTalonFX implements ClimberIO {
     motorConfiguration.Feedback.RotorToSensorRatio = ClimberConstants.kRotorOffset;
 
     motor.setPosition(0.0);
+    motor.setControl(positionControl);
 
     motor.getConfigurator().apply(motorConfiguration, 1.0);
+    System.out.println("HERE");
 
     velocityLeft = motor.getVelocity();
     appliedVoltsLeft = motor.getMotorVoltage();
@@ -121,6 +124,7 @@ public class ClimberIOTalonFX implements ClimberIO {
     slot0.kA = a;
     slot0.kG = g;
     motor.getConfigurator().apply(slot0);
+    System.out.println("bubba");
   }
 
   @Override
@@ -136,6 +140,6 @@ public class ClimberIOTalonFX implements ClimberIO {
 
   @Override
   public void setPosition(double positionRotations) {
-    motor.setPosition(positionRotations);
+    motor.setControl(positionControl.withPosition(positionRotations).withSlot(0));
   }
 }
