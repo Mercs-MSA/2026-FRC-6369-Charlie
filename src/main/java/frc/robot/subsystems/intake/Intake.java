@@ -16,7 +16,7 @@ public class Intake extends SubsystemBase {
   /** List of position setpoints for the Intake in meters */
   public enum IntakeGoal {
     kOut(() -> 2.43, 2.3, 2.43),
-    kHalf(() -> 1.5, 1.2, 1.8),
+    kHalf(() -> 1.5, 1.3, 1.7),
     kAutoTravel(() -> 1.8, 1.8, 1.8),
     kStow(() -> 0.005, 0.005, 0.005),
     kPushback(() -> 0.5, 0.5, 0.5);
@@ -93,7 +93,7 @@ public class Intake extends SubsystemBase {
         kIntake.setPosition(IntakeGoal.kPushback.goal.getAsDouble(), true);
       } else if (isAgitating) {
         double agitateRange = currentIntakeGoal.getGoalAgitateMax() - currentIntakeGoal.getGoalAgitateMin();
-        double agitateOffset = agitateRange / 2 * Math.sin(2 * Math.PI * 4 * System.currentTimeMillis() / 1000);
+        double agitateOffset = agitateRange / 2 * Math.sin(2 * Math.PI * 1.5 * System.currentTimeMillis() / 1000);
         kIntake.setPosition(currentIntakeGoal.getGoalRadians() + agitateOffset, false);
       } else {
         kIntake.setPosition(currentIntakeGoal.getGoalRadians(), false);

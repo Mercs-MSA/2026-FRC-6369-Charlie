@@ -68,7 +68,7 @@ public class ClimberConstants {
 
   public static final ClimberGains kClimberGains =
       new ClimberGains(
-          1, 0.0, 0, 0, // 2.947
+          0.5, 0.0, 0, 0, // 2.947
           0, // 22
           0.0, 0, 3.7, 1.2, 0); // 0.11
 
