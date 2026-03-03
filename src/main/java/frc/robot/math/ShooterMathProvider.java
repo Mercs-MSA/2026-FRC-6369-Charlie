@@ -44,6 +44,8 @@ public class ShooterMathProvider {
     private final NavigableMap<Double, Double[]> shotMapRPS = new TreeMap<>();
     private final NavigableMap<Double, Double> TOFMap = new TreeMap<>();
 
+    private static final double hoodOffsetAngle = 0.36651914;
+
     public ShooterMathProvider() {
         shotMapRPS.put(1.83, new Double[]{45.0, 0.00});
         shotMapRPS.put(3.09, new Double[]{50.0, 0.018});
@@ -110,7 +112,7 @@ public class ShooterMathProvider {
                 target = DriverStation.getAlliance().orElse(Alliance.Blue) == Alliance.Red ? FlippingUtil.flipFieldPose(new Pose2d(new Translation2d(shuntingXBlueSide, robotPose.getY()), new Rotation2d())).getTranslation() : new Translation2d(shuntingXBlueSide, robotPose.getY());
                 break;
             default:
-                target = DriverStation.getAlliance().orElse(Alliance.Blue) == Alliance.Red ? FlippingUtil.flipFieldPose(new Pose2d(hubPositionBlueSide, new Rotation2d())).getTranslation() : targetPositionBlueSide;
+                target = DriverStation.getAlliance().orElse(Alliance.Blue) == Alliance.Red ? FlippingUtil.flipFieldPose(new Pose2d(hubPositionBlueSide, new Rotation2d())).getTranslation() : hubPositionBlueSide;
                 break;
         }
         
@@ -150,6 +152,8 @@ public class ShooterMathProvider {
             + fieldVel.omegaRadiansPerSecond
                 * (TurretConstants.kTurretOffsetX * Math.cos(robotPose.getRotation().getRadians())
                     - TurretConstants.kTurretOffsetY * Math.sin(robotPose.getRotation().getRadians()));
+                    
+        double projectileVelocity = shooterVelocityTarget * Math.cos(shooterHoodAngle+hoodOffsetAngle) * 0.3192;
 
         var lowerEntryTof = TOFMap.floorEntry(dist);
         if (lowerEntryTof == null) {
@@ -166,9 +170,10 @@ public class ShooterMathProvider {
         double upperValTof = upperEntryTof.getValue();
 
         var timeOfFlight = lerp(dist, lowerKeyTof, upperKeyTof, lowerValTof, upperValTof);
+        double timeOfFlightnew = dist/projectileVelocity;
 
-      double offsetX = turretVelocityX * timeOfFlight;
-      double offsetY = turretVelocityY * timeOfFlight;
+      double offsetX = turretVelocityX * timeOfFlightnew;
+      double offsetY = turretVelocityY * timeOfFlightnew;
 
       switch (calculationState) {
         case SHUNT:
@@ -176,13 +181,13 @@ public class ShooterMathProvider {
             break;
         default:      
             targetPositionBlueSide =
-                hubPositionBlueSide.plus(new Translation2d(offsetX, offsetY));
+                hubPositionBlueSide.plus(new Translation2d(DriverStation.getAlliance().orElse(Alliance.Blue) == Alliance.Red ? offsetX : -offsetX, DriverStation.getAlliance().orElse(Alliance.Blue) == Alliance.Red ? offsetY : -offsetY));
             break;
       }
 
     // double phi = Math.asin(-velocities.vyMetersPerSecond / (shooterVelocityTarget * 0.3192 * Math.cos((shooterHoodAngle + 0.39) * 2 * Math.PI)));
     // double y_correction_distance = 5.0 * -Math.tan(phi) * dist;
-    // System.out.println("Current: " + offsetY);// + " New: " + y_correction_distance);
+    System.out.println("New ToF Estimate: " + timeOfFlightnew);// + " New: " + y_correction_distance);
     //   targetPositionBlueSide =
     //       hubPositionBlueSide.plus(new Translation2d(0, y_correction_distance));
 
