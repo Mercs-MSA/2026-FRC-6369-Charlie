@@ -50,7 +50,7 @@ public class HoodConstants {
 
   public static final HoodGains kHoodGains =
       switch (Constants.currentMode) {
-        case REAL -> new HoodGains(1100, 0.0, 0.0, 0.15, 0.0, 0.0, 0.05, 120.0, 240.0, 0);
+        case REAL -> new HoodGains(500, 0.0, 0.0, 0.15, 0.0, 0.35, 0.05, 120.0, 240.0, 0);
         case SIM -> new HoodGains(8.0, 0.0, 0.2, 0.1, 0.3, 1.0, 0.03, 180.0, 360.0, 0);
         default -> new HoodGains(0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
       };

@@ -51,10 +51,10 @@ public class ShooterMathProvider {
         // shotMapRPS.put(3.09, new Double[]{50.0, 0.018});
         // shotMapRPS.put(3.64, new Double[]{51.0, 0.028});
         // shotMapRPS.put(5.32, new Double[]{59.0, 0.048});
-        shotMapRPS.put(1.95, new Double[]{44.0, 0.005});
-        shotMapRPS.put(3.09, new Double[]{48.0, 0.0195});
-        shotMapRPS.put(4.64, new Double[]{54.5, 0.048});
-        shotMapRPS.put(5.3, new Double[]{59.0, 0.050});
+        shotMapRPS.put(1.95, new Double[]{45.0, 0.005});
+        shotMapRPS.put(3.09, new Double[]{49.0, 0.0195});
+        shotMapRPS.put(4.64, new Double[]{55.5, 0.048});
+        shotMapRPS.put(5.3, new Double[]{60.0, 0.050});
         TOFMap.put(0.0, 0.0);
         TOFMap.put(3.3, -1.2);
         TOFMap.put(5.0, -1.4);
@@ -157,7 +157,7 @@ public class ShooterMathProvider {
                 * (TurretConstants.kTurretOffsetX * Math.cos(robotPose.getRotation().getRadians())
                     - TurretConstants.kTurretOffsetY * Math.sin(robotPose.getRotation().getRadians()));
                     
-        double projectileVelocity = shooterVelocityTarget * Math.cos(shooterHoodAngle+hoodOffsetAngle) * 0.3192;
+        double projectileVelocity = shooterVelocityTarget * Math.cos((shooterHoodAngle * 2 * Math.PI)+hoodOffsetAngle) * 0.3192;
 
         var lowerEntryTof = TOFMap.floorEntry(dist);
         if (lowerEntryTof == null) {
@@ -175,6 +175,7 @@ public class ShooterMathProvider {
 
         var timeOfFlight = lerp(dist, lowerKeyTof, upperKeyTof, lowerValTof, upperValTof);
         double timeOfFlightnew = dist/projectileVelocity;
+        timeOfFlightnew *= 4.0;
 
       double offsetX = turretVelocityX * timeOfFlightnew;
       double offsetY = turretVelocityY * timeOfFlightnew;
@@ -191,7 +192,7 @@ public class ShooterMathProvider {
 
     // double phi = Math.asin(-velocities.vyMetersPerSecond / (shooterVelocityTarget * 0.3192 * Math.cos((shooterHoodAngle + 0.39) * 2 * Math.PI)));
     // double y_correction_distance = 5.0 * -Math.tan(phi) * dist;
-    System.out.println("New ToF Estimate: " + timeOfFlightnew);// + " New: " + y_correction_distance);
+    System.out.println("New ToF Estimate: " + turretVelocityX);// + " New: " + y_correction_distance);
     //   targetPositionBlueSide =
     //       hubPositionBlueSide.plus(new Translation2d(0, y_correction_distance));
 

@@ -61,7 +61,7 @@ public class TurretConstants {
 
   public static final TurretGains kTurretGains =
       switch (Constants.currentMode) {
-        case REAL -> new TurretGains(155, 0.0, 0.0, 0.0, 0.0, 0.0, 0.00, 120.0, 240.0, 0);
+        case REAL -> new TurretGains(240, 0.0, 0.0, 0.0, 0.0, 0.0, 0.00, 120.0, 240.0, 0);
 
         case SIM -> new TurretGains(8.0, 0.0, 0.2, 0.1, 0.3, 1.0, 0.03, 180.0, 360.0, 0);
 

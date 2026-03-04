@@ -81,7 +81,7 @@ public class Flywheel extends SubsystemBase {
   public boolean atSpeed() {
     double filteredVelocity = flywheelVelocity();
     // System.out.println(filteredVelocity - goalSpeedRPS);
-    return atSpeedDebouncer.calculate(Math.abs(filteredVelocity - goalSpeedRPS) < 10);  //TODO: tune, this is probably way too tight; might need to be closer to 2 during fast shooting
+    return atSpeedDebouncer.calculate(Math.abs(filteredVelocity - goalSpeedRPS) < 1);  //TODO: tune, this is probably way too tight; might need to be closer to 2 during fast shooting
   }
 
   @AutoLogOutput(key = "Flywheel/SpeedRPS")
