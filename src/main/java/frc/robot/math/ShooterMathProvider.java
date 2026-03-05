@@ -10,6 +10,7 @@ import org.littletonrobotics.junction.AutoLogOutput;
 import com.pathplanner.lib.util.FlippingUtil;
 
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rectangle2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
@@ -33,6 +34,8 @@ public class ShooterMathProvider {
     @AutoLogOutput
     public double shooterTurretDelta;
     @AutoLogOutput
+    public boolean hoodStow;
+    @AutoLogOutput
     public double dist;
     
     // position of hub opening on blue side
@@ -40,7 +43,18 @@ public class ShooterMathProvider {
     public static final Translation2d hubPositionBlueSide = new Translation2d(4.625, 4.034);
 
     public static final double shuntingXBlueSide = 2.5;
-
+    public static final Rectangle2d[] stowEnablePositions = new Rectangle2d[]{
+        new Rectangle2d(new Translation2d(3.986, 8.147), new Translation2d(5.5, 6.849)), 
+        new Rectangle2d(new Translation2d(3.986, 1.282), new Translation2d(5.5, 0)),
+        new Rectangle2d(new Translation2d(16.54-3.986, 8.147), new Translation2d(16.54-5.5, 6.849)), 
+        new Rectangle2d(new Translation2d(16.54-3.986, 1.282), new Translation2d(16.54-5.5, 0))
+    };
+    public static final Rectangle2d[] stowDisablePositions = new Rectangle2d[]{
+        new Rectangle2d(new Translation2d(3.886, 8.147), new Translation2d(5.7, 6.849)), 
+        new Rectangle2d(new Translation2d(3.886, 1.282), new Translation2d(5.7, 0)),
+        new Rectangle2d(new Translation2d(16.54-3.886, 8.147), new Translation2d(16.54-5.7, 6.849)), 
+        new Rectangle2d(new Translation2d(16.54-3.886, 1.282), new Translation2d(16.54-5.7, 0))
+    };
     private final NavigableMap<Double, Double[]> shotMapRPS = new TreeMap<>();
     private final NavigableMap<Double, Double> TOFMap = new TreeMap<>();
 
