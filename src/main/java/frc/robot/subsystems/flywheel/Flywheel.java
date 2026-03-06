@@ -3,11 +3,16 @@ package frc.robot.subsystems.flywheel;
 import edu.wpi.first.math.filter.Debouncer;
 import edu.wpi.first.math.filter.Debouncer.DebounceType;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.units.measure.Angle;
+import edu.wpi.first.units.measure.AngularVelocity;
 import edu.wpi.first.math.filter.LinearFilter;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import org.littletonrobotics.junction.AutoLogOutput;
 import org.littletonrobotics.junction.Logger;
+
+import com.ctre.phoenix6.StatusSignal;
+
 import frc.robot.math.ShooterMathProvider;
 import frc.robot.subsystems.shooterhood.Hood.HoodGoal;
 
@@ -92,5 +97,12 @@ public class Flywheel extends SubsystemBase {
   @AutoLogOutput(key = "Flywheel/GoalSpeedRPS")
   public double getGoalSpeedRPS() {
     return goalSpeedRPS;
+  }
+  public StatusSignal<AngularVelocity>[] getVelocitySignal() {
+    return io.getVelocity();
+  }
+  
+  public StatusSignal<Angle>[] getPositionSignal() {
+    return io.getPosition();
   }
 }

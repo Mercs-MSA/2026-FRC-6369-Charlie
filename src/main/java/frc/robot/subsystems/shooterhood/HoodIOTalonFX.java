@@ -115,6 +115,7 @@ public class HoodIOTalonFX implements HoodIO {
 
     motor.optimizeBusUtilization(0.0, 1.0);
   }
+  
 
   @Override
   public void updateInputs(HoodIOInputs inputs) {
@@ -178,5 +179,19 @@ public class HoodIOTalonFX implements HoodIO {
   @Override
   public void setBrakeMode(boolean brake) {
     motor.setNeutralMode(brake ? NeutralModeValue.Brake : NeutralModeValue.Coast);
+  }
+
+
+  @Override
+  public StatusSignal<Angle> getPosition() 
+  {
+    return motor.getPosition();
+  }
+
+
+  @Override
+  public StatusSignal<AngularVelocity> getVelocity() 
+  {
+    return motor.getVelocity();
   }
 }

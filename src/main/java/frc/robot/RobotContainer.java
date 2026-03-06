@@ -74,7 +74,9 @@ import frc.robot.subsystems.spindexer.Spindexer;
 import frc.robot.subsystems.spindexer.SpindexerConstants;
 import frc.robot.subsystems.spindexer.SpindexerIOTalonFX;
 import frc.robot.subsystems.spindexer.Spindexer.SpindexerState;
+import com.ctre.phoenix6.BaseStatusSignal;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
@@ -108,7 +110,7 @@ public class RobotContainer {
   public final Index index;
   public final Trigger flywheelsAtGoalTrigger;
   public final Trigger intakeTrigger;
-
+  public ArrayList<BaseStatusSignal> allSignals;
   // Controller
   private final CommandXboxController driverController = new CommandXboxController(0);
   private final CommandXboxController operatorController = new CommandXboxController(1);
@@ -284,7 +286,14 @@ public class RobotContainer {
     flywheelsAtGoalTrigger = new Trigger(() -> shooterFlywheels.atSpeed());
     intakeTrigger = new Trigger(() -> intake.positionAtGoal());
     teleopState = new TeleopStates(drive, intake, shooterFlywheels, shooterHood, shooterTurret, spindexer, index);
-
+    allSignals = new ArrayList<>();
+    allSignals.add(shooterFlywheels.getVelocitySignal()[0]);
+    allSignals.add(shooterFlywheels.getPositionSignal()[0]);
+    allSignals.add(shooterFlywheels.getVelocitySignal()[1]);
+    allSignals.add(shooterFlywheels.getPositionSignal()[1]);
+    allSignals.add(shooterHood.getVelocitySignal());
+        allSignals.add(shooterHood.getPositionSignal());
+    
     // Create auto routines
     NamedCommands.registerCommands(new HashMap<String, Command>(){
       {

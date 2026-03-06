@@ -1,5 +1,7 @@
 package frc.robot.subsystems.flywheel;
 
+import java.io.ObjectInputFilter.Status;
+
 import com.ctre.phoenix6.BaseStatusSignal;
 import com.ctre.phoenix6.StatusSignal;
 import com.ctre.phoenix6.configs.Slot0Configs;
@@ -12,6 +14,8 @@ import com.ctre.phoenix6.signals.FeedbackSensorSourceValue;
 import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.MotorAlignmentValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
+
+import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.units.measure.AngularVelocity;
 import edu.wpi.first.units.measure.Current;
 import edu.wpi.first.units.measure.Temperature;
@@ -136,5 +140,20 @@ public class FlywheelIOTalonFX implements FlywheelIO {
   @Override
   public void setBrakeMode(boolean brake) {
     motorLeft.setNeutralMode(brake ? NeutralModeValue.Brake : NeutralModeValue.Coast);
+  }
+
+  @Override
+  public StatusSignal<Angle>[] getPosition() {
+    StatusSignal<Angle> positionRight = motorRight.getPosition();
+    StatusSignal<Angle> positionLeft = motorLeft.getPosition();
+    return (StatusSignal<Angle>[]) new StatusSignal[] {positionRight, positionLeft};
+  }
+
+  @Override
+  public StatusSignal<AngularVelocity>[] getVelocity() 
+  {
+    StatusSignal<AngularVelocity> velocityRight = motorRight.getVelocity();
+    StatusSignal<AngularVelocity> velocityLeft = motorLeft.getVelocity();
+    return (StatusSignal<AngularVelocity>[]) new StatusSignal[] {velocityRight, velocityLeft};
   }
 }

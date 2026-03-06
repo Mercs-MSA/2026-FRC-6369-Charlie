@@ -3,12 +3,16 @@ package frc.robot.subsystems.shooterhood;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.units.measure.Angle;
+import edu.wpi.first.units.measure.AngularVelocity;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.math.ShooterMathProvider;
 import java.util.function.DoubleSupplier;
 import org.littletonrobotics.junction.AutoLogOutput;
 import org.littletonrobotics.junction.Logger;
+
+import com.ctre.phoenix6.StatusSignal;
 
 public class Hood extends SubsystemBase {
 
@@ -143,5 +147,13 @@ public class Hood extends SubsystemBase {
   @AutoLogOutput(key = "Hood/GoalDeg")
   public double getGoalDeg() {
     return goalRotations;
+  }
+  
+  public StatusSignal<AngularVelocity> getVelocitySignal() {
+    return io.getVelocity();
+  }
+  
+  public StatusSignal<Angle> getPositionSignal() {
+    return io.getPosition();
   }
 }

@@ -13,6 +13,7 @@
 
 package frc.robot;
 
+import com.ctre.phoenix6.BaseStatusSignal;
 import com.ctre.phoenix6.swerve.SwerveModuleConstants;
 import com.ctre.phoenix6.swerve.SwerveModuleConstants.DriveMotorArrangement;
 import com.ctre.phoenix6.swerve.SwerveModuleConstants.SteerMotorArrangement;
@@ -44,6 +45,7 @@ public class Robot extends LoggedRobot {
   private Command mTeleopCommand;
 
   public Robot() {
+
     // Record metadata
     Logger.recordMetadata("ProjectName", BuildConstants.MAVEN_NAME);
     Logger.recordMetadata("BuildDate", BuildConstants.BUILD_DATE);
@@ -121,7 +123,7 @@ public class Robot extends LoggedRobot {
     // This must be called from the robot's periodic block in order for anything in
     // the Command-based framework to work.
     CommandScheduler.getInstance().run();
-
+    BaseStatusSignal.refreshAll(robotContainer.allSignals);
     // Run our vision loop
     robotContainer.vision.periodic(robotContainer.drive);
 

@@ -173,22 +173,22 @@ public class ShooterMathProvider {
                     
         double projectileVelocity = shooterVelocityTarget * Math.cos((shooterHoodAngle * 2 * Math.PI)+hoodOffsetAngle) * 0.3192;
 
-        var lowerEntryTof = TOFMap.floorEntry(dist);
-        if (lowerEntryTof == null) {
-            lowerEntryTof = TOFMap.firstEntry();
-        }
-        var upperEntryTof = TOFMap.ceilingEntry(dist);
-        if (upperEntryTof == null) {
-            upperEntryTof = TOFMap.lastEntry();
-        }
+        // var lowerEntryTof = TOFMap.floorEntry(dist);
+        // if (lowerEntryTof == null) {
+        //     lowerEntryTof = TOFMap.firstEntry();
+        // }
+        // var upperEntryTof = TOFMap.ceilingEntry(dist);
+        // if (upperEntryTof == null) {
+        //     upperEntryTof = TOFMap.lastEntry();
+        // }
 
-        double lowerKeyTof = lowerEntryTof.getKey();
-        double upperKeyTof = upperEntryTof.getKey();
-        double lowerValTof = lowerEntryTof.getValue();
-        double upperValTof = upperEntryTof.getValue();
+        // double lowerKeyTof = lowerEntryTof.getKey();
+        // double upperKeyTof = upperEntryTof.getKey();
+        // double lowerValTof = lowerEntryTof.getValue();
+        // double upperValTof = upperEntryTof.getValue();
 
-        var timeOfFlight = lerp(dist, lowerKeyTof, upperKeyTof, lowerValTof, upperValTof);
-        double timeOfFlightnew = dist/projectileVelocity;
+        // var timeOfFlight = lerp(dist, lowerKeyTof, upperKeyTof, lowerValTof, upperValTof);
+        double timeOfFlightnew = dist/projectileVelocity;       
         timeOfFlightnew *= 4.0;
 
       double offsetX = turretVelocityX * timeOfFlightnew;

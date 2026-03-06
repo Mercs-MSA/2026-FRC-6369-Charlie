@@ -2,6 +2,11 @@ package frc.robot.subsystems.flywheel;
 
 import org.littletonrobotics.junction.AutoLog;
 
+import com.ctre.phoenix6.StatusSignal;
+
+import edu.wpi.first.units.measure.Angle;
+import edu.wpi.first.units.measure.AngularVelocity;
+
 public interface FlywheelIO {
 
   @AutoLog
@@ -24,4 +29,8 @@ public interface FlywheelIO {
   public void setGains(double p, double i, double d, double v, double s, double g, double a);
 
   public void setBrakeMode(boolean brake);
+
+  public StatusSignal<Angle>[] getPosition();
+  
+  public StatusSignal<AngularVelocity>[] getVelocity();
 }
