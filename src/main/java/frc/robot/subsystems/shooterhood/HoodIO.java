@@ -1,5 +1,10 @@
 package frc.robot.subsystems.shooterhood;
 
+import com.ctre.phoenix6.StatusSignal;
+
+import edu.wpi.first.units.measure.Angle;
+import edu.wpi.first.units.measure.AngularVelocity;
+
 public interface HoodIO {
 
   public class HoodIOInputs {
@@ -18,6 +23,10 @@ public interface HoodIO {
   public void setPosition(double rotations);
 
   public void setPositionMM(double positionDegrees);
+  
+  public StatusSignal<Angle> getPosition();
+
+  public StatusSignal<AngularVelocity> getVelocity();
 
   public void stop();
 
