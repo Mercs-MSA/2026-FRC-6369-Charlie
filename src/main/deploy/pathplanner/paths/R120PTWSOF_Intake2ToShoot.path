@@ -3,37 +3,32 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 7.76,
-        "y": 5.235
+        "x": 7.997,
+        "y": 4.549999999999999
       },
       "prevControl": null,
       "nextControl": {
-        "x": 6.566319672131147,
-        "y": 7.87367213114754
+        "x": 7.2205004380956375,
+        "y": 0.4600589942687021
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 3.3530491803278695,
-        "y": 7.535811475409837
+        "x": 3.238,
+        "y": 0.6759999999999993
       },
       "prevControl": {
-        "x": 6.127852459016392,
-        "y": 7.377663934426231
+        "x": 5.142959364405641,
+        "y": 0.7910106293456308
       },
       "nextControl": null,
       "isLocked": false,
       "linkedName": null
     }
   ],
-  "rotationTargets": [
-    {
-      "waypointRelativePos": 0.5,
-      "rotationDegrees": -20.0
-    }
-  ],
+  "rotationTargets": [],
   "constraintZones": [],
   "pointTowardsZones": [],
   "eventMarkers": [
@@ -60,6 +55,17 @@
       }
     },
     {
+      "name": "StartFlywheels",
+      "waypointRelativePos": 0.2483552631578945,
+      "endWaypointRelativePos": null,
+      "command": {
+        "type": "named",
+        "data": {
+          "name": "StartFlywheels"
+        }
+      }
+    },
+    {
       "name": "IntakeHalf",
       "waypointRelativePos": 0.9180921052631549,
       "endWaypointRelativePos": null,
@@ -81,13 +87,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -3.5761310198173146
+    "rotation": 4.763
   },
   "reversed": false,
-  "folder": "120PTWSOF",
+  "folder": "R120PTWSOF",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": -90.67120840895083
+    "rotation": 90.0
   },
   "useDefaultConstraints": true
 }
