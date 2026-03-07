@@ -56,6 +56,10 @@ public class TeleopStates {
       intake.setIntakeGoal(IntakeGoal.kHalf);
       intake.setFlywheelGoal(IntakeFlywheelGoal.kSlow);      
     }
+    public void intakeDepotMode() {
+      intake.setIntakeGoal(IntakeGoal.kDepot);
+      intake.setFlywheelGoal(IntakeFlywheelGoal.kRunning);      
+    }
 
     public void intakeMode() {
       intake.setIntakeGoal(IntakeGoal.kOut);

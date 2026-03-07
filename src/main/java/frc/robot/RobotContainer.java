@@ -487,10 +487,16 @@ public class RobotContainer {
     operatorController.back().whileTrue(Commands.startEnd(() -> {
       climber.setClimberGoal(ClimberGoal.kDown);
     }, () -> {climber.cancel();}, climber));
-    
+    operatorController.x().onTrue(Commands.runOnce(()-> {
+      if (intake.currentIntakeGoal == IntakeGoal.kOut || intake.currentIntakeGoal == IntakeGoal.kHalf || intake.currentIntakeGoal == IntakeGoal.kStow) {
+        teleopState.intakeDepotMode();
+      } else {
+        teleopState.homeMode();
+      }
+    }));
     // driverController.y().onTrue(Commands.runOnce(()-> {
     //   teleopState.currentTeleopMode=TeleopMode.
-    // }
+    // })
     
     // Shooting Mode
     // driverController.rightBumper().onTrue(Commands.runOnce(() -> {
