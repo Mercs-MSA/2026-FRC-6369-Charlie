@@ -70,6 +70,7 @@ public class ShooterMathProvider {
         shotMapRPS.put(3.6322, new Double[]{53.0, 0.033});
         shotMapRPS.put(3.9878, new Double[]{54.0, 0.016});
         shotMapRPS.put(4.71805, new Double[]{59.5, 0.029});
+        shotMapRPS.put(5.375, new Double[]{63.0, 0.029});
         TOFMap.put(0.0, 0.0);
         TOFMap.put(3.3, -1.2);
         TOFMap.put(5.0, -1.4);
