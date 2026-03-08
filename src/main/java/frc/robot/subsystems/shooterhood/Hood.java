@@ -14,6 +14,7 @@ public class Hood extends SubsystemBase {
 
   public enum HoodGoal {
     STOW(() -> 0.00),
+    FIXED(() -> 0.0005),
     PROVIDED(() -> 0.0);
 
     private final DoubleSupplier goalDegrees;

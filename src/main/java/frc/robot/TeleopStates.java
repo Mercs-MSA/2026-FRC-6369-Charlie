@@ -52,6 +52,17 @@ public class TeleopStates {
       }
     }
 
+    public void fixedShootMode() {
+      // shooterFlywheels.setFlywheelState(FlywheelState.FIXED);
+      // shooterTurret.setTurretState(TurretGoalState.FIXED);
+      // shooterHood.setGoal(HoodGoal.STOW);
+      // shooterHood.setHoodState(HoodState.FIXED);
+
+      // if (shooterFlywheels.atSpeed()) {
+      //   shootActive();
+      // }
+    }
+
     public void intakeHalfMode() {
       intake.setIntakeGoal(IntakeGoal.kHalf);
       intake.setFlywheelGoal(IntakeFlywheelGoal.kSlow);      

@@ -1,0 +1,93 @@
+{
+  "version": "2025.0",
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 8.766,
+        "y": 5.056
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 8.952909836065574,
+        "y": 7.780221311475408
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 3.3530491803278695,
+        "y": 7.535811475409837
+      },
+      "prevControl": {
+        "x": 6.034368852459018,
+        "y": 7.449549180327868
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": null
+    }
+  ],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 0.5,
+      "rotationDegrees": -20.0
+    }
+  ],
+  "constraintZones": [],
+  "pointTowardsZones": [],
+  "eventMarkers": [
+    {
+      "name": "StartFlywheels",
+      "waypointRelativePos": 0.0,
+      "endWaypointRelativePos": null,
+      "command": {
+        "type": "named",
+        "data": {
+          "name": "StartFlywheels"
+        }
+      }
+    },
+    {
+      "name": "StartAgitate",
+      "waypointRelativePos": 0,
+      "endWaypointRelativePos": null,
+      "command": {
+        "type": "named",
+        "data": {
+          "name": "StartAgitate"
+        }
+      }
+    },
+    {
+      "name": "IntakeHalf",
+      "waypointRelativePos": 0.9180921052631549,
+      "endWaypointRelativePos": null,
+      "command": {
+        "type": "named",
+        "data": {
+          "name": "IntakeHalf"
+        }
+      }
+    }
+  ],
+  "globalConstraints": {
+    "maxVelocity": 4.5,
+    "maxAcceleration": 4.0,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0,
+    "nominalVoltage": 12.0,
+    "unlimited": false
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": -3.5761310198173146
+  },
+  "reversed": false,
+  "folder": "120PSFTO",
+  "idealStartingState": {
+    "velocity": 0,
+    "rotation": -90.67120840895083
+  },
+  "useDefaultConstraints": true
+}

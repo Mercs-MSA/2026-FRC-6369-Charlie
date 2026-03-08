@@ -48,7 +48,7 @@ public class Intake extends SubsystemBase {
   public enum IntakeFlywheelGoal {
     kStop(() -> 0),
     kSlow(() -> 2.5),
-    kRunning(() -> 8);
+    kRunning(() -> 60);
 
     private DoubleSupplier goalRps;
 

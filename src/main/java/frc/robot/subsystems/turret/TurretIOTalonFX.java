@@ -145,8 +145,8 @@ public class TurretIOTalonFX implements TurretIO {
 
   @Override
   public void setPosition(double radians) {
-    System.out.println(radians);
-    motor.setControl(positionControl.withPosition(Units.radiansToRotations(MathUtil.clamp(radians - TurretConstants.kHomeRadians, TurretConstants.kMinRadiansLimit, TurretConstants.kMaxRadiansLimit))).withSlot(0));
+    System.out.println("" + radians + " " + (radians - TurretConstants.kHomeRadians) % (Math.PI*2));
+    motor.setControl(positionControl.withPosition(Units.radiansToRotations(MathUtil.clamp(MathUtil.inputModulus(radians - TurretConstants.kHomeRadians, 0, Math.PI*2), TurretConstants.kMinRadiansLimit, TurretConstants.kMaxRadiansLimit))).withSlot(0));
   }
 
   @Override
