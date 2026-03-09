@@ -9,18 +9,18 @@ public class TurretConstants {
 
   public static final double kSensorMechanismRatio = 3.4; // sensor to mechanism
   public static final double kRotorSensorGearRatio = 15; // rotor to sensor
-  public static final double kCancoderOffset = -0.415771484375;
+  public static final double kCancoderOffset = 0.206298828125;
 
   public static final double kRotorRotationsToDegrees = 360.0 / kSensorMechanismRatio;
 
-  public static final double kHomeRadians = -1.87;
+  public static final double kHomeRadians = 0.0;
   public static final double kToleranceRotations = 0.5;
 
-  public static final double kMinRadiansLimit = 0;
-  public static final double kMaxRadiansLimit = 6.28;
+  public static final double kMaxRadiansLimit = 1.3;
+  public static final double kMinRadiansLimit = -1.3;
 
   public static final double kTurretOffsetX = -0.132;
-  public static final double kTurretOffsetY = 0.158;
+  public static final double kTurretOffsetY = 0.158; 
 
   public static final double kStatusSignalUpdateFrequencyHz = 100.0;
 

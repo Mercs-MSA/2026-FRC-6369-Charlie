@@ -37,13 +37,13 @@ public class FlywheelConstants {
 
   public static final FlywheelHardware kFlywheelHardware =
       new FlywheelHardware(
-          12, // left motor CAN ID
-          36, // right motor CAN ID
+          36, // left motor CAN ID
+          12, // right motor CAN ID
           kMotorRotationsToFlywheelRotations);
 
   public static final FlywheelGains kFlywheelGains =
       switch (Constants.currentMode) {
-        case REAL -> new FlywheelGains(0.23, 0.0, 0.0, 0.0, 0.0, 0.1225, 0.0, 120.0, 240.0, 0);
+        case REAL -> new FlywheelGains(0.18, 0.0, 0.0, 0.0, 0.0, 0.115, 0.0, 120.0, 240.0, 0);
 
         case SIM -> new FlywheelGains(8.0, 0.0, 0.2, 0.1, 0.3, 1.0, 0.03, 180.0, 360.0, 0);
 
@@ -52,5 +52,5 @@ public class FlywheelConstants {
 
   public static final FlywheelMotorConfiguration kMotorConfiguration =
       new FlywheelMotorConfiguration(
-          true, true, true, 80.0, 50.0, 12.0, -12.0, NeutralModeValue.Coast);
+          false, true, true, 80.0, 50.0, 12.0, -12.0, NeutralModeValue.Coast);
 }

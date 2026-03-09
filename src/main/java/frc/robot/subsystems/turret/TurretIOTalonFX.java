@@ -61,10 +61,10 @@ public class TurretIOTalonFX implements TurretIO {
     motorConfiguration.Slot0.kA = gains.a();
     motorConfiguration.Slot0.kG = gains.g();
 
-    motorConfiguration.SoftwareLimitSwitch.ForwardSoftLimitEnable = true;
+    motorConfiguration.SoftwareLimitSwitch.ForwardSoftLimitEnable = false;
     motorConfiguration.SoftwareLimitSwitch.ForwardSoftLimitThreshold = Units.radiansToRotations(maxRadians);
 
-    motorConfiguration.SoftwareLimitSwitch.ReverseSoftLimitEnable = true;
+    motorConfiguration.SoftwareLimitSwitch.ReverseSoftLimitEnable = false;
     motorConfiguration.SoftwareLimitSwitch.ReverseSoftLimitThreshold = Units.radiansToRotations(minRadians);
 
     // Motion Magic values converted to rotations
@@ -145,8 +145,9 @@ public class TurretIOTalonFX implements TurretIO {
 
   @Override
   public void setPosition(double radians) {
-    System.out.println("" + radians + " " + (radians - TurretConstants.kHomeRadians) % (Math.PI*2));
-    motor.setControl(positionControl.withPosition(Units.radiansToRotations(MathUtil.clamp(MathUtil.inputModulus(radians - TurretConstants.kHomeRadians, 0, Math.PI*2), TurretConstants.kMinRadiansLimit, TurretConstants.kMaxRadiansLimit))).withSlot(0));
+    radians += Math.PI; // * do not remove this
+    System.out.println("" + radians + " " + MathUtil.clamp(MathUtil.angleModulus(radians), TurretConstants.kMinRadiansLimit, TurretConstants.kMaxRadiansLimit));
+    motor.setControl(positionControl.withPosition(Units.radiansToRotations(MathUtil.clamp(MathUtil.angleModulus(radians), TurretConstants.kMinRadiansLimit, TurretConstants.kMaxRadiansLimit))));
   }
 
   @Override

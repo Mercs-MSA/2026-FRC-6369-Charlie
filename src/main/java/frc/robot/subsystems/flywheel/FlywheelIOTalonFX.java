@@ -20,6 +20,7 @@ import edu.wpi.first.units.measure.Voltage;
 public class FlywheelIOTalonFX implements FlywheelIO {
 
   private final TalonFX motorLeft;
+  private final TalonFX motorRight;
 
   private final TalonFXConfiguration motorConfiguration = new TalonFXConfiguration();
 
@@ -37,6 +38,7 @@ public class FlywheelIOTalonFX implements FlywheelIO {
       FlywheelConstants.FlywheelGains gains) {
 
     motorLeft = new TalonFX(hardware.motorIDLeft());
+    motorRight = new TalonFX(hardware.motorIDRight());
 
     motorConfiguration.Slot0.kP = gains.p();
     motorConfiguration.Slot0.kI = gains.i();
@@ -64,8 +66,10 @@ public class FlywheelIOTalonFX implements FlywheelIO {
         hardware.motorRotationsToFlywheelRotations();
 
     motorLeft.setPosition(0.0);
+    motorRight.setPosition(0.0);
 
     motorLeft.getConfigurator().apply(motorConfiguration, 1.0);
+    motorRight.getConfigurator().apply(motorConfiguration, 1.0);
 
     velocityLeft = motorLeft.getVelocity();
     appliedVoltsLeft = motorLeft.getMotorVoltage();
@@ -82,8 +86,10 @@ public class FlywheelIOTalonFX implements FlywheelIO {
         temperatureCelsiusLeft);
 
     motorLeft.optimizeBusUtilization(0.0, 1.0);
+    motorRight.optimizeBusUtilization(0.0, 1.0);
 
-    // motorRight.setControl(new Follower(hardware.motorIDLeft(), MotorAlignmentValue.Opposed));
+    motorRight.setControl(new Follower(hardware.motorIDLeft(), MotorAlignmentValue.Opposed));
+    // motorRight.setControl(new CoastOut());
   }
 
   @Override
