@@ -31,10 +31,10 @@ import frc.robot.generated.TunerConstants;
 import frc.robot.math.ShooterMathProvider;
 import frc.robot.math.ShooterMathProvider.CalculationState;
 import frc.robot.subsystems.drive.Drive.Controllers.HolonomicController;
-import frc.robot.subsystems.climber.Climber;
-import frc.robot.subsystems.climber.ClimberConstants;
-import frc.robot.subsystems.climber.ClimberIOTalonFX;
-import frc.robot.subsystems.climber.Climber.ClimberGoal;
+// import frc.robot.subsystems.climber.Climber;
+// import frc.robot.subsystems.climber.ClimberConstants;
+// import frc.robot.subsystems.climber.ClimberIOTalonFX;
+// import frc.robot.subsystems.climber.Climber.ClimberGoal;
 import frc.robot.subsystems.drive.Drive.Drive;
 import frc.robot.subsystems.drive.Drive.Drive.DriveState;
 import frc.robot.subsystems.flywheel.Flywheel;
@@ -103,7 +103,7 @@ public class RobotContainer {
   public final Intake intake;
   public final Spindexer spindexer;
 
-  public final Climber climber;
+  // public final Climber climber;
 
   public final Index index;
   public final Trigger flywheelsAtGoalTrigger;
@@ -171,7 +171,7 @@ public class RobotContainer {
           new SpindexerIOTalonFX(SpindexerConstants.kIndexHardware, SpindexerConstants.kMotorConfiguration, SpindexerConstants.kSpindexIndexGains)
         );
         
-        climber = new Climber(new ClimberIOTalonFX(ClimberConstants.kClimberHardware, ClimberConstants.kMotorConfiguration, ClimberConstants.kClimberGains));
+        // climber = new Climber(new ClimberIOTalonFX(ClimberConstants.kClimberHardware, ClimberConstants.kMotorConfiguration, ClimberConstants.kClimberGains));
         
         break;
 
@@ -223,7 +223,7 @@ public class RobotContainer {
           new SpindexerIOTalonFX(SpindexerConstants.kIndexHardware, SpindexerConstants.kMotorConfiguration, SpindexerConstants.kSpindexIndexGains)
         );
 
-        climber = new Climber(new ClimberIOTalonFX(ClimberConstants.kClimberHardware, ClimberConstants.kMotorConfiguration, ClimberConstants.kClimberGains));
+        // climber = new Climber(new ClimberIOTalonFX(ClimberConstants.kClimberHardware, ClimberConstants.kMotorConfiguration, ClimberConstants.kClimberGains));
 
         break;
 
@@ -276,7 +276,7 @@ public class RobotContainer {
           new SpindexerIOTalonFX(SpindexerConstants.kIndexHardware, SpindexerConstants.kMotorConfiguration, SpindexerConstants.kSpindexIndexGains)
         );
 
-        climber = new Climber(new ClimberIOTalonFX(ClimberConstants.kClimberHardware, ClimberConstants.kMotorConfiguration, ClimberConstants.kClimberGains));
+        // climber = new Climber(new ClimberIOTalonFX(ClimberConstants.kClimberHardware, ClimberConstants.kMotorConfiguration, ClimberConstants.kClimberGains));
 
         break;
     }
@@ -480,20 +480,23 @@ public class RobotContainer {
       }
     }, intake));
 
-    operatorController.start().whileTrue(Commands.startEnd(() -> {
-      climber.setClimberGoal(ClimberGoal.kClimbed);
-    }, () -> {climber.cancel();}, climber));
+    // operatorController.start().whileTrue(Commands.startEnd(() -> {
+    //   climber.setClimberGoal(ClimberGoal.kClimbed);
+    // }, () -> {climber.cancel();}, climber));
     
-    operatorController.back().whileTrue(Commands.startEnd(() -> {
-      climber.setClimberGoal(ClimberGoal.kDown);
-    }, () -> {climber.cancel();}, climber));
-    operatorController.leftTrigger().onTrue(Commands.runOnce(()-> {
-      if (intake.currentIntakeGoal == IntakeGoal.kOut || intake.currentIntakeGoal == IntakeGoal.kHalf || intake.currentIntakeGoal == IntakeGoal.kStow) {
-        teleopState.intakeDepotMode();
-      } else {
-        teleopState.homeMode();
-      }
-    }));
+    // operatorController.back().whileTrue(Commands.startEnd(() -> {
+    //   climber.setClimberGoal(ClimberGoal.kDown);
+    // }, () -> {climber.cancel();}, climber));
+    // operatorController.leftTrigger().onTrue(Commands.runOnce(()-> {
+    //   if ((intake.currentFlywheelGoal == IntakeFlywheelGoal.kRunning || intake.currentFlywheelGoal == IntakeFlywheelGoal.kSlow) && intake.currentIntakeGoal == IntakeGoal.kDepot) {
+    //     teleopState.intakeStop();
+    //   } else {
+    //     teleopState.intakeDepotMode();
+    //   }
+    // }));
+    operatorController.leftTrigger().whileTrue(Commands.runEnd(()-> {
+      teleopState.spindexBack();
+    }, () -> {teleopState.spindexBackStop();}));
     // driverController.y().onTrue(Commands.runOnce(()-> {
     //   teleopState.currentTeleopMode=TeleopMode.
     // })

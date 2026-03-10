@@ -10,6 +10,7 @@ public class SpindexerConstants {
   public static final int kLinearFilterSampleCount = 5;
 
   public static final double kDefaultSpeedRPS = 27.0;
+  public static final double kBackSpeedRPS = -10.0;
 
 
   public record SpindexerHardware(

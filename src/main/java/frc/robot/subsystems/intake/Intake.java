@@ -17,10 +17,10 @@ public class Intake extends SubsystemBase {
   public enum IntakeGoal {
     kOut(() -> 2.43, 2.3, 2.43),
     kHalf(() -> 1.5, 1.3, 1.7),
-    kAutoTravel(() -> 1.8, 1.8, 1.8),
+    kAutoTravel(() -> 1.8, 1.65, 2.0),
     kStow(() -> 0.005, 0.005, 0.005),
     kPushback(() -> 0.5, 0.5, 0.5),
-    kDepot(() -> 2.0, 1.8, 2.2);
+    kDepot(() -> 2.2, 2.2, 2.2);
     /** Custom setpoint that can be modified over network tables; Usefu for debugging */
     private DoubleSupplier goal;
     private double goalAgitateMax;

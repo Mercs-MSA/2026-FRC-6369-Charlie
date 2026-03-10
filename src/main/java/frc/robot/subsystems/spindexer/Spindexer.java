@@ -11,7 +11,8 @@ import org.littletonrobotics.junction.Logger;
 public class Spindexer extends SubsystemBase {
   public enum SpindexerState {
     STOP,
-    RUNNING
+    RUNNING,
+    BACK
   }
 
   private SpindexerState currentState = SpindexerState.STOP;
@@ -48,7 +49,12 @@ public class Spindexer extends SubsystemBase {
       io.setVelocity(goalSpeedRPS);
     }
 
-    if (currentState == SpindexerState.STOP) {
+    else if (currentState == SpindexerState.BACK) {
+      goalSpeedRPS = SpindexerConstants.kBackSpeedRPS;
+      io.setVelocity(goalSpeedRPS);
+    }
+
+    else if (currentState == SpindexerState.STOP) {
       goalSpeedRPS = 0.0;
       io.stop();
     }

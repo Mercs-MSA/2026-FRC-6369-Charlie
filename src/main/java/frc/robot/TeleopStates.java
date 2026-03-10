@@ -86,6 +86,18 @@ public class TeleopStates {
       intake.setFlywheelGoal(IntakeFlywheelGoal.kStop);
     }
 
+    public void spindexBack() {
+      spindexer.setIndexState(SpindexerState.BACK);
+    }
+
+    public void spindexBackStop() {
+      if (index.atSpeed() && index.currentState == IndexState.PROVIDED) {
+        spindexer.setIndexState(SpindexerState.RUNNING);
+      } else {
+        spindexer.setIndexState(SpindexerState.STOP);
+      }
+    }
+
     public void shootStop() {
       shooterFlywheels.setFlywheelState(FlywheelState.STOP);
       shooterTurret.setTurretState(TurretGoalState.PROVIDED);

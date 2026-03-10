@@ -53,12 +53,6 @@
           }
         },
         {
-          "type": "named",
-          "data": {
-            "name": "StopAgitate"
-          }
-        },
-        {
           "type": "path",
           "data": {
             "pathName": "120PWSOF_Shoot1ToIntake"
@@ -74,18 +68,6 @@
           "type": "path",
           "data": {
             "pathName": "120PTWSOF_Intake2ToShoot"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "IntakeHalf"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "StartAgitate"
           }
         },
         {

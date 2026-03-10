@@ -15,7 +15,7 @@ public class Index extends SubsystemBase {
     PROVIDED
   }
 
-  private IndexState currentState = IndexState.STOP;
+  public IndexState currentState = IndexState.STOP;
 
   private final IndexIO io;
   private final IndexIOInputsAutoLogged inputs = new IndexIOInputsAutoLogged();
