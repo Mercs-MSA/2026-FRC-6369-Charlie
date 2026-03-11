@@ -334,6 +334,9 @@ public class RobotContainer {
         put("StopAgitate", Commands.runOnce(() -> {
           intake.setAgitating(false);
         }, intake));
+        put("StartReverse", Commands.runOnce(() -> {
+          spindexer.setIndexState(SpindexerState.BACK);
+        }, spindexer));
       }
     });
 

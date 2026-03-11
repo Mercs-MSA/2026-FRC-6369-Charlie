@@ -13,7 +13,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "R120PTWSOF_StartToIntake1"
+            "pathName": "R120PFTWMF_StartToIntake1"
           }
         },
         {
@@ -25,7 +25,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "R120PTWSOF_Intake1ToShoot"
+            "pathName": "R120PFTWMF_Intake1ToShoot"
           }
         },
         {
@@ -55,25 +55,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "R120PWSOF_Shoot1ToIntake"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "IntakeSlow"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "R120PTWSOF_Intake2ToShoot"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "BeginIndex"
+            "pathName": "R120PFTWMF_Shoot1ToIntake"
           }
         }
       ]

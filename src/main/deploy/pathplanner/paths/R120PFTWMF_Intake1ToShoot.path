@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 3.1589590163934425,
-        "y": 0.6179999999999994
+        "x": 7.76,
+        "y": 2.561
       },
       "prevControl": null,
       "nextControl": {
-        "x": 5.90497582492379,
-        "y": 0.7042490804428447
+        "x": 6.581638065327088,
+        "y": -0.5749150420433766
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 7.767,
-        "y": 3.005
+        "x": 3.109,
+        "y": 1.3009999999999993
       },
       "prevControl": {
-        "x": 7.328304701432271,
-        "y": 1.1216062259795114
+        "x": 3.266786885245901,
+        "y": 0.6851475409836062
       },
       "nextControl": null,
       "isLocked": false,
@@ -30,38 +30,31 @@
   ],
   "rotationTargets": [
     {
-      "waypointRelativePos": 0.17,
-      "rotationDegrees": -0.025
+      "waypointRelativePos": 0.5,
+      "rotationDegrees": 0.0
+    },
+    {
+      "waypointRelativePos": 0.6739446870451221,
+      "rotationDegrees": 0.641
     }
   ],
   "constraintZones": [],
   "pointTowardsZones": [],
   "eventMarkers": [
     {
-      "name": "IntakeOut",
-      "waypointRelativePos": 0.03782894736842141,
+      "name": "StartFlywheels",
+      "waypointRelativePos": 0.0,
       "endWaypointRelativePos": null,
       "command": {
         "type": "named",
         "data": {
-          "name": "IntakeOut"
-        }
-      }
-    },
-    {
-      "name": "IntakeRun",
-      "waypointRelativePos": 0.20493421052631605,
-      "endWaypointRelativePos": null,
-      "command": {
-        "type": "named",
-        "data": {
-          "name": "IntakeRun"
+          "name": "StartFlywheels"
         }
       }
     }
   ],
   "globalConstraints": {
-    "maxVelocity": 3.0,
+    "maxVelocity": 4.5,
     "maxAcceleration": 4.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0,
@@ -70,13 +63,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 87.898
+    "rotation": -90.0
   },
   "reversed": false,
-  "folder": null,
+  "folder": "R120PFTWMF",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 19.71
+    "rotation": 90.671
   },
-  "useDefaultConstraints": false
+  "useDefaultConstraints": true
 }
