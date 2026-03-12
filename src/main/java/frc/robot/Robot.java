@@ -20,6 +20,7 @@ import com.ctre.phoenix6.swerve.SwerveModuleConstants.SteerMotorArrangement;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.generated.TunerConstants;
+import frc.robot.math.ShooterMathProvider.CalculationState;
 import frc.robot.subsystems.drive.Drive.Drive.DriveState;
 import frc.robot.subsystems.turret.TurretOffset;
 
@@ -148,6 +149,7 @@ public class Robot extends LoggedRobot {
   @Override
   public void autonomousInit() {
     robotContainer.drive.setDriveState(DriveState.AUTO);
+    robotContainer.shooterMath.setState(CalculationState.HUB);
     autonomousCommand = robotContainer.getAutonomousCommand();
 
     // schedule the autonomous command (example)

@@ -13,31 +13,61 @@
         {
           "type": "path",
           "data": {
-            "pathName": "StartToNeutralLeft"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "NeutralLeftPickup"
-          }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 10.0
+            "pathName": "L120PTWSOF_StartToIntake1"
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "StartFlywheels"
+            "name": "IntakeSlow"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "NeutralLeftPickupEnd"
+            "pathName": "L120PTWSOF_Intake1ToShoot"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "BeginIndex"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 4.5
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "StopIndex"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "IntakeOut"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "L120PWSOF_Shoot1ToIntake"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "IntakeSlow"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "L120PTWSOF_Intake2ToShoot"
           }
         },
         {
