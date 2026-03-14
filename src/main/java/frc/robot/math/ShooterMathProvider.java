@@ -65,12 +65,12 @@ public class ShooterMathProvider {
         // shotMapRPS.put(3.09, new Double[]{50.0, 0.018});
         // shotMapRPS.put(3.64, new Double[]{51.0, 0.028});
         // shotMapRPS.put(5.32, new Double[]{59.0, 0.048});
-        shotMapRPS.put(1.6, new Double[]{44.0*1.04, 0.00});
-        shotMapRPS.put(2.6924, new Double[]{45.0*1.04, 0.012});
-        shotMapRPS.put(3.6322, new Double[]{51.5*1.04, 0.033});
-        shotMapRPS.put(3.9878, new Double[]{52.0*1.04, 0.016});
-        shotMapRPS.put(4.71805, new Double[]{58.5*1.04, 0.029});
-        shotMapRPS.put(5.375, new Double[]{63.0*1.04, 0.029});
+        shotMapRPS.put(1.6, new Double[]{44.0*1.00, 0.00});
+        shotMapRPS.put(2.6924, new Double[]{45.0*1.00, 0.012});
+        shotMapRPS.put(3.6322, new Double[]{51.5*1.00, 0.033});
+        shotMapRPS.put(3.9878, new Double[]{52.0*1.00, 0.016});
+        shotMapRPS.put(4.71805, new Double[]{58.5*1.00, 0.029});
+        shotMapRPS.put(5.375, new Double[]{63.0*1.00, 0.029});
         TOFMap.put(0.0, 0.0);
         TOFMap.put(3.3, -1.2);
         TOFMap.put(5.0, -1.4);
