@@ -5,6 +5,8 @@
 package frc.robot.subsystems.intake;
 
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.subsystems.flywheel.Flywheel.FlywheelState;
 
@@ -47,7 +49,7 @@ public class Intake extends SubsystemBase {
 
   public enum IntakeFlywheelGoal {
     kStop(() -> 0),
-    kSlow(() -> 2.5),
+    kSlow(() -> 30),
     kRunning(() -> 60);
 
     private DoubleSupplier goalRps;
@@ -73,9 +75,12 @@ public class Intake extends SubsystemBase {
   private boolean isAgitating = false;
   private boolean isPushback = false;
 
-  public Intake(IntakeIO io, IntakeFlywheelIO flywheelIO) {
+  private XboxController rumbleXboxController;
+
+  public Intake(XboxController rumble, IntakeIO io, IntakeFlywheelIO flywheelIO) {
     kIntake = io;
     kIntakeFlywheel = flywheelIO;
+    rumbleXboxController = rumble;
   }
 
   @Override
@@ -105,6 +110,12 @@ public class Intake extends SubsystemBase {
       Logger.recordOutput("Intake/PositionGoal", "NONE");
     }
 
+    if (currentFlywheelGoal == IntakeFlywheelGoal.kRunning) {
+      rumbleXboxController.setRumble(RumbleType.kLeftRumble, 0.5);
+    } else {
+      rumbleXboxController.setRumble(RumbleType.kLeftRumble, 0.0);
+    }
+    
     if (currentFlywheelGoal != null) {
       if (currentFlywheelGoal == IntakeFlywheelGoal.kStop || !positionAtGoal()) {
         kIntakeFlywheel.stop();

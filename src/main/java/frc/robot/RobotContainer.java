@@ -114,6 +114,8 @@ public class RobotContainer {
   private final CommandXboxController operatorController = new CommandXboxController(1);
   private final CommandXboxController testController = new CommandXboxController(2);
   
+  private final XboxController operatorRumble = new XboxController(1);
+
   // Commands
   public final TeleopStates teleopState;
 
@@ -159,6 +161,7 @@ public class RobotContainer {
 
         intake =
                 new Intake(
+                  operatorRumble,
                   new IntakeIOTalonFX(IntakeConstants.kIntakeHardware, IntakeConstants.kMotorConfiguration, IntakeConstants.kIntakeGains),
                   new IntakeFlywheelIOTalonFX(IntakeFlywheelConstants.kFlywheelHardware, IntakeFlywheelConstants.kMotorConfiguration, IntakeFlywheelConstants.kFlywheelGains));
 
@@ -211,6 +214,7 @@ public class RobotContainer {
 
         intake =
                 new Intake(
+                  operatorRumble,
                   new IntakeIOTalonFX(IntakeConstants.kIntakeHardware, IntakeConstants.kMotorConfiguration, IntakeConstants.kIntakeGains),
                   new IntakeFlywheelIOTalonFX(IntakeFlywheelConstants.kFlywheelHardware, IntakeFlywheelConstants.kMotorConfiguration, IntakeFlywheelConstants.kFlywheelGains));
         
@@ -264,6 +268,7 @@ public class RobotContainer {
 
         intake =
                 new Intake(
+                  operatorRumble,
                   new IntakeIOTalonFX(IntakeConstants.kIntakeHardware, IntakeConstants.kMotorConfiguration, IntakeConstants.kIntakeGains),
                   new IntakeFlywheelIOTalonFX(IntakeFlywheelConstants.kFlywheelHardware, IntakeFlywheelConstants.kMotorConfiguration, IntakeFlywheelConstants.kFlywheelGains));
 
