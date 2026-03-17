@@ -9,7 +9,7 @@ public class TurretConstants {
 
   public static final double kSensorMechanismRatio = 3.4; // sensor to mechanism
   public static final double kRotorSensorGearRatio = 15; // rotor to sensor
-  public static final double kCancoderOffset = 0.206298828125;
+  public static final double kCancoderOffset = 0.0673828125;
 
   public static final double kRotorRotationsToDegrees = 360.0 / kSensorMechanismRatio;
 
