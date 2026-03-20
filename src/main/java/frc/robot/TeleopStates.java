@@ -39,7 +39,7 @@ public class TeleopStates {
     }
 
     public void warmupShootMode() {
-      if (intake.currentIntakeGoal != IntakeGoal.kHalf && intake.currentIntakeGoal != IntakeGoal.kOut) {
+      if (intake.currentIntakeGoal != IntakeGoal.kThreeQuarter && intake.currentIntakeGoal != IntakeGoal.kHalf && intake.currentIntakeGoal != IntakeGoal.kOut) {
         intake.setIntakeGoal(IntakeGoal.kOut);
       }
       shooterFlywheels.setFlywheelState(FlywheelState.PROVIDED);
@@ -91,7 +91,7 @@ public class TeleopStates {
     }
 
     public void spindexBackStop() {
-      if (index.atSpeed() && index.currentState == IndexState.PROVIDED) {
+      if (shooterFlywheels.atSpeed() && shooterFlywheels.currentState == FlywheelState.PROVIDED) {
         spindexer.setIndexState(SpindexerState.RUNNING);
       } else {
         spindexer.setIndexState(SpindexerState.STOP);
@@ -109,6 +109,11 @@ public class TeleopStates {
 
     public void halfMode() {
       intake.setIntakeGoal(IntakeGoal.kHalf);
+      intake.setFlywheelGoal(IntakeFlywheelGoal.kSlow);
+    }
+
+    public void threeQuarterMode() {
+      intake.setIntakeGoal(IntakeGoal.kThreeQuarter);
       intake.setFlywheelGoal(IntakeFlywheelGoal.kSlow);
     }
 

@@ -51,5 +51,5 @@ public class IntakeFlywheelConstants {
 
   public static final FlywheelMotorConfiguration kMotorConfiguration =
       new FlywheelMotorConfiguration(
-          true, true, true, 80.0, 50.0, 12.0, -12.0, NeutralModeValue.Brake);
+          true, true, true, 80.0, 50.0, 12.0, -12.0, NeutralModeValue.Coast);
 }

@@ -37,6 +37,9 @@ public class ShooterMathProvider {
     public boolean hoodStow;
     @AutoLogOutput
     public double dist;
+
+    @AutoLogOutput
+    public double powerScale = 1.00;
     
     // position of hub opening on blue side
     public Translation2d targetPositionBlueSide = new Translation2d(4.625, 4.034);
@@ -124,6 +127,14 @@ public class ShooterMathProvider {
         return ((x2 - x) / (x2 - x1)) * q00 + ((x - x1) / (x2 - x1)) * q01;
     }
 
+    public void scaleUp() {
+        this.powerScale += 0.01;
+    }
+    
+    public void scaleDown() {
+        this.powerScale -= 0.01;
+    }
+
     public void update(Pose2d robotPose, ChassisSpeeds velocities, Pose2d turretPose) throws IOException {
         // Distance to target        
         Translation2d target;
@@ -157,7 +168,7 @@ public class ShooterMathProvider {
         Double[] lowerValShotmap = lowerEntryShotmap.getValue();
         Double[] upperValShotmap = upperEntryShotmap.getValue();
 
-        shooterVelocityTarget = lerp(dist, lowerKeyShotmap, upperKeyShotmap, lowerValShotmap[0], upperValShotmap[0]);
+        shooterVelocityTarget = lerp(dist, lowerKeyShotmap, upperKeyShotmap, lowerValShotmap[0], upperValShotmap[0]) * powerScale;
         shooterHoodAngle = lerp(dist, lowerKeyShotmap, upperKeyShotmap, lowerValShotmap[1], upperValShotmap[1]);
 
     ChassisSpeeds fieldVel = ChassisSpeeds.fromRobotRelativeSpeeds(velocities, robotPose.getRotation());

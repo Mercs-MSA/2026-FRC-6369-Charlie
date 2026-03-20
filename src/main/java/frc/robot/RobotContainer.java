@@ -289,7 +289,7 @@ public class RobotContainer {
     flywheelsAtGoalTrigger = new Trigger(() -> shooterFlywheels.atSpeed());
     intakeTrigger = new Trigger(() -> intake.positionAtGoal());
     teleopState = new TeleopStates(drive, intake, shooterFlywheels, shooterHood, shooterTurret, spindexer, index);
-
+   
     // Create auto routines
     NamedCommands.registerCommands(new HashMap<String, Command>(){
       {
@@ -473,7 +473,7 @@ public class RobotContainer {
     }, intake));
 
     // intake mode
-    operatorController.leftBumper().onTrue(Commands.runOnce(() -> {
+      operatorController.leftBumper().onTrue(Commands.runOnce(() -> {
       if ((intake.currentFlywheelGoal == IntakeFlywheelGoal.kRunning || intake.currentFlywheelGoal == IntakeFlywheelGoal.kSlow) && intake.currentIntakeGoal == IntakeGoal.kOut) {
         teleopState.intakeStop();
       } else {
@@ -487,6 +487,15 @@ public class RobotContainer {
         teleopState.halfMode();
       }
     }, intake));
+
+    operatorController.start().onTrue(Commands.runOnce(() -> {
+      shooterMath.scaleUp();
+    }));
+    
+    operatorController.back().onTrue(Commands.runOnce(() -> {
+      shooterMath.scaleDown();
+    }));
+
 
     // operatorController.start().whileTrue(Commands.startEnd(() -> {
     //   climber.setClimberGoal(ClimberGoal.kClimbed);
@@ -539,7 +548,7 @@ public class RobotContainer {
       teleopState.shootStop();
     }, shooterFlywheels));
 
-    
+
     operatorController.rightTrigger().onTrue(Commands.runOnce(() -> {
       shooterMath.setState(CalculationState.HUB);
       teleopState.warmupShootMode();

@@ -4,6 +4,7 @@ import com.ctre.phoenix6.BaseStatusSignal;
 import com.ctre.phoenix6.StatusSignal;
 import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
+import com.ctre.phoenix6.controls.CoastOut;
 import com.ctre.phoenix6.controls.Follower;
 import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
@@ -29,6 +30,7 @@ public class IntakeFlywheelIOTalonFX implements IntakeFlywheelIO {
   private StatusSignal<Temperature> temperatureCelsiusLeft;
 
   private final VelocityVoltage velocityControl = new VelocityVoltage(0);
+  private final CoastOut coastControl = new CoastOut();
 
   public IntakeFlywheelIOTalonFX(
       IntakeFlywheelConstants.FlywheelHardware hardware,
@@ -108,7 +110,7 @@ public class IntakeFlywheelIOTalonFX implements IntakeFlywheelIO {
 
   @Override
   public void stop() {
-    motor.stopMotor();
+    motor.setControl(coastControl);
   }
 
   @Override

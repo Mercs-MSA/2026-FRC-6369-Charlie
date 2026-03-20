@@ -9,7 +9,7 @@ public class SpindexerConstants {
   public static final double kStatusSignalUpdateFrequencyHz = 100.0;
   public static final int kLinearFilterSampleCount = 5;
 
-  public static final double kDefaultSpeedRPS = 30.0;
+  public static final double kDefaultSpeedRPS = 26.0;
   public static final double kBackSpeedRPS = -10.0;
 
 
