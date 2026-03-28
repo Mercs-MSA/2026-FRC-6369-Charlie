@@ -19,6 +19,7 @@ public class VisionIOLimelight implements CameraIO {
   private final DoubleArrayPublisher orientationPublisher;
 
   private final DoubleSubscriber latencySubscriber;
+  private final DoubleSubscriber taSubscriber;
   private final DoubleSubscriber txSubscriber;
   private final DoubleSubscriber tySubscriber;
   private final DoubleArraySubscriber megatag1Subscriber;
@@ -31,6 +32,7 @@ public class VisionIOLimelight implements CameraIO {
     var table = NetworkTableInstance.getDefault().getTable(name);
     orientationPublisher = table.getDoubleArrayTopic("robot_orientation_set").publish();
     latencySubscriber = table.getDoubleTopic("tl").subscribe(0.0);
+    taSubscriber = table.getDoubleTopic("ta").subscribe(0.0);
     txSubscriber = table.getDoubleTopic("tx").subscribe(0.0);
     tySubscriber = table.getDoubleTopic("ty").subscribe(0.0);
     megatag1Subscriber = table.getDoubleArrayTopic("botpose_wpiblue").subscribe(new double[] {});
@@ -50,6 +52,7 @@ public class VisionIOLimelight implements CameraIO {
     inputs.hasTarget = false;
     inputs.hasBeenUpdated = false;
     inputs.numberOfTargets = 0;
+    inputs.targetsArea = taSubscriber.get();
 
     // Update orientation for MegaTag2
     orientationPublisher.accept(
@@ -67,6 +70,7 @@ public class VisionIOLimelight implements CameraIO {
 
       // Robot pose estimate
       inputs.latestEstimatedRobotPose = parsePose(rawSample.value);
+      inputs.latestEstimatedRobotPoseMT1 = parsePose(rawSample.value);
 
       // Ambiguity (only first tag if available)
       inputs.latestTagAmbiguities =
@@ -80,25 +84,25 @@ public class VisionIOLimelight implements CameraIO {
     }
 
     // Process MegaTag2 observations (ORB-SLAM fused)
-    for (var rawSample : megatag2Subscriber.readQueue()) {
-      if (rawSample.value.length < 7) continue;
+    // for (var rawSample : megatag2Subscriber.readQueue()) {
+    //   if (rawSample.value.length < 7) continue;
 
-      inputs.hasTarget = true;
-      inputs.hasBeenUpdated = true;
-      inputs.numberOfTargets = (int) rawSample.value[7];
-      inputs.latestTimestamp = rawSample.timestamp * 1.0e-6 - rawSample.value[6] * 1.0e-3;
+    //   inputs.hasTarget = true;
+    //   inputs.hasBeenUpdated = true;
+    //   inputs.numberOfTargets = (int) rawSample.value[7];
+    //   inputs.latestTimestamp = rawSample.timestamp * 1.0e-6 - rawSample.value[6] * 1.0e-3;
 
-      // Robot pose estimate
-      inputs.latestEstimatedRobotPose = parsePose(rawSample.value);
+    //   // Robot pose estimate
+    //   inputs.latestEstimatedRobotPose = parsePose(rawSample.value);
 
-      // Ambiguity = 0 for already-disambiguated multi-tag
-      inputs.latestTagAmbiguities = new double[] {0.0};
+    //   // Ambiguity = 0 for already-disambiguated multi-tag
+    //   inputs.latestTagAmbiguities = new double[] {0.0};
 
-      // Same placeholder — could be expanded if Limelight publishes per-tag transforms
-      inputs.latestTagTransforms = new Transform3d[] {new Transform3d()};
+    //   // Same placeholder — could be expanded if Limelight publishes per-tag transforms
+    //   inputs.latestTagTransforms = new Transform3d[] {new Transform3d()};
 
-      inputs.singleTagAprilTagID = (inputs.numberOfTargets == 1) ? (int) rawSample.value[11] : -1;
-    }
+    //   inputs.singleTagAprilTagID = (inputs.numberOfTargets == 1) ? (int) rawSample.value[11] : -1;
+    // }
   }
 
   /** Parses the 3D pose from a Limelight botpose array. */

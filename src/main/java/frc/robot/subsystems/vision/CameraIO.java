@@ -20,11 +20,14 @@ public interface CameraIO {
     /** Whether the camera currently has a valid target. */
     public boolean hasTarget = false;
 
+    public double targetsArea = 0.0;
+
     /** Whether the camera’s data has been updated this cycle. */
     public boolean hasBeenUpdated = false;
 
     /** Latest robot pose estimated by this camera (in field space). */
     public Pose3d latestEstimatedRobotPose = new Pose3d();
+    public Pose3d latestEstimatedRobotPoseMT1 = new Pose3d();
 
     /** Timestamp for the latest observation. */
     public double latestTimestamp = 0.0;

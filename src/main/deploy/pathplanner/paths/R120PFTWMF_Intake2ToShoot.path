@@ -9,7 +9,7 @@
       "prevControl": null,
       "nextControl": {
         "x": 8.016058923316331,
-        "y": 0.16104540557745528
+        "y": 0.16104540557745572
       },
       "isLocked": false,
       "linkedName": null
@@ -21,7 +21,7 @@
       },
       "prevControl": {
         "x": 3.769988272989242,
-        "y": 0.0285434076129496
+        "y": 0.02854340761294938
       },
       "nextControl": null,
       "isLocked": false,
@@ -77,7 +77,7 @@
     "rotation": -90.0
   },
   "reversed": false,
-  "folder": "R120PFTWMF",
+  "folder": null,
   "idealStartingState": {
     "velocity": 0.0,
     "rotation": 90.0

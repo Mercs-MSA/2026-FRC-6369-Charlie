@@ -6,11 +6,16 @@ import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.apriltag.AprilTagFields;
 import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.Vector;
+import edu.wpi.first.math.estimator.PoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Transform2d;
 import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.numbers.N3;
 import frc.robot.subsystems.drive.Drive.*;
+
+import org.littletonrobotics.junction.AutoLog;
+import org.littletonrobotics.junction.AutoLogOutput;
 import org.littletonrobotics.junction.Logger;
 
 /**
@@ -20,6 +25,13 @@ import org.littletonrobotics.junction.Logger;
 public class Vision {
   private final CameraIO[] cameras;
   private final CameraIOInputsAutoLogged[] camerasData;
+
+  @AutoLogOutput
+  public Pose2d latestMt1Pose = new Pose2d();
+  @AutoLogOutput
+  public boolean hasObservedMt1 = false;
+
+  public PoseEstimator poseEstimator;
 
   private final AprilTagFieldLayout fieldLayout =
       AprilTagFieldLayout.loadField(AprilTagFields.k2025ReefscapeAndyMark);
@@ -35,7 +47,7 @@ public class Vision {
 
   /** Updates all cameras each cycle. */
   public void periodic(Drive drivebase) {
-    // update vision data from limeights
+    // update vision data from lime,rgstsgights
     for (int i = 0; i < cameras.length; i++) {
       cameras[i].updateInputs(camerasData[i]);
       Logger.processInputs("Vision/" + camerasData[i].camName, camerasData[i]);
@@ -43,15 +55,34 @@ public class Vision {
 
     // apply vision measurements to drivebase with std devs
     VisionObservation[] observations = getVisionObservations();
+    double totalArea = 0.0;
     for (VisionObservation observation : observations) {
-      if (observation.hasObserved())
+      if (observation.hasObserved()) {
         drivebase.addVisionMeasurement(
             observation.pose(), observation.timeStamp(), observation.stdDevs());
+        totalArea += observation.tagsArea();
+      }
 
       Logger.recordOutput(observation.camName() + "/stdDevX", observation.stdDevs().get(0));
       Logger.recordOutput(observation.camName() + "/stdDevY", observation.stdDevs().get(1));
       Logger.recordOutput(observation.camName() + "/stdDevTheta", observation.stdDevs().get(2));
     }
+
+    double x = 0.0;
+    double y = 0.0;
+    double t = 0.0;
+    for (VisionObservation observation : observations) {
+      if (observation.hasObserved()) {
+        hasObservedMt1 = true;
+        x += observation.mt1Pose.getX() * observation.tagsArea();
+        y += observation.mt1Pose.getY() * observation.tagsArea();
+        t += observation.mt1Pose.getRotation().getRadians() * observation.tagsArea();
+      }
+    }
+    if (hasObservedMt1) {
+      latestMt1Pose = new Pose2d(x / totalArea, y / totalArea, new Rotation2d(t));
+    }
+
   }
 
   /**
@@ -113,8 +144,10 @@ public class Vision {
       return new VisionObservation(
           true,
           singleTagPose,
+          estimateSingleTagPoseMt1(camData),
           VisionConstants.kSingleStdDevs,
           camData.latestTimestamp,
+          camData.targetsArea,
           camData.camName);
     }
 
@@ -122,8 +155,10 @@ public class Vision {
     return new VisionObservation(
         true,
         camData.latestEstimatedRobotPose.toPose2d(),
+        camData.latestEstimatedRobotPoseMT1.toPose2d(),
         VisionConstants.kMultiStdDevs,
         camData.latestTimestamp,
+        camData.targetsArea,
         camData.camName);
   }
 
@@ -132,8 +167,10 @@ public class Vision {
     return new VisionObservation(
         false,
         new Pose2d(),
+        new Pose2d(),
         VecBuilder.fill(Double.MAX_VALUE, Double.MAX_VALUE, Double.MAX_VALUE),
         camData.latestTimestamp,
+        camData.targetsArea,
         camData.camName);
   }
 
@@ -152,6 +189,23 @@ public class Vision {
           .plus(toTransform2d(camData.cameraToRobot.inverse()));
     } else {
       return camData.latestEstimatedRobotPose.toPose2d();
+    }
+  }
+
+  private Pose2d estimateSingleTagPoseMt1(CameraIOInputsAutoLogged camData) {
+    if (KUseSingleTagTransform) {
+      return fieldLayout
+          .getTagPose(camData.singleTagAprilTagID)
+          .get()
+          .toPose2d()
+          .plus(
+              new Transform2d(
+                  camData.cameraToApriltag.getX(),
+                  camData.cameraToApriltag.getY(),
+                  camData.cameraToApriltag.getRotation().toRotation2d()))
+          .plus(toTransform2d(camData.cameraToRobot.inverse()));
+    } else {
+      return camData.latestEstimatedRobotPoseMT1.toPose2d();
     }
   }
 
@@ -174,5 +228,5 @@ public class Vision {
   }
 
   public record VisionObservation(
-      boolean hasObserved, Pose2d pose, Vector<N3> stdDevs, double timeStamp, String camName) {}
+      boolean hasObserved, Pose2d pose, Pose2d mt1Pose, Vector<N3> stdDevs, double timeStamp, double tagsArea, String camName) {}
 }
