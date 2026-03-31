@@ -17,10 +17,10 @@ import org.littletonrobotics.junction.Logger;
 public class Intake extends SubsystemBase {
   /** List of position setpoints for the Intake in meters */
   public enum IntakeGoal {
-    kOut(() -> 2.43, 2.3, 2.43),
+    kOut(() -> 2.285, 2.3, 2.43),
     kHalf(() -> 1.5, 1.3, 1.7),
     kThreeQuarter(() -> 1.1, 0.9, 1.3),
-    kAutoTravel(() -> 1.8, 1.65, 2.0),
+    kAutoTravel(() -> 2.05, 1.65, 2.0),
     kStow(() -> 0.005, 0.005, 0.005),
     kPushback(() -> 0.5, 0.5, 0.5),
     kDepot(() -> 2.2, 2.2, 2.2);
