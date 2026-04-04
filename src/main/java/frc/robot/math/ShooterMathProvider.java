@@ -136,22 +136,6 @@ public class ShooterMathProvider {
     }
 
     public void update(Pose2d robotPose, ChassisSpeeds velocities, Pose2d turretPose) throws IOException {
-        // Distance to target        
-        Translation2d target;
-        switch (calculationState) {
-            case SHUNT:
-                target = DriverStation.getAlliance().orElse(Alliance.Blue) == Alliance.Red ? FlippingUtil.flipFieldPose(new Pose2d(new Translation2d(shuntingXBlueSide, (robotPose.getX() > 3.7) ? 6.09 : 1.8), new Rotation2d())).getTranslation() : new Translation2d(shuntingXBlueSide, robotPose.getY());
-                break;
-            default:
-                target = DriverStation.getAlliance().orElse(Alliance.Blue) == Alliance.Red ? FlippingUtil.flipFieldPose(new Pose2d(hubPositionBlueSide, new Rotation2d())).getTranslation() : hubPositionBlueSide;
-                break;
-        }
-        
-        dist = Math.sqrt(Math.pow(turretPose.getX() - target.getX(), 2) + Math.pow(turretPose.getY() - target.getY(), 2));
-
-        // Search for upper/lower bound indices
-        
-
         shooterTurretDelta = 0.0;
         // Safely get lower/upper map entries with fallbacks to first/last entries when out-of-range
         var lowerEntryShotmap = shotMapRPS.floorEntry(dist);
@@ -209,7 +193,7 @@ public class ShooterMathProvider {
 
       switch (calculationState) {
         case SHUNT:
-            targetPositionBlueSide = new Translation2d(shuntingXBlueSide, (robotPose.getY() > 3.7) ? 6.09 : 1.8).plus(new Translation2d(offsetX, offsetY));
+            targetPositionBlueSide = new Translation2d(shuntingXBlueSide, (robotPose.getY() > 3.7) ^ (DriverStation.getAlliance().orElse(Alliance.Blue) == Alliance.Red) ? 6.09 : 1.8).plus(new Translation2d(offsetX, offsetY));
             break;
         default:      
             targetPositionBlueSide =
